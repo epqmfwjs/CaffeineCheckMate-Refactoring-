@@ -9,10 +9,4 @@ public class ViewController {
     public String home(){
         return "home";
     }
-
-    @GetMapping("/member/login")
-    public String login(){
-        return "login";
-    }
-
 }
