@@ -9,4 +9,10 @@ public class ViewController {
     public String home(){
         return "home";
     }
+
+    @GetMapping("/product")
+    public String coffeList(){
+        return "coffeList";
+    }
+
 }
