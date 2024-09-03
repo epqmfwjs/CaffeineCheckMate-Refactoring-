@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>CCM</title>
+</head>
+<body>
+<div id="coffeList">
+    <!-- 이곳에 커피 제품 리스트 포시 -->
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        fetch('/api/coffeeList')
+            .then(response => response.json())
+            .then(data => {
+                const coffeeListDiv = document.getElementById('coffeList');
+                data.forEach(coffee => {
+                    const coffeeItem = document.createElement('div');
+                    coffeeItem.textContent = coffee;
+                    coffeeListDiv.appendChild(coffeeItem);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    });
+</script>
+</body>
+</html>
