@@ -5,7 +5,7 @@
     <title>CCM</title>
 </head>
 <body>
-<div id="coffeList">
+<div id="coffeeList">
     <!-- 이곳에 커피 제품 리스트 포시 -->
 </div>
 
@@ -15,11 +15,22 @@
         fetch('/api/coffeeList')
             .then(response => response.json())
             .then(data => {
-                const coffeeListDiv = document.getElementById('coffeList');
+                const coffeeListDiv = document.getElementById('coffeeList');
                 data.forEach(coffee => {
                     const coffeeItem = document.createElement('div');
-                    coffeeItem.textContent = coffee;
+                    coffeeItem.textContent =
+                    `
+                    브랜드: ${coffee.coffeeBrand},
+                    이름: ${coffee.coffeeName},
+                    종류: ${coffee.coffeeType},
+                    설명: ${coffee.coffeeContent},
+                    카페인: ${coffee.caffeine},
+                    당류: ${coffee.caffeine},
+                    칼로리: ${coffee.caffeine}
+                    `;
+
                     coffeeListDiv.appendChild(coffeeItem);
+                     console.log(coffee);
                 });
             })
             .catch(error => console.error('Error:', error));
