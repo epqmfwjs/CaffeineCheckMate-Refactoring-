@@ -11,8 +11,8 @@ public class ViewController {
     }
 
     @GetMapping("/product")
-    public String coffeList(){
-        return "coffeList";
+    public String coffeeList(){
+        return "coffeeList";
     }
 
 }

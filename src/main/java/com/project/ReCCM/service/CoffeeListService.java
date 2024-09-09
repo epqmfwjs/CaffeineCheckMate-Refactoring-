@@ -9,8 +9,8 @@ public class CoffeeListService {
     @Autowired
     private CoffeeListRepository coffeeListRepository;
 
-    @Autowired
-    private CoffeeListService coffeeListService;
+/*    @Autowired
+    private CoffeeListService coffeeListService;*/
 
 
 }
