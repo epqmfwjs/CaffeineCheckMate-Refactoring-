@@ -14,5 +14,4 @@ public class ViewController {
     public String coffeeList(){
         return "coffeeList";
     }
-
 }

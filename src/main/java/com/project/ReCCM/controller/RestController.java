@@ -6,6 +6,7 @@ import com.project.ReCCM.service.CoffeeListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +26,12 @@ public class RestController {
 
         List<CoffeeList> coffeeList = coffeeListRepository.findAll();
 
-        // 리스트 생성 db 연결전 임시 데이터
-//        List<String> coffeeList = new ArrayList<>();
-//        coffeeList.add("Espresso - 3000원");
-//        coffeeList.add("Latte - 4000원");
-//        coffeeList.add("Cappuccino - 4500원");
-
         // 리스트 반환
         return coffeeList;
+    }
+
+    @GetMapping("/searchCoffee")
+    public List<CoffeeList> searchCoffee(@RequestParam("keyword") String keyword){
+        return coffeeListService.searchCoffee(keyword);
     }
 }
