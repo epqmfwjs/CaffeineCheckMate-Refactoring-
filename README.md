@@ -11,8 +11,14 @@
 ## 설명
 
 학원에서 진행하였던 1차 팀 프로젝트 MVC2기반 JSP/Servlet 작업물을  SpringBoot 로  Refactoring 중 
-React 와 node.js 공부를 병행하고 있어서 속도가 느리지만 완성하고 다시 React 와 node.js 로 업그레이드 예정
+React 와 node.js 공부를 병행하고 있어서 속도가 느리게 진행중
 
+## 최종목표
+- JSP/Servlet => Spring Boot 로 Refactoring **진행중**
+
+- React 와 node.js로 Refactoring **예정**
+
+- AWS(EC2,S3,RDS)로 GitHub Actions을 사용하여 배포 **예정**
 
 ## 개발 기간
 
