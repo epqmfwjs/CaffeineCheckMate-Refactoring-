@@ -1,4 +1,4 @@
-package com.project.ReCCM.domain;
+package com.project.ReCCM.domain.product;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

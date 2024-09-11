@@ -1,7 +1,7 @@
-package com.project.ReCCM.service;
+package com.project.ReCCM.service.product;
 
-import com.project.ReCCM.domain.CoffeeList;
-import com.project.ReCCM.domain.CoffeeListRepository;
+import com.project.ReCCM.domain.product.CoffeeList;
+import com.project.ReCCM.domain.product.CoffeeListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
