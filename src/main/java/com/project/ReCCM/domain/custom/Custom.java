@@ -1,5 +1,6 @@
 package com.project.ReCCM.domain.custom;
 
+import com.project.ReCCM.domain.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Custom {
+public class Custom extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,13 +27,14 @@ public class Custom {
     private String customContent; //내용
 
     @Column
-    private LocalDateTime customRegdate; //작성날짜
-
-    @Column
     private String imgReal; // 이미지 오리지널네임
+//
+//    @Column
+//    private String imgCopy; // 이미지 카피네임
 
-    @Column
-    private String imgCopy; // 이미지 카피네임
-    // 다른 필드들
+    public Custom(String customTitle, String customContent) {
+        this.customTitle = customTitle;
+        this.customContent = customContent;
+    }
 
 }
