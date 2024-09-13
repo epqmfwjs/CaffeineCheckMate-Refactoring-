@@ -56,10 +56,6 @@ public class CustomRestController {
             System.out.println(customTitle + " : " + customContent + " : " + imgReal);
             // 서비스에서 게시글 생성 로직 호출
             customService.createCustomPost(customTitle, customContent, imgReal);
-//                    customPostRequestDto.getCustomTitle(),
-//                    customPostRequestDto.getCustomContent(),
-//                    customPostRequestDto.getImgReal());
-
 
             // 응답을 JSON 형식으로 반환
             Map<String, String> response = new HashMap<>();
