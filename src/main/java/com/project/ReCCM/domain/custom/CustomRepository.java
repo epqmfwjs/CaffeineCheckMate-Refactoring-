@@ -16,6 +16,6 @@ public interface CustomRepository extends JpaRepository<Custom, Long> {
             "OR LOWER(c.customContent) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<Custom> searchCoffee(@Param("keyword") String keyword);
 
-
+    // 최신순정렬
     List<Custom> findAllByOrderByCreatedDateDesc();
 }
