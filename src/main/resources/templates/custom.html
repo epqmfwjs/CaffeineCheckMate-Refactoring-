@@ -3,249 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>CCM</title>
-    <style>
-        body {
-            margin: 0;
-            background-color: rgb(240, 240, 240);
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden; /* 뷰포트를 넘어가는 부분을 숨김 */
-        }
-
-        /* 전체 컨테이너 */
-        .main-container {
-            background-color: white;
-            width: 1800px; /* 적절한 크기로 수정 */
-            height: 850px;
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            padding: 20px; /* 추가 패딩으로 전체 여백 확보 */
-            box-sizing: border-box;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* x-offset, y-offset, blur-radius, color */
-            overflow: hidden; /* 뷰포트를 넘어가는 부분을 숨김 */
-        }
-
-        /* 바디 안에서 헤더와 내용영역을 나누는 그리드 */
-        .body-container {
-            display: grid;
-            grid-template-rows: 150px 1fr; /* 상단 헤더 150px 고정, 나머지 영역 가변 */
-            width: 100%;
-            height: 100%;
-            gap: 20px; /* 헤더와 내용 사이의 간격 */
-        }
-
-        /* 헤더 영역 */
-        .header {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border-radius: 10px;
-            padding-bottom: 10px;
-        }
-
-        /* 검색창 스타일 */
-        #searchBar {
-            padding: 10px;
-            width: 400px;
-            margin-top: 20px;
-            font-size: 16px;
-            border-radius: 50px;
-            border: 1px solid #ccc;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* x-offset, y-offset, blur-radius, color */
-        }
-
-        /* 내용영역 (커피 리스트) */
-        .content-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 4개의 컬럼 */
-            column-gap: 30px; /* 컬럼 간의 간격 */
-            row-gap: 20px; /* 로우 간의 간격 */
-            padding: 20px;
-            border-radius: 10px;
-            overflow-y: auto; /* 내용이 길어질 경우 스크롤 가능 */
-            justify-items: center; /* 각 아이템의 가로 정렬을 중앙으로 설정 */
-            align-items: center; /* 각 아이템의 세로 정렬을 중앙으로 설정 */
-
-        }
-
-        /* 커피 카드 스타일 */
-        .customCard {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            width: 250px; /* 카드 너비 조정 */
-            height: 350px; /* 카드 높이 조정 */
-            box-sizing: border-box; /* 패딩 및 테두리를 포함한 전체 크기 계산 */
-        }
-
-        .customCard img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-
-        .customCard h3 {
-            margin: 10px 0;
-            font-size: 18px;
-        }
-
-        .customCard p {
-            font-size: 14px;
-            color: #555;
-            margin: 5px 0;
-        }
-
-        /* 타이틀 중앙 정렬 */
-        .title {
-            text-align: center;
-        }
-
-        /* 네비게이션과 로고의 컨테이너 스타일 */
-        .header-container {
-            display: flex;
-            justify-content: space-between; /* 로고와 네비게이션 바를 양쪽 끝으로 배치 */
-            align-items: center; /* 세로 중앙 정렬 */
-            height: 50px; /* 네비게이션 높이 설정 */
-            margin-bottom: 20px; /* 헤더와 내용 사이의 간격 설정 */
-        }
-
-        .nav {
-            display: flex;
-            align-items: center;
-            height: 100%; /* 부모 요소의 높이에 맞춤 */
-        }
-
-        .nav a {
-            text-decoration: none;
-            color: black;
-            margin-left: 20px; /* 링크 간의 간격 설정 */
-            margin-right: 50px; /* 오른쪽 여백 */
-            font-size: 16px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center; /* 세로 중앙 정렬 */
-            margin-left: 50px; /* 왼쪽 여백 */
-        }
-
-        .logo img {
-            width: 200px; /* 이미지의 너비 조정 */
-            height: auto; /* 비율에 맞게 높이 자동 조정 */
-            max-height: 80px; /* 최대 높이 설정 (네비게이션 바 높이에 맞춤) */
-            object-fit: contain; /* 이미지 비율을 유지하면서 크기 조정 */
-        }
-        .test {
-            text-align: center;
-            height: 90px;
-        }
-        #createCustomModal {
-            position: absolute;
-            right: 0; /* 오른쪽 끝으로 이동 */
-            margin-right: 180px; /* 오른쪽 여백 추가 */
-
-            padding: 10px 20px;
-            background-color: rgb(239, 108, 51);
-            color: black;
-            font-weight: bold;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-        #createCustomModal:hover {
-         background-color: #0c4a60;
-            color: black;
-            font-weight: bold;
-        }
-        /* 모달 창 전체 화면 덮기 */
-        .customModal {
-            display: none; /* 기본적으로 숨김 */
-            position: fixed;
-            z-index: 1000; /* 상위에 위치 */
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* 모달 콘텐츠 */
-        .modal-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            width: 400px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            position: relative;
-        }
-
-        /* 모달 닫기 버튼 */
-        .close {
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        /* 모달 내부 폼 스타일 */
-        #customForm label {
-            display: block;
-            margin-top: 10px;
-        }
-
-        #customForm input[type="text"], #customForm textarea {
-            width: 80%;
-            padding: 10px;
-            margin-top: 5px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        #customForm button {
-            padding: 10px 20px;
-            background-color: rgb(239, 108, 51);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        #customForm button:hover {
-            background-color: #0c4a60;
-        }
-
-                /* 이미지 미리보기 스타일 */
-        .preview-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px; /* 미리보기 이미지 간의 간격 */
-        }
-
-        .preview-container img {
-            width: 100px; /* 미리보기 이미지의 너비 */
-            height: 100px; /* 미리보기 이미지의 높이 */
-            object-fit: cover;
-            border-radius: 5px;
-        }
-
-    </style>
+    <link rel="stylesheet" type="text/css" href="/css/custom.css">
 </head>
 <body>
 <div class="main-container">
@@ -263,7 +21,6 @@
             <a href="/member/login"><h4>Login</h4></a>
         </div>
     </div>
-
     <div class="body-container">
         <!-- 헤더 영역 (검색창 포함) -->
         <div class="header">
@@ -271,7 +28,7 @@
                 <h1>Custom</h1>
                 <input type="text" id="searchBar" placeholder="검색어를 입력하세요...">
                 <button id="createCustomModal" class="createCustomModal">게시글등록</button>
-                <!-- 모달구조 -->
+                <!-- 게시글 등록 모달구조 -->
                 <div id="customModal" class="customModal">
                     <div class="modal-content">
                         <span class="close">&times</span>
@@ -294,151 +51,25 @@
                 </div>
             </div>
         </div>
-
         <!-- 내용영역 (커피 리스트) -->
         <div class="content-container" id="customList">
             <!-- 이곳에 커피 제품 리스트 표시 -->
         </div>
+        <!-- 게시물 디테일 모달 구조 -->
+        <div id="detailModal" class="customModal">
+            <div class="detailModal-content">
+                <span class="close">&times;</span>
+                <h2 id="detailTitle"></h2>
+                <img id="detailImage" src="" alt="상세 이미지" >
+                <p id="detailContent">내용</p>
+                <p id="memberId">작성자</p>
+                <p id="createdDate">작성일</p>
+            </div>
+        </div>
         <div class="test"> 페이지 처리</div>
     </div>
 </div>
-
+<script src="/js/custom.js"></script>
 </body>
 </html>
-
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const searchBar = document.getElementById('searchBar');
-        const customListDiv = document.getElementById('customList');
-
-        // 모달 관련
-        const customModal = document.getElementById('customModal'); // 모달 창
-        const createCustomModal = document.getElementById('createCustomModal'); // 모달 열기 버튼
-        const closeModalBtn = document.querySelector('.close'); // 모달 닫기 버튼
-
-        // 모달 열기
-        createCustomModal.addEventListener('click', function() {
-            customModal.style.display = 'flex'; // 모달 창을 보이게 설정
-        });
-
-        // 모달 닫기
-        closeModalBtn.addEventListener('click', function() {
-            customModal.style.display = 'none'; // 모달 창을 숨김
-        });
-
-        // 모달 바깥 클릭 시 닫기
-        window.addEventListener('click', function(event) {
-            if (event.target === customModal) { // 모달 외부 클릭 시
-                customModal.style.display = 'none'; // 모달 창을 숨김
-            }
-        });
-
-        // 이미지 미리보기 처리
-        document.getElementById('customImages').addEventListener('change', function(event) {
-            const files = event.target.files;
-            const previewContainer = document.getElementById('previewContainer');
-            previewContainer.innerHTML = ''; // 기존 미리보기 이미지 제거
-
-            Array.from(files).forEach(file => {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    previewContainer.appendChild(img);
-                };
-                reader.readAsDataURL(file); // 파일을 Data URL로 읽어오기
-            });
-        });
-
-
-
-        // 폼 제출 시 처리
-        const customForm = document.getElementById('customForm');
-        customForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // 폼 기본 제출 동작 방지
-
-            const formData = new FormData(customForm);
-
-            // 선택된 파일을 FormData에 추가
-            const customImages = document.getElementById('customImages').files;
-            for (let i = 0; i < customImages.length; i++) {
-                formData.append('imgReal', customImages[i]); // 'imgReal'은 백엔드에서 기대하는 파라미터명과 일치해야 함
-            }
-
-            // 서버로 데이터 전송 (POST 요청)
-            fetch('/api/createCustom', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('응답 실패!');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('게시글이 등록되었습니다:', data);
-
-                // 게시글 등록이 성공한 후 모달 닫기
-                customModal.style.display = 'none'; // 성공 후 모달 닫기
-                console.log("모달이 닫혔다");
-
-                // 게시글이 등록되었으면 입력 필드를 초기화
-                customForm.reset();
-
-                // 게시글 리스트를 다시 불러와서 업데이트
-                fetch('/api/customList')
-                    .then(response => response.json())
-                    .then(data => {
-                        displayCustomListList(data); // 최신 게시글 리스트 업데이트
-                    })
-                    .catch(error => console.error('Error fetching updated list:', error));
-            })
-            .catch(error => console.error('Error:', error));
-        });
-
-        // 검색창에서 입력값이 변할 때마다 검색 요청을 서버로 보냄
-        searchBar.addEventListener('input', function() {
-            const searchTerm = searchBar.value.toLowerCase();
-            fetch(`/api/searchCustom?keyword=${encodeURIComponent(searchTerm)}`)
-                .then(response => response.json())
-                .then(data => {
-                    displayCustomListList(data); // 필터링된 결과 표시
-                })
-                .catch(error => console.error('Error:', error));
-        });
-
-        // 커피 리스트를 화면에 표시하는 함수
-        function displayCustomListList(data) {
-            customListDiv.innerHTML = ''; // 기존 리스트 초기화
-            data.forEach(custom => {
-                const customCard = document.createElement('div');
-                customCard.classList.add('customCard');
-
-                console.log(custom);
-
-                // 여기에 이미지와 텍스트를 추가
-                customCard.innerHTML = `
-                    <h2>${custom.customTitle}</h2>
-                    <img src="/images/${custom.imgReal}" alt="${custom.customTitle}">
-                    <p>최광현</P>
-                    <p>${custom.createdDate}</p>
-                `;
-                //<p>${custom.customContent}</p>
-                //<h3>${custom.member.memberName}</h3> 나중에 멤버 이름 가져와야함
-                //<p>좋아요 ${custom.like}</p> 나중에 좋아요 갯수 표시
-                customListDiv.appendChild(customCard);
-            });
-        }
-
-        // 초기 로드 시 전체 커피 리스트를 표시
-        fetch('/api/customList')
-            .then(response => response.json())
-            .then(data => {
-                displayCustomListList(data);
-            })
-            .catch(error => console.error('Error:', error));
-    });
-</script>
 
