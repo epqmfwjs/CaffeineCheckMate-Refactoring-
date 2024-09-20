@@ -77,8 +77,8 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            width: 250px; /* 카드 너비 조정 */
-            height: 350px; /* 카드 높이 조정 */
+            width: 275px; /* 카드 너비 조정 */
+            height: 400px; /* 카드 높이 조정 */
             box-sizing: border-box; /* 패딩 및 테두리를 포함한 전체 크기 계산 */
         }
 
@@ -193,22 +193,132 @@
             background-color: white;
             padding: 20px;
             border-radius: 10px;
-            width: 85%; /* 가로 크기를 100%로 설정 */
-            height: 85%; /* 세로 크기를 100%로 설정 */
+            width: 85%;
+            height: 85%;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             position: relative;
-            max-width: 100vw; /* 최대 너비를 화면 너비로 제한 */
-            max-height: 100vh; /* 최대 높이를 화면 높이로 제한 */
-            overflow: auto; /* 내용이 많을 경우 스크롤 가능 */
+            max-width: 100vw;
+            max-height: 100vh;
+            overflow: auto;
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            justify-content: center; /* 가로 가운데 정렬 */
+            align-items: center; /* 세로 가운데 정렬 */
         }
 
-        /* 상세보기 모달의 이미지 크기 고정 */
-        .detailModal-content img {
-            width: 300px; /* 원하는 고정 너비 */
-            height: 300px; /* 원하는 고정 높이 */
-            object-fit: cover; /* 이미지 비율을 유지하면서 크기를 맞춤 */
+        /* 3개의 구역을 가로로 나누는 컨테이너 */
+        .detail-container {
+            display: flex;
+            justify-content: center; /* 각 구역의 가로 가운데 정렬 */
+            align-items: center; /* 각 구역의 세로 가운데 정렬 */
+            gap: 40px;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 이미지 구역 스타일 */
+        .detail-image {
+            flex: 1;
+            width: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center; /* 이미지 자체를 가운데로 정렬 */
+        }
+
+        .detail-image img {
+            width: 300px;
+            height: 300px;
+            object-fit: contain;
             border-radius: 5px;
             margin-bottom: 10px;
+        }
+
+        /* 내용 구역 스타일 */
+        .detail-content {
+            flex: 2;
+            width: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* 내용이 중앙에 위치 */
+            align-items: center; /* 가로로도 중앙에 위치 */
+        }
+
+        .detailTitle {
+            margin-bottom: 120px;
+        }
+
+        .detailContent {
+            margin-top: 10px;
+            max-height: 450px;
+            max-width: 300px;
+            min-height: 450px;
+            min-width: 300px;
+            overflow-y: auto;
+            padding-top: 10px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center; /* 내부 텍스트를 가로 중앙 정렬 */
+            /*align-items: center; *//* 내부 텍스트를 세로 중앙 정렬 */
+            text-align: center; /* 텍스트 중앙 정렬 */
+        }
+
+        /* 댓글창 구역 스타일 */
+        .detail-comments {
+            flex: 0.5;
+            width: 450px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* 위아래로 공간을 나눔 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 댓글 등록창 스타일 */
+        .comment-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #commentBox {
+            width: 95%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+
+        }
+
+        #submitComment {
+            padding: 10px 20px;
+            background-color: rgb(239, 108, 51);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        #submitComment:hover {
+            background-color: #0c4a60;
+        }
+
+        /* 댓글 리스트 스타일 */
+        .comments-list {
+            margin-top: 10px;
+            max-height: 520px;
+            min-height: 520px;
+            overflow-y: auto;
+            padding-top: 10px;
+            background-color: rgb(240, 240, 240);
+            border-radius: 10px;
+        }
+
+        /* 댓글 리스트 항목 스타일 */
+        .comments-list div {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         /* 모달 닫기 버튼 */
@@ -219,6 +329,7 @@
             font-size: 24px;
             cursor: pointer;
         }
+
 
         /* 모달 내부 폼 스타일 */
         #customForm label {
@@ -260,4 +371,7 @@
             height: 100px; /* 미리보기 이미지의 높이 */
             object-fit: cover;
             border-radius: 5px;
+        }
+        .heart-style {
+            font-size: 0.7em; /* 원하는 크기로 조정 */
         }
