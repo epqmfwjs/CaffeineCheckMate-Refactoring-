@@ -2,6 +2,10 @@ document.addEventListener("DOMContentLoaded", function() {
     const searchBar = document.getElementById('searchBar');
     const customListDiv = document.getElementById('customList');
 
+
+
+
+
     // 현재 선택된 게시물의 ID를 저장할 변수
     let currentPostId = null;
 
@@ -130,9 +134,18 @@ document.addEventListener("DOMContentLoaded", function() {
         formData.append('text', commentText);
         formData.append('postId', currentPostId); // 현재 선택된 게시물의 ID 사용
 
+        console.log(currentPostId)
+;
+
+        console.log('CSRF Header:', csrfHeader); // 로그 확인
+        console.log('CSRF Token:', csrfToken); // 로그 확인
+
         // 댓글 저장 요청
         fetch('/api/comments', {
             method: 'POST',
+            headers: {
+                [csrfHeader]: csrfToken, // CSRF 토큰 추가
+            },
             body: formData
         })
         .then(response => response.json())

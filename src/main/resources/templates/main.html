@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>CCM</title>
@@ -235,7 +235,8 @@
         </div>
         <div class="grid-item item2">
             <div class="item2-Box">
-                <a href="/member/login">로그인/정보</a>
+                <a th:if="${memberId}" th:text="'환영합니다, ' + ${memberId} + ' 회원님!'"></a> <!-- 사용자 이름 표시 -->
+                <a th:if="${memberId == null}" href="/member/login">로그인/정보</a> <!-- 로그인 안된 경우 -->
             </div>
         </div>
         <div class="grid-item item3">

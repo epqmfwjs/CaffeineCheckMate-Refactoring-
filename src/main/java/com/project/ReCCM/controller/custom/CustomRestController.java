@@ -84,6 +84,7 @@ public class CustomRestController {
     @PostMapping("/comments")
     public ResponseEntity<CommentResponseDto> createComment(@RequestParam("postId") Long postId,
                                                             @RequestParam("text") String text) {
+        System.out.println("댓글저장" + " : "+ postId);
         CommentResponseDto createdComment = commentService.createComment(postId, text);
         return new ResponseEntity<>(createdComment, HttpStatus.CREATED);
     }
@@ -91,7 +92,7 @@ public class CustomRestController {
     // 댓글 조회 (GET)
     @GetMapping("/comments")
     public ResponseEntity<List<CommentResponseDto>> getComments(@RequestParam("postId") Long postId) {
-        System.out.println("댓글조회들어옴" + " : "+postId);
+        System.out.println("댓글조회들어옴" + " : "+ postId);
         List<CommentResponseDto> comments = commentService.getCommentsByPostId(postId);
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
