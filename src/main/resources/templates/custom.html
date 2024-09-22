@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <title>CCM</title>
     <link rel="stylesheet" type="text/css" href="/css/custom.css">
 </head>
@@ -86,6 +88,10 @@
         <div class="test"> 페이지 처리</div>
     </div>
 </div>
+<script>
+    const csrfHeader = /*[[${_csrf.parameterName}]]*/ 'X-CSRF-TOKEN'; // CSRF 파라미터 이름
+    const csrfToken = /*[[${_csrf.token}]]*/ 'YOUR_CSRF_TOKEN'; // CSRF 토큰 값
+</script>
 <script src="/js/custom.js"></script>
 </body>
 </html>
