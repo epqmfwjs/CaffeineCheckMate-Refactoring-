@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -28,6 +29,10 @@ public class Custom extends BaseTimeEntity {
 
     @Column
     private String imgReal; // 이미지 오리지널네임
+
+    // 멤버와 게시글에 대한 n : n 관계를 like엔티티를 통해 매핑
+    @OneToMany(mappedBy = "custom", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<LikeCount> likes;
 //
 //    @Column
 //    private String imgCopy; // 이미지 카피네임

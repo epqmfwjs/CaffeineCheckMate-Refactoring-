@@ -2,14 +2,15 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="_csrf" content="${_csrf.token}"/>
-    <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <title>CCM</title>
     <link rel="stylesheet" type="text/css" href="/css/custom.css">
 </head>
 <body>
+<input type="hidden" id="loginMemberPK" th:value="${memberPK}">
+<p th:text="${memberPK}"></p>
 <div class="main-container">
     <!-- 헤더와 네비게이션을 포함하는 컨테이너 -->
+
     <div class="header-container">
         <span class="logo">
             <a href="/">
@@ -20,7 +21,8 @@
             <a href="/product"><h4>product</h4></a>
             <a href="/custom"><h4>Custom</h4></a>
             <a href="/mypage"><h4>MyPage</h4></a>
-            <a href="/member/login"><h4>Login</h4></a>
+            <a th:if="${memberId != null}" href="/logout"><h4>Logout</h4></a> <!-- 로그인 된 경우 -->
+            <a th:if="${memberId == null}" href="/member/login"><h4>Login</h4></a> <!-- 로그인 안된 경우 -->
         </div>
     </div>
     <div class="body-container">
@@ -63,6 +65,7 @@
                 <span class="close">&times;</span>
                 <div id="detail-container" style="width: 400px;">
                     <h2 id="detailBrand">스타벅스</h2>
+                    <button id="like">좋아요</button>
                     <img id="detailImage" src="" alt="상세 이미지" style="width: 300px; height: 300px; object-fit: contain; justify-content: center;" >
                     <p id="tagOption">추가된옵션내역</p>
                 </div>
@@ -88,10 +91,6 @@
         <div class="test"> 페이지 처리</div>
     </div>
 </div>
-<script>
-    const csrfHeader = /*[[${_csrf.parameterName}]]*/ 'X-CSRF-TOKEN'; // CSRF 파라미터 이름
-    const csrfToken = /*[[${_csrf.token}]]*/ 'YOUR_CSRF_TOKEN'; // CSRF 토큰 값
-</script>
 <script src="/js/custom.js"></script>
 </body>
 </html>

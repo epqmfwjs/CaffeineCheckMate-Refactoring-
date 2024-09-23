@@ -40,7 +40,7 @@ public class MemberController {
 
         // 예시로, 성공적으로 로그인했다면
         redirectAttributes.addFlashAttribute("message", "로그인 성공");
-        return "redirect:/home"; // 로그인 성공 시 리다이렉트할 URL
+        return "redirect:/"; // 로그인 성공 시 리다이렉트할 URL
     }
 
     @PostMapping("/join")
