@@ -1,9 +1,12 @@
 package com.project.ReCCM.domain.member;
 
+import com.project.ReCCM.domain.custom.LikeCount;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,6 +27,10 @@ public class Member {
 
     @Column(nullable = false)
     private String memberName;
+
+    // 멤버와 게시글에 대한 n : n 관계를 like엔티티를 통해 매핑
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<LikeCount> likes;
 
     @Enumerated(EnumType.STRING)
     private MemberRole role;

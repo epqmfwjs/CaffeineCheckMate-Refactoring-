@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>CCM</title>
@@ -18,7 +18,8 @@
             <a href="/product"><h4>product</h4></a>
             <a href="/custom"><h4>Custom</h4></a>
             <a href="/mypage"><h4>MyPage</h4></a>
-            <a href="/member/login"><h4>Login</h4></a>
+            <a th:if="${memberId != null }" href="/logout"><h4>Logout</h4></a> <!-- 로그인 된 경우 -->
+            <a th:if="${memberId == null}" href="/member/login"><h4>Login</h4></a> <!-- 로그인 안된 경우 -->
         </div>
     </div>
 

@@ -4,6 +4,7 @@ import com.project.ReCCM.service.member.CustomMemberDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -24,6 +25,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf -> csrf.disable()) // CSRF 보호 비활성화
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/", "/css/**", "/js/**", "/img/**", "/product", "/custom", "/api/**", "/images/**", "/member/join").permitAll() // 비회원 허용 범위
                         .anyRequest().authenticated() // 그 외의 요청은 인증 필요

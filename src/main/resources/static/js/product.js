@@ -24,7 +24,31 @@
             }
         });
 
-
+        //    //좋아요버튼
+        //    likeBtn.addEventListener('click', function() {
+        //        console.log('좋아요버튼클릭');
+        //
+        //    if (currentPostId === null) {
+        //        console.error('현재 게시물 ID가 없습니다.'); // 게시물 ID가 없을 경우 오류 메시지
+        //        return;
+        //    }
+        //
+        //        console.log('게시물번호' + currentPostId);
+        //        // fetch 요청
+        //        fetch('/api/like/' + currentPostId, { // 현재 게시물 ID를 URL에 포함
+        //            method: 'POST'
+        //        })
+        //        .then(response => {
+        //            if (!response.ok) {
+        //                throw new Error('응답 실패!');
+        //            }
+        //            return response.json(); // JSON 응답을 반환
+        //        })
+        //        .then(result => {
+        //            console.log('좋아요가 등록되었습니다:', result); // 성공 메시지 출력
+        //        })
+        //        .catch(error => console.error('Error:', error)); // 오류 처리
+        //    });
 
         // 검색창에서 입력값이 변할 때마다 검색 요청을 서버로 보냄
         searchBar.addEventListener('input', function() {

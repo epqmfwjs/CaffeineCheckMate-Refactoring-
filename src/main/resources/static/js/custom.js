@@ -2,10 +2,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const searchBar = document.getElementById('searchBar');
     const customListDiv = document.getElementById('customList');
 
-
-
-
-
     // 현재 선택된 게시물의 ID를 저장할 변수
     let currentPostId = null;
 
@@ -40,10 +36,26 @@ document.addEventListener("DOMContentLoaded", function() {
     const detailAuthor = document.getElementById('memberId'); // 작성자 표시 영역
     const detailDate = document.getElementById('createdDate'); // 날짜 표시 영역
 
-    // 디테일 모달 닫기 이벤트
-    closeDetailModalBtn.addEventListener('click', function() {
-        detailModal.style.display = 'none'; // 디테일 모달 닫기
-    });
+    const likeBtn = document.getElementById('like');
+
+    //좋아요버튼
+ /*   likeBtn.addEventListener('click', function() {
+        console.log('좋아요버튼클릭');
+
+    if (currentPostId === null) {
+        console.error('현재 게시물 ID가 없습니다.'); // 게시물 ID가 없을 경우 오류 메시지
+        return;
+    }
+
+        console.log('게시물번호' + currentPostId);
+        // fetch 요청
+
+    });*/
+
+        // 디테일 모달 닫기 이벤트
+        closeDetailModalBtn.addEventListener('click', function() {
+            detailModal.style.display = 'none'; // 디테일 모달 닫기
+        });
 
     // 모달 외부 클릭 시 닫기
     window.addEventListener('click', function(event) {
@@ -134,18 +146,11 @@ document.addEventListener("DOMContentLoaded", function() {
         formData.append('text', commentText);
         formData.append('postId', currentPostId); // 현재 선택된 게시물의 ID 사용
 
-        console.log(currentPostId)
-;
-
-        console.log('CSRF Header:', csrfHeader); // 로그 확인
-        console.log('CSRF Token:', csrfToken); // 로그 확인
+        console.log(currentPostId);
 
         // 댓글 저장 요청
         fetch('/api/comments', {
             method: 'POST',
-            headers: {
-                [csrfHeader]: csrfToken, // CSRF 토큰 추가
-            },
             body: formData
         })
         .then(response => response.json())
@@ -180,6 +185,8 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .catch(error => console.error('Error loading comments:', error));
     }
+
+
 
     // 커피 리스트를 화면에 표시하는 함수
     function displayCustomListList(data) {

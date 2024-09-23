@@ -7,7 +7,6 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 
 public class CustomMemberDetails implements UserDetails {
@@ -21,6 +20,15 @@ public class CustomMemberDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(member.getRole().name())); // 사용자의 권한 반환
+    }
+
+    public Long getId(){
+
+        return member.getId();
+    }
+    public String getMemberId(){
+
+        return member.getMemberId();
     }
 
     @Override
