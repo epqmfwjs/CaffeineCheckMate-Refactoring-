@@ -13,4 +13,6 @@ public interface CountRepository extends JpaRepository<LikeCount, Long> {
     // 사용자와 게시글로 좋아요 레코드 찾기
     LikeCount findByMemberAndCustom(@Param("member") Member member, @Param("custom") Custom custom);
 
+
+    boolean existsByCustomAndMember(Custom custom, Member member);
 }

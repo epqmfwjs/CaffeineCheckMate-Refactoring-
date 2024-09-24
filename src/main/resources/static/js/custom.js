@@ -5,6 +5,10 @@ document.addEventListener("DOMContentLoaded", function() {
     // 현재 선택된 게시물의 ID를 저장할 변수
     let currentPostId = null;
 
+    const memberId = document.getElementById('loginMemberPK').value;
+
+    console.log('memberId' + memberId);
+
     // 게시글등록 모달 관련
     const customModal = document.getElementById('customModal'); // 모달 창
     const createCustomModal = document.getElementById('createCustomModal'); // 모달 열기 버튼
@@ -39,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const likeBtn = document.getElementById('like');
 
     //좋아요버튼
- /*   likeBtn.addEventListener('click', function() {
+    likeBtn.addEventListener('click', function() {
         console.log('좋아요버튼클릭');
 
     if (currentPostId === null) {
@@ -47,12 +51,51 @@ document.addEventListener("DOMContentLoaded", function() {
         return;
     }
 
+        const likeRequestDto = {
+            postId: currentPostId,
+            memberId: memberId
+        };
+
         console.log('게시물번호' + currentPostId);
         // fetch 요청
+        fetch('/api/like', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json' // JSON 데이터 전송
+            },
+            body: JSON.stringify(likeRequestDto) // 데이터를 JSON으로 변환하여 전송
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('응답 실패!');
+            }
+            // 응답 본문이 비어 있을 수 있으므로 안전하게 처리
+            return response.text().then(text => {
+                if (text) {
+                    return JSON.parse(text); // JSON 문자열로 변환
+                }
+                return {}; // 비어 있으면 빈 객체 반환
+            });
+        })
+        .then(currentLikesCount => {
+            console.log('현재 좋아요 수:', currentLikesCount);
 
-    });*/
+            // 좋아요 수 업데이트
+            const likesCountElement = detailTitle.querySelector('.heart-style'); // 좋아요 수가 표시된 요소
+            likesCountElement.textContent = `❤️ ${currentLikesCount}`; // 현재 좋아요 수로 업데이트
 
-        // 디테일 모달 닫기 이벤트
+            // 버튼 텍스트 변경
+            if (likeBtn.textContent === '좋아요') {
+                likeBtn.textContent = '취소';
+            } else {
+                likeBtn.textContent = '좋아요';
+            }
+
+        })
+            .catch(error => console.error('Error:', error));
+    });
+
+        // 디테일 모달 닫기
         closeDetailModalBtn.addEventListener('click', function() {
             detailModal.style.display = 'none'; // 디테일 모달 닫기
         });
@@ -200,7 +243,7 @@ document.addEventListener("DOMContentLoaded", function() {
             // 클릭 시 상세 페이지 모달로 열기
             customCard.addEventListener('click', function() {
                 // 모달에 상세 정보 표시
-                detailTitle.innerHTML = `${custom.customTitle}&nbsp;&nbsp; <span class="heart-style">❤️ 51</span>`;
+                detailTitle.innerHTML = `${custom.customTitle}&nbsp;&nbsp; <span class="heart-style">❤️ ${custom.likesCount}</span>`;
                 detailImage.src = `/images/${custom.imgReal}`;
                 detailContent.textContent = custom.customContent; // 게시물의 내용을 표시
                 detailAuthor.textContent = `작성자: 최광현`; // 실제 데이터로 변경 가능
@@ -208,6 +251,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 // 댓글 섹션 초기화 및 댓글 불러오기
                 initializeCommentSection(custom.id);
+
+                // 좋아요 상태 확인 요청
+                fetch(`/api/likeStatus?postId=${custom.id}&memberId=${memberId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // 사용자가 좋아요를 눌렀다면
+                        if (data.hasLiked) {
+                            likeBtn.textContent = '취소'; // 버튼 텍스트 변경
+                        } else {
+                            likeBtn.textContent = '좋아요'; // 버튼 텍스트 변경
+                        }
+                    })
+                    .catch(error => console.error('Error checking like status:', error));
+
 
                 // 모달 열기
                 detailModal.style.display = 'flex';
@@ -218,7 +275,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 <h2>${custom.customTitle}</h2>
                 <img src="/images/${custom.imgReal}" alt="${custom.customTitle}">
                 <p>최광현</p>
-                <p>${custom.createdDate}&nbsp;&nbsp; <span class="heart-style">❤️ 51</span></p>
+                <p>${custom.createdDate}&nbsp;&nbsp; <span class="heart-style">❤️ ${custom.likesCount}</span></p>
             `;
 
             customListDiv.appendChild(customCard);
