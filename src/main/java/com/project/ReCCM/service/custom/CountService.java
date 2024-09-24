@@ -6,8 +6,10 @@ import com.project.ReCCM.domain.custom.CustomRepository;
 import com.project.ReCCM.domain.custom.LikeCount;
 import com.project.ReCCM.domain.member.Member;
 import com.project.ReCCM.domain.member.MemberRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -41,6 +43,9 @@ public class CountService {
             countRepository.delete(likeCount);
             System.out.println("좋아요 취소");
         } else {
+            System.out.println("멤버객체" + member);
+            System.out.println("커스텀객체" + custom);
+            
             // 좋아요가 없으면 새로 추가
             LikeCount newLike = new LikeCount();
             newLike.setCustom(custom);
@@ -48,6 +53,14 @@ public class CountService {
             countRepository.save(newLike);
             System.out.println("좋아요 추가");
         }
+    }
+    public boolean checkLikeStatus(Long postId, Long memberId) {
+        Custom custom = customRepository.findById(postId)
+                .orElseThrow(() -> new EntityNotFoundException("게시물이 존재하지 않습니다."));
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new EntityNotFoundException("회원이 존재하지 않습니다."));
+
+        return countRepository.existsByCustomAndMember(custom, member);
     }
 /*    public void likeNum(Long postId) {
         System.out.println("Like 서비스 들어옴");

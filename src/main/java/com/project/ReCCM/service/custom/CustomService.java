@@ -45,7 +45,8 @@ public class CustomService {
         }
             customRepository.save(custom);
         }
-    public List<Custom> getAllCustomPosts() {
+    public List<Custom> getAllCustomPosts()
+    {
         return customRepository.findAllByOrderByCreatedDateDesc();
     }
 }

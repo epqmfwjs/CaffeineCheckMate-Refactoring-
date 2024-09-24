@@ -1,7 +1,10 @@
 package com.project.ReCCM.controller.custom;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.ReCCM.Repository.custom.CommentResponseDto;
 import com.project.ReCCM.Repository.custom.CustomPostRequestDto;
+import com.project.ReCCM.Repository.custom.CustomResponseDto;
 import com.project.ReCCM.Repository.custom.LikeRequestDto;
 import com.project.ReCCM.domain.custom.Custom;
 import com.project.ReCCM.domain.custom.CustomRepository;
@@ -20,6 +23,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequestMapping("/api")
 @RestController
@@ -54,10 +58,33 @@ public class CustomRestController {
         }
     }
 
-    @GetMapping("/customList")
+/*    @GetMapping("/customList")
     public List<Custom> customList() {
         System.out.println("커스텀리스트 조회 들어옴");
         return customService.getAllCustomPosts();
+    }*/
+
+    @GetMapping("/customList")
+    public ResponseEntity<List<CustomResponseDto>> customList() {
+        try {
+            List<Custom> customPosts = customService.getAllCustomPosts();
+
+            // Custom 객체를 CustomResponseDto로 변환
+            List<CustomResponseDto> response = customPosts.stream()
+                    .map(custom -> new CustomResponseDto(
+                            custom.getId(),
+                            custom.getCustomTitle(),
+                            custom.getCustomContent(),
+                            custom.getImgReal(),
+                            custom.getCreatedDate(),
+                            custom.getLikesCount()))
+                    .collect(Collectors.toList());
+            System.out.println("커스텀리스트 조회 결과: " + response);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            System.err.println("커스텀 리스트를 가져오는 중 오류 발생: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @GetMapping("/searchCustom")
@@ -125,7 +152,26 @@ public class CustomRestController {
 
     // 게시글에 대한 좋아요/취소 기능
     @PostMapping("/like")
-    public void toggleLike(@RequestBody LikeRequestDto likeRequestDto) {
+    public ResponseEntity<Integer> toggleLike(@RequestBody LikeRequestDto likeRequestDto) {
+        System.out.println("postId: " + likeRequestDto.getPostId() + ", memberId: " + likeRequestDto.getMemberId());
+
+        // 좋아요 토글
         countService.toggleLike(likeRequestDto.getPostId(), likeRequestDto.getMemberId());
+
+        // 현재 게시물의 좋아요 수를 가져옴
+        int currentLikesCount = customRepository.findById(likeRequestDto.getPostId())
+                .orElseThrow(() -> new IllegalArgumentException("게시물이 존재하지 않습니다."))
+                .getLikesCount();
+
+        // 현재 좋아요 수 반환
+        return ResponseEntity.ok(currentLikesCount);
+    }
+
+    @GetMapping("/likeStatus")
+    public ResponseEntity<Map<String, Object>> getLikeStatus(@RequestParam Long postId, @RequestParam Long memberId) {
+        boolean hasLiked = countService.checkLikeStatus(postId, memberId); // 사용자 좋아요 상태 체크
+        Map<String, Object> response = new HashMap<>();
+        response.put("hasLiked", hasLiked);
+        return ResponseEntity.ok(response);
     }
 }
