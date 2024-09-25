@@ -7,12 +7,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CountRepository extends JpaRepository<LikeCount, Long> {
-    // 특정 사용자와 게시글로 좋아요 여부 확인
-    boolean existsByMemberAndCustom(@Param("member") Member member, @Param("custom") Custom custom);
+//    // 특정 사용자와 게시글로 좋아요 여부 확인
+//    boolean existsByMemberAndCustom(@Param("member") Member member, @Param("custom") Custom custom);
 
     // 사용자와 게시글로 좋아요 레코드 찾기
     LikeCount findByMemberAndCustom(@Param("member") Member member, @Param("custom") Custom custom);
 
-
+    //좋아요 유무 파악
     boolean existsByCustomAndMember(Custom custom, Member member);
 }

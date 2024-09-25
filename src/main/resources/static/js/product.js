@@ -1,4 +1,6 @@
     document.addEventListener("DOMContentLoaded", function() {
+
+        //게시물상세모달관련
         const searchBar = document.getElementById('searchBar');
         const coffeeListDiv = document.getElementById('coffeeList');
         const coffeeModal = document.getElementById('coffeeModal');
@@ -12,6 +14,14 @@
         const modalCoffeeSaccharide = document.getElementById('modalCoffeeSaccharide');
         const closeModal = document.querySelector('.close');
 
+        const memberId = document.getElementById('loginMemberPK').value;
+        let currentPostId = null; // 게시물 아이디변수
+
+
+        //즐겨찾기관련
+        const favoriteBtn = document.getElementById('favoriteBtn');
+        let isFavorited = false; // 즐겨찾기 상태
+
         //모달 클로즈
         closeModal.addEventListener('click',function(){
             coffeeModal.style.display = 'none';
@@ -24,31 +34,36 @@
             }
         });
 
-        //    //좋아요버튼
-        //    likeBtn.addEventListener('click', function() {
-        //        console.log('좋아요버튼클릭');
-        //
-        //    if (currentPostId === null) {
-        //        console.error('현재 게시물 ID가 없습니다.'); // 게시물 ID가 없을 경우 오류 메시지
-        //        return;
-        //    }
-        //
-        //        console.log('게시물번호' + currentPostId);
-        //        // fetch 요청
-        //        fetch('/api/like/' + currentPostId, { // 현재 게시물 ID를 URL에 포함
-        //            method: 'POST'
-        //        })
-        //        .then(response => {
-        //            if (!response.ok) {
-        //                throw new Error('응답 실패!');
-        //            }
-        //            return response.json(); // JSON 응답을 반환
-        //        })
-        //        .then(result => {
-        //            console.log('좋아요가 등록되었습니다:', result); // 성공 메시지 출력
-        //        })
-        //        .catch(error => console.error('Error:', error)); // 오류 처리
-        //    });
+            //즐겨찾기 기능
+            favoriteBtn.addEventListener('click', function() {
+                console.log('즐겨찾기버튼클릭');
+
+                const postId = currentPostId;
+                console.log("postId :  " + postId);
+
+                const favoriteRequestDto = {
+                    postId = postId,
+                    memberId = memberId
+                };
+
+                // 즐겨찾기 상태 유무 로 요청 결정
+                if(!isFavorited){
+                    // 즐겨찾기 추가부분
+                    fetch('/api/favorite',{
+                        method: 'POST',
+                        headers: {
+                            'Content-Type':'application/json'
+                        },
+                        body: JSON,stringify(favoriteRequestDto)
+                    })
+                    .then(response => response,json())
+                    .then(date => {
+                        console.log('즐찾추가성공');
+                    })
+
+                }
+
+            });
 
         // 검색창에서 입력값이 변할 때마다 검색 요청을 서버로 보냄
         searchBar.addEventListener('input', function() {
@@ -78,6 +93,12 @@
 
                 // 클릭시 모달 띄우며 디테일 보여주기
                 coffeeCard.addEventListener('click',function(){
+
+                    currentPostId = coffee.id;  // 게시글 클릭할때 게시글 아이디 가져와 저장
+
+                    console.log('memberId : ' + memberId);
+                    console.log('currentPostId : ' + currentPostId);
+
                     //모달 정보 채우기
                     modalImage.src = coffee.imgReal;
                     modalCoffeeName.textContent = coffee.coffeeName;

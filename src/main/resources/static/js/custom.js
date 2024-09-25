@@ -134,8 +134,11 @@ document.addEventListener("DOMContentLoaded", function() {
         // 선택된 파일을 FormData에 추가
         const customImages = document.getElementById('customImages').files;
         for (let i = 0; i < customImages.length; i++) {
-            formData.append('imgReal', customImages[i]); // 'imgReal'은 백엔드에서 기대하는 파라미터명과 일치해야 함
+            formData.append('imgReal', customImages[i]);
         }
+
+        const memberPK = document.getElementById('loginMemberPK').value;
+        formData.append('memberPK', memberPK);
 
         // 서버로 데이터 전송 (POST 요청)
         fetch('/api/createCustom', {
@@ -185,9 +188,12 @@ document.addEventListener("DOMContentLoaded", function() {
         const commentText = document.getElementById('commentBox').value;
         if (commentText.trim() === '') return; // 빈 댓글은 등록하지 않음
 
+        const memberPK = document.getElementById('loginMemberPK').value;
+
         const formData = new FormData();
         formData.append('text', commentText);
-        formData.append('postId', currentPostId); // 현재 선택된 게시물의 ID 사용
+        formData.append('postId', currentPostId);
+        formData.append('memberPK', memberPK);
 
         console.log(currentPostId);
 
@@ -199,7 +205,7 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.json())
         .then(comment => {
             const commentDiv = document.createElement('div');
-            commentDiv.textContent = comment.text;
+            commentDiv.textContent = `Comment: ${comment.text} - Member ID: ${comment.memberId}`;
 
             // 댓글 리스트에 추가
             document.getElementById('commentsList').appendChild(commentDiv);
@@ -222,7 +228,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 commentsList.innerHTML = ''; // 기존 댓글 초기화
                 comments.forEach(comment => {
                     const commentDiv = document.createElement('div');
-                    commentDiv.textContent = comment.text;
+                    commentDiv.textContent = `Comment: ${comment.text} - Member ID: ${comment.memberId}`;
                     commentsList.appendChild(commentDiv);
                 });
             })
@@ -245,8 +251,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 // 모달에 상세 정보 표시
                 detailTitle.innerHTML = `${custom.customTitle}&nbsp;&nbsp; <span class="heart-style">❤️ ${custom.likesCount}</span>`;
                 detailImage.src = `/images/${custom.imgReal}`;
-                detailContent.textContent = custom.customContent; // 게시물의 내용을 표시
-                detailAuthor.textContent = `작성자: 최광현`; // 실제 데이터로 변경 가능
+                detailContent.textContent = custom.customContent;
+                detailAuthor.textContent = `작성자: ${custom.memberId}`;
                 detailDate.textContent = `작성일: ${custom.createdDate}`;
 
                 // 댓글 섹션 초기화 및 댓글 불러오기
@@ -274,7 +280,7 @@ document.addEventListener("DOMContentLoaded", function() {
             customCard.innerHTML = `
                 <h2>${custom.customTitle}</h2>
                 <img src="/images/${custom.imgReal}" alt="${custom.customTitle}">
-                <p>최광현</p>
+                <p>${custom.memberId}</p>
                 <p>${custom.createdDate}&nbsp;&nbsp; <span class="heart-style">❤️ ${custom.likesCount}</span></p>
             `;
 

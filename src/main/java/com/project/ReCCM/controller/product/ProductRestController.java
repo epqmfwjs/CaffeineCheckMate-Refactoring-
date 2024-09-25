@@ -1,7 +1,7 @@
 package com.project.ReCCM.controller.product;
 
-import com.project.ReCCM.domain.product.CoffeeList;
-import com.project.ReCCM.domain.product.CoffeeListRepository;
+import com.project.ReCCM.domain.product.Product;
+import com.project.ReCCM.domain.product.ProductRepository;
 import com.project.ReCCM.service.product.CoffeeListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,16 +17,16 @@ public class ProductRestController {
     @Autowired
     private CoffeeListService coffeeListService;
     @Autowired
-    private CoffeeListRepository coffeeListRepository;
+    private ProductRepository productRepository;
 
     @GetMapping("/coffeeList")
-    public List<CoffeeList> coffeeList() {
+    public List<Product> coffeeList() {
         System.out.println("커피리스트 조회 들어옴");
-        return coffeeListRepository.findAll();
+        return productRepository.findAll();
     }
 
     @GetMapping("/searchCoffee")
-    public List<CoffeeList> searchCoffee(@RequestParam("keyword") String keyword){
+    public List<Product> searchCoffee(@RequestParam("keyword") String keyword){
         return coffeeListService.searchCoffee(keyword);
     }
 }

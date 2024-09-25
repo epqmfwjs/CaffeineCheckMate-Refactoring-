@@ -68,7 +68,7 @@ public class FrontController {
         model.addAttribute("memberId", memberId);
         model.addAttribute("memberPK", memberPK);
         model.addAttribute("member", member);
-        return "coffeeList";
+        return "product";
     }
 
     @GetMapping("/custom")

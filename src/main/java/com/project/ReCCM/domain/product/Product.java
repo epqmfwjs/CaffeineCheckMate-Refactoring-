@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class CoffeeList {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
