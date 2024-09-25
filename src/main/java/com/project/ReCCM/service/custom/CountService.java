@@ -37,7 +37,7 @@ public class CountService {
                 .orElseThrow(() -> new IllegalArgumentException("게시물이 존재하지 않습니다."));
 
         // 좋아요가 이미 존재하는지 확인
-        if (countRepository.existsByMemberAndCustom(member, custom)) {
+        if (countRepository.existsByCustomAndMember(custom,member)) {
             // 좋아요를 이미 눌렀다면, 좋아요 취소 (삭제)
             LikeCount likeCount = countRepository.findByMemberAndCustom(member, custom);
             countRepository.delete(likeCount);

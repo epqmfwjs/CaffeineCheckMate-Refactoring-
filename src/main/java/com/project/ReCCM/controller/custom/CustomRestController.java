@@ -63,7 +63,8 @@ public class CustomRestController {
         System.out.println("커스텀리스트 조회 들어옴");
         return customService.getAllCustomPosts();
     }*/
-
+    
+    // 리스트 결과 가져오기
     @GetMapping("/customList")
     public ResponseEntity<List<CustomResponseDto>> customList() {
         try {
@@ -76,6 +77,7 @@ public class CustomRestController {
                             custom.getCustomTitle(),
                             custom.getCustomContent(),
                             custom.getImgReal(),
+                            custom.getMember().getMemberId(),
                             custom.getCreatedDate(),
                             custom.getLikesCount()))
                     .collect(Collectors.toList());
@@ -91,15 +93,17 @@ public class CustomRestController {
     public List<Custom> searchCustom(@RequestParam("keyword") String keyword){
         return customService.searchCoffee(keyword);
     }
-
+    
+    // 게시글 작성
     @PostMapping("/createCustom")
     public ResponseEntity<Map<String, String>> createCustom(@RequestParam("customTitle") String customTitle,
                                                             @RequestParam("customContent") String customContent,
+                                                            @RequestParam("memberPK") Long memberPK,
                                                             @RequestParam("customImages") MultipartFile[] imgReal) {
         try {
-            System.out.println(customTitle + " : " + customContent + " : " + imgReal);
+            System.out.println(memberPK + " : " + customTitle + " : " + customContent + " : " + imgReal);
             // 서비스에서 게시글 생성 로직 호출
-            customService.createCustomPost(customTitle, customContent, imgReal);
+            customService.createCustomPost(memberPK, customTitle, customContent, imgReal);
 
             // 응답을 JSON 형식으로 반환
             Map<String, String> response = new HashMap<>();
@@ -118,17 +122,23 @@ public class CustomRestController {
     // 댓글 작성 (POST)
     @PostMapping("/comments")
     public ResponseEntity<CommentResponseDto> createComment(@RequestParam("postId") Long postId,
-                                                            @RequestParam("text") String text) {
-        System.out.println("댓글저장" + " : "+ postId);
-        CommentResponseDto createdComment = commentService.createComment(postId, text);
+                                                            @RequestParam("text") String text,
+                                                            @RequestParam("memberPK") Long memberPK) {
+        System.out.println("댓글저장 postId " + " : "+ postId);
+        System.out.println("댓글저장 memberPK " + " : "+ memberPK);
+
+        CommentResponseDto createdComment = commentService.createComment(memberPK, postId, text);
         return new ResponseEntity<>(createdComment, HttpStatus.CREATED);
     }
 
     // 댓글 조회 (GET)
     @GetMapping("/comments")
     public ResponseEntity<List<CommentResponseDto>> getComments(@RequestParam("postId") Long postId) {
-        System.out.println("댓글조회들어옴" + " : "+ postId);
+        System.out.println("댓글조회들어옴 postId " + " : "+ postId);
         List<CommentResponseDto> comments = commentService.getCommentsByPostId(postId);
+
+        System.out.println("댓글 조회 서비스 다녀온 후  " + " : " + comments.toString());
+
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
 

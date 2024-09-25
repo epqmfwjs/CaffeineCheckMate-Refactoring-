@@ -3,6 +3,7 @@ package com.project.ReCCM.domain.custom;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.ReCCM.domain.BaseTimeEntity;
+import com.project.ReCCM.domain.member.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,6 +31,10 @@ public class Custom extends BaseTimeEntity {
 
     @Column
     private String imgReal; // 이미지 오리지널네임
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 
     // 멤버와 게시글에 대한 n : n 관계를 like엔티티를 통해 매핑
     @JsonIgnore
