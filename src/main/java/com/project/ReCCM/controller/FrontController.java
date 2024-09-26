@@ -95,4 +95,29 @@ public class FrontController {
         model.addAttribute("member", member);
         return "custom";
     }
+
+    @GetMapping("/mypage")
+    public String mypage(Authentication authentication, Model model){
+        String memberName = null; //  이름
+        String memberId = null; // 아이디
+        Optional<Member> member; // 멤버 객체로받기
+        Long memberPK = null; //pk값 받아놓기
+
+        if (authentication != null && authentication.isAuthenticated()) {
+            CustomMemberDetails userDetails = (CustomMemberDetails) authentication.getPrincipal();
+            memberName = userDetails.getUsername(); // Member의 이름을 가져옵니다.
+            memberId = userDetails.getMemberId(); // Member의 이름을 가져옵니다.
+            memberPK = userDetails.getId(); // Member의 PK값 을 가져옵니다.
+            System.out.println(memberPK);
+        }
+        System.out.println("멤버이름 : " + memberName);
+        System.out.println("멤버아이디 : " + memberId);
+        System.out.println("멤버PK" + memberPK);
+        member = memberRepository.findByMemberId(memberId);
+
+        model.addAttribute("memberId", memberId);
+        model.addAttribute("memberPK", memberPK);
+        model.addAttribute("member", member);
+        return "mypage";
+    }
 }

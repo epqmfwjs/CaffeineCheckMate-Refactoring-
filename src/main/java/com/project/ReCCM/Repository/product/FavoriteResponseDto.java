@@ -1,18 +1,18 @@
 package com.project.ReCCM.Repository.product;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
-@AllArgsConstructor
-public class favoriteRequestDto {
+public class FavoriteResponseDto {
+    private boolean isFavorited;
 
-    private Long postId;
-    private Long memberId;
-
+    public FavoriteResponseDto(boolean isFavorited) {
+        this.isFavorited = isFavorited;
+    }
 }

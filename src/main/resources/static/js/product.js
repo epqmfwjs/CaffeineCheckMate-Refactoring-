@@ -37,13 +37,14 @@
             //즐겨찾기 기능
             favoriteBtn.addEventListener('click', function() {
                 console.log('즐겨찾기버튼클릭');
+                console.log(" 즐겨찾기 상태 : "+isFavorited)
 
                 const postId = currentPostId;
                 console.log("postId :  " + postId);
 
                 const favoriteRequestDto = {
-                    postId = postId,
-                    memberId = memberId
+                    postId: postId,
+                    memberId: memberId
                 };
 
                 // 즐겨찾기 상태 유무 로 요청 결정
@@ -54,15 +55,32 @@
                         headers: {
                             'Content-Type':'application/json'
                         },
-                        body: JSON,stringify(favoriteRequestDto)
+                        body: JSON.stringify(favoriteRequestDto)
                     })
-                    .then(response => response,json())
-                    .then(date => {
-                        console.log('즐찾추가성공');
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('즐찾추가성공',data);
+                        isFavorited = true;
+                        favoriteBtn.textContent = '즐겨찾기 취소';
                     })
-
+                    .catch(error => console.error('Error:',error));
+                }else {
+                    // 즐겨찾기 취소
+                    fetch('/api/favorite', {
+                        method: 'DELETE',
+                        headers: {  // 콤마 추가
+                            'Content-Type': 'application/json'
+                        },
+                        body:JSON.stringify(favoriteRequestDto)
+                    })
+                    .then(response => response.json())
+                    .then(data =>{
+                        console.log('즐찾취소성공', data);
+                        isFavorited = false;
+                        favoriteBtn.textContent = '즐겨찾기';
+                    })
+                    .catch(error => console.error('Error:',error))
                 }
-
             });
 
         // 검색창에서 입력값이 변할 때마다 검색 요청을 서버로 보냄
@@ -98,6 +116,25 @@
 
                     console.log('memberId : ' + memberId);
                     console.log('currentPostId : ' + currentPostId);
+
+                    // 디테일 모달 띄울때 게시물즐겨찾기 상태 가져옴
+                    fetch(`/api/favoriteStatus?postId=${currentPostId}&memberId=${memberId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log("서버 응답:", data);  // 서버에서 받은 전체 데이터 출력
+
+                            isFavorited = data.favorited;  // 요청해서 받아온 즐겨찾기 상태적용
+
+                            console.log("data.favorited : " + data.favorited);
+                            console.log("초기 즐겨찾기 상태: " + isFavorited);
+
+                            if (isFavorited) {
+                                favoriteBtn.textContent = '즐겨찾기 취소';
+                            } else {
+                                favoriteBtn.textContent = '즐겨찾기';
+                            }
+                        })
+                        .catch(error => console.error('Error fetching favorite status:', error));
 
                     //모달 정보 채우기
                     modalImage.src = coffee.imgReal;
