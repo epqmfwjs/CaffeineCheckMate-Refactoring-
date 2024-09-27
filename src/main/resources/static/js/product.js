@@ -103,8 +103,8 @@
 
                 // 여기에 이미지와 텍스트를 추가
                 coffeeCard.innerHTML = `
+                    <h3>${coffee.coffeeName}</h3></br>
                     <img src="${coffee.imgReal}" alt="${coffee.coffeeName}">
-                    <h3>${coffee.coffeeName}</h3>
                     <p>브랜드: ${coffee.coffeeBrand}</p>
                     <p>종류: ${coffee.coffeeType}</p>
                 `;

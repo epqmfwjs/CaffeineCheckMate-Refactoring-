@@ -1,8 +1,7 @@
     document.addEventListener("DOMContentLoaded", function() {
-
         const memberId = document.getElementById('loginMemberPK').value;
 
-        // 초기 로드 시 전체 커피 리스트를 표시
+        // 초기 로드 시 요청
         fetch(`/api/favoriteList?memberId=${memberId}`)
             .then(response => response.json())
             .then(data => {
@@ -30,5 +29,4 @@
                     favoriteListDiv.appendChild(favoriteCard);  // 목록에 추가
                 });
             }
-
     });

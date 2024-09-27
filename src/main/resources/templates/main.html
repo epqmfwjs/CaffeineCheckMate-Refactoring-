@@ -107,22 +107,25 @@
         .item1-favorite-img {
             width: 150px; /* 이미지 너비 */
             height: 120px; /* 이미지 높이 */
-            background-color: red;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            margin-bottom: 5px; /* 이미지와 텍스트 사이 간격 */
+            object-fit: cover; /* 이미지가 설정된 크기에 맞춰 적절하게 크기 조정 */
+            border: 0.5px solid gray; /* 외곽선 추가 */
+            border-radius: 5px; /* 모서리를 둥글게 */
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3); /* 그림자 효과 추가 */
         }
 
         .item1-favorite-text {
             text-align: center;
-            width: 150px;
-            height: 20px;
+            width: 150px; /* 이미지와 동일한 너비로 설정 */
+            height: 30px; /* 텍스트 높이 설정 */
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: black;
+            font-weight: bold;
+            color: black; /* 텍스트 색상 명시 */
+            font-size: 14px; /* 텍스트 크기 조정 */
+            overflow: hidden; /* 텍스트가 넘칠 경우 숨김 */
+            white-space: nowrap; /* 텍스트를 한 줄로 유지 */
+            text-overflow: ellipsis; /* 넘치는 텍스트를 생략 부호(...)로 처리 */
         }
 
         .item2 {
@@ -195,7 +198,7 @@
     </style>
 </head>
 <body>
-
+<input type="hidden" id="loginMemberPK" th:value="${memberPK}">
 <div class="main-container">
     <div class="header-container">
         <span class="logo">
@@ -212,27 +215,8 @@
         </div>
     </div>
     <div class="grid-container">
-        <div class="grid-item item1">
-            <div class="item1-wrapper">
-                <div class="item1-favorite-img">이미지1</div>
-                <div class="item1-favorite-text">텍스트1</div>
-            </div>
-            <div class="item1-wrapper">
-                <div class="item1-favorite-img">이미지2</div>
-                <div class="item1-favorite-text">텍스트2</div>
-            </div>
-            <div class="item1-wrapper">
-                <div class="item1-favorite-img">이미지3</div>
-                <div class="item1-favorite-text">텍스트3</div>
-            </div>
-            <div class="item1-wrapper">
-                <div class="item1-favorite-img">이미지4</div>
-                <div class="item1-favorite-text">텍스트4</div>
-            </div>
-            <div class="item1-wrapper">
-                <div class="item1-favorite-img">이미지5</div>
-                <div class="item1-favorite-text">텍스트5</div>
-            </div>
+        <div class="grid-item item1" id="favoriteList">
+            <!-- 즐겨찾기 리스트 부분 -->
         </div>
         <div class="grid-item item2">
             <div class="item2-Box">
@@ -258,6 +242,6 @@
         </div>
     </div>
 </div>
-
+<script src="/js/main.js"></script>
 </body>
 </html>

@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>CCM</title>
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/mypage.css">
 </head>
 <body>
@@ -24,20 +26,28 @@
         </div>
     </div>
 
+    <!-- 그리드를 사용하여 화면 배치 -->
     <div class="body-container">
-        <!-- 헤더 영역 (검색창 포함) -->
-        <div class="header">
-            <div class="title">
-                <h1>MyPage</h1>
-                <input type="text" id="searchBar" placeholder="검색어를 입력하세요...">
-            </div>
-            <!-- 내용영역 (커피 리스트) -->
-            <div class="content-container" id="favoriteList">
-                <!-- 이곳에 커피 제품 리스트 표시 -->
-            </div>
+        <div class="info-section">
+            <h2>개인 정보</h2>
+            <p>사용자 이름: 홍길동</p>
+            <p>이메일: hong@example.com</p>
+            <!-- 여기에 추가 개인 정보 항목들을 넣을 수 있음 -->
+        </div>
+
+        <div class="calendar-section">
+            <!-- 풀캘린더 삽입 위치 -->
+            <div id="fullCalendar"></div>
         </div>
     </div>
+
+    <!-- 즐겨찾기 리스트 -->
+    <h2>즐겨찾기 목록</h2>
+    <div class="favorite-section" id="favoriteList">
+        <!-- 즐겨찾기 항목들이 여기에 표시됨 -->
+    </div>
 </div>
+<script src="/js/mypageCalendar.js"></script>
 <script src="/js/mypage.js"></script>
 </body>
 </html>
