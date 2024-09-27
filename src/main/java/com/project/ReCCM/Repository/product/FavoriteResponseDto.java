@@ -13,6 +13,7 @@ public class FavoriteResponseDto {
     private boolean isFavorited;
 
     public FavoriteResponseDto(boolean isFavorited) {
+
         this.isFavorited = isFavorited;
     }
 }

@@ -13,10 +13,12 @@ public class MyPageFavoriteResponseDto {
     private String coffeeName;
     private String coffeeBrand;
     private String coffeeType;
+    private String imgReal;
 
     public MyPageFavoriteResponseDto(Product product) {
         this.coffeeName = product.getCoffeeName();
         this.coffeeBrand = product.getCoffeeBrand();
         this.coffeeType = product.getCoffeeType();
+        this.imgReal = product.getImgReal();
     }
 }
