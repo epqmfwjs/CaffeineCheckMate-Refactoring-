@@ -5,15 +5,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.ReCCM.domain.BaseTimeEntity;
 import com.project.ReCCM.domain.member.Member;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Set;
 
 @Getter
 @Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

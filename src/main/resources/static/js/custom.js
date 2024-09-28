@@ -238,7 +238,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     // 커피 리스트를 화면에 표시하는 함수
-    function displayCustomListList(data) {
+    function displayCustomList(data) {
         customListDiv.innerHTML = ''; // 기존 리스트 초기화
         data.forEach(custom => {
             const customCard = document.createElement('div');
@@ -278,8 +278,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // 카드 내용 추가
             customCard.innerHTML = `
-                <h2>${custom.customTitle}</h2>
+                <h3 style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; width: 180px;">${custom.customTitle}</h2>
+                </br></br>
                 <img src="/images/${custom.imgReal}" alt="${custom.customTitle}">
+                </br>
                 <p>${custom.memberId}</p>
                 <p>${custom.createdDate}&nbsp;&nbsp; <span class="heart-style">❤️ ${custom.likesCount}</span></p>
             `;
@@ -292,7 +294,7 @@ document.addEventListener("DOMContentLoaded", function() {
     fetch('/api/customList')
         .then(response => response.json())
         .then(data => {
-            displayCustomListList(data);
+            displayCustomList(data);
         })
         .catch(error => console.error('Error:', error));
 });

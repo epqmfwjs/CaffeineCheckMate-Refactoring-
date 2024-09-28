@@ -1,5 +1,7 @@
 package com.project.ReCCM.service.custom;
 
+import com.project.ReCCM.Repository.custom.CustomResponseDto;
+import com.project.ReCCM.domain.custom.CountRepository;
 import com.project.ReCCM.domain.custom.Custom;
 import com.project.ReCCM.domain.custom.CustomRepository;
 import com.project.ReCCM.domain.member.Member;
@@ -13,11 +15,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomService {
     @Autowired
     private CustomRepository customRepository;
+
+    @Autowired
+    private CountRepository countRepository;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -59,5 +65,18 @@ public class CustomService {
     public List<Custom> getAllCustomPosts()
     {
         return customRepository.findAllByOrderByCreatedDateDesc();
+    }
+
+    // 메인페이지 좋아요순 커스텀게시물 조회 반환
+    public List<CustomResponseDto> getMainCustomsByLikeCount() {
+
+        List<Custom> customs = customRepository.findAll();
+        System.out.println(customs.toString());
+
+        // 좋아요 수에 따라 내림차순으로 정렬
+        return customs.stream()
+                .sorted((c1, c2) -> Integer.compare(c2.getLikesCount(), c1.getLikesCount()))
+                .map(custom -> new CustomResponseDto(custom))  // 엔티티를 DTO로 변환
+                .collect(Collectors.toList());
     }
 }

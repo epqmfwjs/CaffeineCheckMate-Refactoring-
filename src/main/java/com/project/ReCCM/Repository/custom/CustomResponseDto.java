@@ -1,7 +1,7 @@
 package com.project.ReCCM.Repository.custom;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.project.ReCCM.domain.member.Member;
+import com.project.ReCCM.domain.custom.Custom;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,4 +25,16 @@ public class CustomResponseDto {
     private LocalDateTime createdDate;
 
     private int likesCount;
+
+    public CustomResponseDto(Custom custom) {
+        this.customTitle = custom.getCustomTitle();
+        this.customContent = custom.getCustomContent();
+        this.imgReal = custom.getImgReal();
+        this.memberId = custom.getMember().getMemberId();
+        this.createdDate = custom.getCreatedDate();
+        this.likesCount = custom.getLikesCount();
+        
+        System.out.println("DTO 이미지 주소 매핑값 :" + this.imgReal);
+        System.out.println("DTO 타이틀 매핑값 :" + this.customTitle);
+    }
 }
