@@ -128,6 +128,47 @@ body {
     text-align: center;
 }
 
+/* 카드 형태로 정사각형 모양을 만들기 위한 스타일 */
+.likeListCard {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    width: 200px; /* 정사각형 모양을 위해 가로, 세로 동일한 크기 */
+    height: 200px; /* 세로 크기 */
+    display: flex;
+    flex-direction: column; /* 내용을 세로로 배치 */
+    align-items: center; /* 가운데 정렬 */
+    justify-content: center; /* 가운데 정렬 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s;
+}
+
+.likeListCard:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.likeListCard h3 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #333;
+    text-align: center;
+}
+
+.likeListCard p {
+    margin: 5px 0;
+    color: #666;
+    text-align: center;
+}
+
+.likeListCard-like-img {
+    width: 170px; /* 이미지 너비 */
+    height: 150px; /* 이미지 높이 */
+    object-fit: cover; /* 이미지가 설정된 크기에 맞춰 적절하게 크기 조정 */
+    border-radius: 5px; /* 모서리를 둥글게 */
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3); /* 그림자 효과 추가 */
+}
+
 /* FullCalendar 관련 */
 .calendar-section {
     width: 1020px;

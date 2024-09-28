@@ -108,7 +108,7 @@
             width: 150px; /* 이미지 너비 */
             height: 120px; /* 이미지 높이 */
             object-fit: cover; /* 이미지가 설정된 크기에 맞춰 적절하게 크기 조정 */
-            border: 0.5px solid gray; /* 외곽선 추가 */
+
             border-radius: 5px; /* 모서리를 둥글게 */
             box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3); /* 그림자 효과 추가 */
         }
@@ -147,7 +147,7 @@
             grid-column: 1 / 2; /* 첫 번째 컬럼에 배치 */
             grid-row: 2 / 3;    /* 두 번째 로우에 배치 */
             height: 440px; /* 원하는 높이로 지정 */
-            gap: 30px;
+            gap: 50px;
         }
 
         .item3-calculator {
@@ -165,7 +165,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: black;
+            background-color: wight;
+        }
+
+        .item3-info img {
+            width: 362px; /* 부모 요소의 전체 너비 사용 */
+            height: 352px; /* 부모 요소의 40% 높이 사용 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: wight;
         }
 
         .item4 {
@@ -178,22 +187,75 @@
             gap: 10px;
         }
 
+        .item4-wrapper {
+            width: 400px;
+            height: 400px;
+            display: flex;
+            flex-direction: column; /* 각 묶음 내에서 이미지와 텍스트를 수직으로 배치 */
+            align-items: center;
+            margin-right: 10px; /* 묶음 사이의 간격 */
+
+            transition: opacity 0.5s ease-in-out; /* 페이드 인/아웃 효과를 위한 트랜지션 */
+            opacity: 0; /* 처음에는 보이지 않도록 설정 */
+        }
+
+        .item4-wrapper.show {
+            opacity: 1; /* show 클래스가 추가되면 보이도록 설정 */
+        }
+
         .item4-img {
-            width: 80%; /* 부모 요소의 전체 너비 사용 */
-            height: 60%; /* 부모 요소의 60% 높이 사용 */
+            width: 70%;
+            height: 70%;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: red;
+
+            object-fit: cover; /* 이미지가 설정된 크기에 맞춰 적절하게 크기 조정 */
+            border-radius: 5px; /* 모서리를 둥글게 */
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3); /* 그림자 효과 추가 */
         }
 
         .item4-text {
-            width: 80%; /* 부모 요소의 전체 너비 사용 */
-            height: 25%; /* 부모 요소의 40% 높이 사용 */
+            width: 380px; /* 부모 요소의 전체 너비 사용 */
+            height: 150px; /* 부모 요소의 40% 높이 사용 */
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: black;
+            font-weight: bold;
+            text-align: center;
+            color: black; /* 텍스트 색상 명시 */
+            font-size: 20px; /* 텍스트 크기 조정 */
+            overflow: hidden; /* 텍스트가 넘칠 경우 숨김 */
+            white-space: nowrap; /* 텍스트를 한 줄로 유지 */
+            text-overflow: ellipsis; /* 넘치는 텍스트를 생략 부호(...)로 처리 */
+        }
+
+        .item4-member {
+            height: 100px; /* 부모 요소의 40% 높이 사용 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            text-align: center;
+            color: black; /* 텍스트 색상 명시 */
+            font-size: 17px; /* 텍스트 크기 조정 */
+            overflow: hidden; /* 텍스트가 넘칠 경우 숨김 */
+            white-space: nowrap; /* 텍스트를 한 줄로 유지 */
+            text-overflow: ellipsis; /* 넘치는 텍스트를 생략 부호(...)로 처리 */
+        }
+
+        .item4-date {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: black; /* 텍스트 색상 명시 */
+            font-size: 14px; /* 텍스트 크기 조정 */
+            white-space: nowrap; /* 텍스트를 한 줄로 유지 */
+        }
+
+        .heart-style {
+            font-size: 0.7em; /* 원하는 크기로 조정 */
         }
     </style>
 </head>
@@ -229,16 +291,11 @@
                 카페인계산기
             </div>
             <div class="item3-info">
-                이미지형정보
+                <img src="/img/mainInfo.png" alt="정보">
             </div>
         </div>
-        <div class="grid-item item4">
-            <div class="item4-img">
-                이미지
-            </div>
-            <div class="item4-text">
-                텍스트
-            </div>
+        <div class="grid-item item4" id="customList">
+            <!-- 커스텀게시물 -->
         </div>
     </div>
 </div>

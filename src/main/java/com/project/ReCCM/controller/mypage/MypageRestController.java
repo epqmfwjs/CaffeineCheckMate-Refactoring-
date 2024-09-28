@@ -1,6 +1,8 @@
 package com.project.ReCCM.controller.mypage;
 
 import com.project.ReCCM.Repository.mypage.MyPageFavoriteResponseDto;
+import com.project.ReCCM.Repository.mypage.MyPageLikeResponseDto;
+import com.project.ReCCM.Repository.mypage.MyPageMemberResponseDto;
 import com.project.ReCCM.domain.product.FavoriteRepository;
 import com.project.ReCCM.service.mypage.MyPageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +30,28 @@ public class MypageRestController {
     }
 
 
-    // 특정 멤버의 즐겨찾기 리스트 반환
+    // 특정 멤버의 즐겨찾기 리스트 반환 main 과 mypage 사용
     @GetMapping("/favoriteList")
     public ResponseEntity<List<MyPageFavoriteResponseDto>> getFavoriteList(@RequestParam("memberId") Long memberId) {
-        
         System.out.println("favoriteList 메소드 들어옴");
-        
         List<MyPageFavoriteResponseDto> favoriteList = myPageService.getFavoriteListByMember(memberId);
         System.out.println("favoriteList 메소드 들어옴 : " + favoriteList.toString());
         return ResponseEntity.ok(favoriteList);
+    }
+
+    // 특정 멤버의 즐겨찾기 리스트 반환
+    @GetMapping("/likeList")
+    public ResponseEntity<List<MyPageLikeResponseDto>> getLikeList(@RequestParam("memberId") Long memberId) {
+        System.out.println("likeList 메소드 들어옴");
+        List<MyPageLikeResponseDto> likeList = myPageService.getLikeListByMember(memberId);
+        System.out.println("favoriteList 메소드 들어옴 : " + likeList.toString());
+        return ResponseEntity.ok(likeList);
+    }
+    
+    // 마이페이지 멤버정보 반환
+    @GetMapping("/memberInfo")
+    public MyPageMemberResponseDto getMemberInfo(@RequestParam("memberId") Long memberId) {
+        System.out.println("memberInfo 메소드 들어옴");
+        return myPageService.getMemberInfoList(memberId);
     }
 }

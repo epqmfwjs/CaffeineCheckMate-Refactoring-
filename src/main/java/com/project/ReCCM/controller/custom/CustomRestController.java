@@ -58,12 +58,6 @@ public class CustomRestController {
         }
     }
 
-/*    @GetMapping("/customList")
-    public List<Custom> customList() {
-        System.out.println("커스텀리스트 조회 들어옴");
-        return customService.getAllCustomPosts();
-    }*/
-    
     // 리스트 결과 가져오기
     @GetMapping("/customList")
     public ResponseEntity<List<CustomResponseDto>> customList() {
@@ -143,22 +137,6 @@ public class CustomRestController {
     }
 
     //좋아요 관련
-/*
-    @PostMapping("/favorites/{postId}")
-    public ResponseEntity<?> favorites(@PathVariable Long postId) {
-        System.out.println("게시물번호" + " : "+ postId);
-        countService.favorites(postId);
-        return ResponseEntity.ok().body("favorites 등록되었습니다."); // 성공 응답
-    }
-
-    //좋아요로 만들었지만 즐겨찾기에 이용해야겠음
-    @PostMapping("/like/{postId}")
-    public ResponseEntity<?> likePost(@PathVariable Long postId) {
-        System.out.println("게시물번호" + " : "+ postId);
-        countService.likeNum(postId);
-        return ResponseEntity.ok().body("좋아요가 등록되었습니다."); // 성공 응답
-    }
-*/
 
     // 게시글에 대한 좋아요/취소 기능
     @PostMapping("/like")
@@ -177,6 +155,7 @@ public class CustomRestController {
         return ResponseEntity.ok(currentLikesCount);
     }
 
+    // 좋아요 유무
     @GetMapping("/likeStatus")
     public ResponseEntity<Map<String, Object>> getLikeStatus(@RequestParam Long postId, @RequestParam Long memberId) {
         boolean hasLiked = countService.checkLikeStatus(postId, memberId); // 사용자 좋아요 상태 체크
