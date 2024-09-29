@@ -5,7 +5,11 @@
 </head>
 <body>
 <h2>회원가입</h2>
-<form th:action="@{/member/join}" method="post">
+<form id="joinForm" th:action="@{/member/join}" method="post" enctype="multipart/form-data">
+
+    <div class="preview-container" id="previewContainer"></div>
+    <label for="joinImages">이미지 업로드</label>
+    <input type="file" id="joinImages" name="joinImages" multiple accept="image/*">
 
     <div>
         <label>ID: </label>
