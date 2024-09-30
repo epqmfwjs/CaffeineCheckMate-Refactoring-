@@ -1,32 +1,64 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>회원가입</title>
+    <script src="signup-validation.js"></script> <!-- JavaScript 파일을 연결 -->
 </head>
 <body>
 <h2>회원가입</h2>
-<form id="joinForm" th:action="@{/member/join}" method="post" enctype="multipart/form-data">
+<form id="joinForm" th:action="@{/member/join}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
 
     <div class="preview-container" id="previewContainer"></div>
-    <label for="joinImages">이미지 업로드</label>
-    <input type="file" id="joinImages" name="joinImages" multiple accept="image/*">
+    <label for="joinImages">프로필 이미지 업로드</label>
+    <input type="file" id="joinImages" name="imgReal" accept="image/*" required>
 
     <div>
-        <label>ID: </label>
-        <input type="text" name="memberId" />
+        <label for="memberId">ID: </label>
+        <input type="text" id="memberId" name="memberId" required/>
     </div>
 
     <div>
-        <label>Password: </label>
-        <input type="password" name="password" />
+        <label for="password">비밀번호: </label>
+        <input type="password" id="password" name="password" required/>
     </div>
 
     <div>
-        <label>Name: </label>
-        <input type="text" name="memberName" />
+        <label for="memberName">이름: </label>
+        <input type="text" id="memberName" name="memberName" required/>
     </div>
+
     <div>
-        <button type="submit">Register</button>
+        <label for="memberEmail">이메일: </label>
+        <input type="email" id="memberEmail" name="memberEmail" required/>
+    </div>
+
+    <div>
+        <label for="memberAge">생년월일: </label>
+        <input type="date" id="memberAge" name="memberAge"/>
+    </div>
+
+    <div>
+        <label for="memberWieght">몸무게 (kg): </label>
+        <input type="number" id="memberWieght" name="memberWieght" step="0.1" required/>
+    </div>
+
+    <div>
+        <label for="memberPhone">전화번호: </label>
+        <input type="tel" id="memberPhone" name="memberPhone" pattern="^\d{3}-\d{3,4}-\d{4}$" placeholder="000-0000-0000" required/>
+    </div>
+
+    <div>
+        <label for="memberGender">성별: </label>
+        <select id="memberGender" name="memberGender" required>
+            <option value="">성별 선택</option>
+            <option value="MALE">남성</option>
+            <option value="FEMALE">여성</option>
+        </select>
+    </div>
+
+    <div>
+        <button type="submit">회원가입</button>
     </div>
 </form>
 </body>
