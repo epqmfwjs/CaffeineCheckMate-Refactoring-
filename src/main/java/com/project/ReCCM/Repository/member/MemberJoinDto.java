@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -41,6 +42,6 @@ public class MemberJoinDto {
 
     private String memberGender;
 
-    private String imgReal;
+    private MultipartFile imgReal;
 
 }
