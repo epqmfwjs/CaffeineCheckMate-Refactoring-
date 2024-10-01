@@ -11,12 +11,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
 import java.time.LocalDate;
 
 @Controller
 @RequestMapping("/member")
 public class MemberController {
 
+    private static final String UPLOAD_DIR_MEMBER = "upload-dir-member/";
     @Autowired
     private MemberService memberService;
 
@@ -26,6 +28,13 @@ public class MemberController {
         return "login";
     }
 
+    public void MemberService() {
+        // 디렉토리가 없으면 생성
+        File dir = new File(UPLOAD_DIR_MEMBER);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+    }
 
     @GetMapping("/join")
     public String showRegistrationForm() {
@@ -49,6 +58,8 @@ public class MemberController {
     public String registerMember(@Valid @ModelAttribute("memberDto") MemberJoinDto memberJoinDto,
                                  BindingResult bindingResult,
                                  RedirectAttributes redirectAttributes) {
+        memberService.saveMember(memberJoinDto);
+
         // 서버에서 유효성 검사 후 에러가 있을 경우 다시 폼으로 리다이렉트
         if (bindingResult.hasErrors()) {
             // 에러 메시지와 함께 클라이언트로 다시 리다이렉트
