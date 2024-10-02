@@ -1,6 +1,60 @@
     document.addEventListener("DOMContentLoaded", function() {
         const memberId = document.getElementById('loginMemberPK').value;
 
+        //로그인 여부를 확인해 사용자 정보 요청
+        if(memberId){
+            fetch(`/api/getMemberInfo?memberId=${memberId}`)
+                .then(response => response.json())
+                .then(data => {
+                    displayMemberInfo(data);
+                })
+                .catch(error => console.error('Error : ',error));
+        }else{
+            displayLoginLink();
+        }
+
+        //사용자 정보 화면 표시 함수
+        function displayMemberInfo(memberInfo) {
+            console.log('displayMemberInfo() 호출됨');
+            const item2Box = document.getElementById('item2Box');
+            item2Box.innerHTML = '';
+
+
+            const wrapper2 = document.createElement('div');
+            wrapper2.classList.add('item2-wrapper');
+
+            const imgElement = document.createElement('img');
+            imgElement.classList.add('memberInfo-img');
+
+            imgElement.src = `/images/${memberInfo.imgReal}`;
+            imgElement.alt = memberInfo.memberName;
+
+
+
+
+            const nameElement = document.createElement('div');
+            nameElement.classList.add('memberInfo-text');
+            nameElement.innerHTML = `${memberInfo.memberName}&nbsp;&nbsp; 님`;
+
+            wrapper2.appendChild(imgElement);
+            wrapper2.appendChild(nameElement);
+
+            item2Box.appendChild(wrapper2);
+
+        }
+
+        // 비 로그인시 링크
+        function displayLoginLink() {
+            const item2Box = document.getElementById('item2Box');
+            item2Box.innerHTML = '';
+
+            const loginLink = document.createElement('a');
+            loginLink.href = '/member/login';
+            loginLink.textContent = '로그인';
+
+            item2Box.appendChild(loginLink);
+        }
+
         // 초기 로드 시 요청
         fetch(`/api/favoriteList?memberId=${memberId}`)
             .then(response => response.json())
@@ -115,7 +169,7 @@
                         // 페이드 아웃 완료 후 다음 게시물로 전환
                         setTimeout(() => {
                             updateCustomDisplay();
-                        }, 500); // 페이드 아웃 효과 지속 시간과 동일하게 설정 (0.5초)
+                        }, 500); // 페이드 아웃 효과 지속 시간
                     } else {
                         updateCustomDisplay(); // 초기에는 바로 실행
                     }

@@ -1,5 +1,6 @@
 package com.project.ReCCM.service.member;
 
+import com.project.ReCCM.Repository.member.MemberInfoDto;
 import com.project.ReCCM.Repository.member.MemberJoinDto;
 import com.project.ReCCM.domain.member.Member;
 import com.project.ReCCM.domain.member.MemberGender;
@@ -16,12 +17,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.Period;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class MemberService {
 
-    private static final String UPLOAD_DIR_MEMBER = "upload-dir-member/";
+    private static final String UPLOAD_DIR = "C:/upload/";
 
     @Autowired
     private MemberRepository memberRepository;
@@ -51,7 +54,7 @@ public class MemberService {
         MultipartFile imgReal = memberJoinDto.getImgReal(); // 단일 파일 처리
 
         // 디렉토리 생성
-        File dir = new File(UPLOAD_DIR_MEMBER);
+        File dir = new File(UPLOAD_DIR);
         if (!dir.exists()) {
             dir.mkdirs();  // 경로가 존재하지 않으면 생성
         }
@@ -66,7 +69,7 @@ public class MemberService {
             String fileName = UUID.randomUUID().toString() + "." + fileExtension;
 
             // 파일 저장 경로 설정
-            Path filePath = Paths.get(UPLOAD_DIR_MEMBER + fileName);
+            Path filePath = Paths.get(UPLOAD_DIR + fileName);
 
             // 이미지 파일 저장
             Files.copy(imgReal.getInputStream(), filePath);
@@ -88,5 +91,46 @@ public class MemberService {
             return ""; // 확장자가 없는 경우
         }
         return fileName.substring(fileName.lastIndexOf(".") + 1);
+    }
+
+    // 멤버 정보 요청시 dto 맵핑
+    public MemberInfoDto getMemberInfo(Long memberId) {
+        Optional<Member> member = memberRepository.findById(memberId);
+        LocalDate memberAge =  member.get().getMemberAge();
+
+        int age = calculateAge(memberAge) + 1;  //  나이계산하기 메소드호출 Period를 사용해서 현재날짜와의 차이로 계산
+
+        String gender = member.get().getMemberGender().name();
+        if(gender.equals("Male")){
+            gender = "남성";
+        }else{
+            gender = "여성";
+        }
+
+
+
+        MemberInfoDto memberInfoDto = new MemberInfoDto(
+
+                member.get().getMemberId(),
+                member.get().getMemberName(),
+                member.get().getMemberEmail(),
+                age,
+                member.get().getMemberWeight(),
+                member.get().getMemberPhone(),
+                gender,
+                member.get().getImgReal()
+
+        );
+        return memberInfoDto;
+
+    }
+
+    // 나이를 계산하는 메서드
+    public int calculateAge(LocalDate memberAge) {
+        if (memberAge == null) {
+            throw new IllegalArgumentException("생년월일 제대로 안들어옴");
+        }
+        LocalDate currentDate = LocalDate.now();
+        return Period.between(memberAge, currentDate).getYears();
     }
 }
