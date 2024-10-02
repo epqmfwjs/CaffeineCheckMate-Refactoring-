@@ -1,9 +1,6 @@
 package com.project.ReCCM.Repository.member;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -30,11 +27,15 @@ public class MemberJoinDto {
     @Email(message = "유효한 이메일 주소를 입력해주세요.")
     private String memberEmail;
 
-    @NotEmpty(message = "생년월일은 필수 항목입니다.")
+//    @NotEmpty(message = "생년월일은 필수 항목입니다.")
+//    private LocalDate memberAge;
+
+    @NotNull(message = "생년월일은 필수 입력 항목입니다.")
+    @Past(message = "생년월일은 과거 날짜여야 합니다.")
     private LocalDate memberAge;
 
-    @NotEmpty(message = "몸무게는 필수 항목입니다.")
-    private String memberWieght;
+    @NotNull(message = "회원의 체중은 null이 될 수 없습니다.")
+    private Double memberWeight;
 
     @NotEmpty(message = "전화번호는 필수 항목입니다.")
     @Pattern(regexp = "^\\d{3}-\\d{3,4}-\\d{4}$", message = "전화번호는 000-0000-0000 형식이어야 합니다.")

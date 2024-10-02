@@ -1,9 +1,11 @@
+console.log('join.js 파일이 로드되었습니다.');
+
 function validateForm() {
     const memberId = document.getElementById('memberId').value;
     const password = document.getElementById('password').value;
     const memberEmail = document.getElementById('memberEmail').value;
     const memberPhone = document.getElementById('memberPhone').value;
-    const memberWieght = document.getElementById('memberWieght').value;
+    const memberWeight = document.getElementById('memberWeight').value;
     const memberAge = document.getElementById('memberAge').value;
     const memberGender = document.getElementById('memberGender').value;
 
@@ -34,7 +36,7 @@ function validateForm() {
     }
 
     // 몸무게 검증
-    if (isNaN(memberWieght) || memberWieght <= 0) {
+    if (isNaN(memberWeight) || memberWeight <= 0) {
         alert("유효한 몸무게를 입력하세요.");
         return false;
     }
@@ -53,4 +55,18 @@ function validateForm() {
     }
 
     return true; // 모든 검증을 통과하면 폼 제출
+}
+
+function formatPhoneNumber() {
+    console.log('formatPhoneNumber()  들어옴');
+    const phoneInput = document.getElementById('memberPhone');
+    let input = phoneInput.value.replace(/[^0-9]/g, ''); // 숫자만 남기기
+
+    if (input.length > 6) {
+        input = input.replace(/^(\d{3})(\d{3,4})(\d{4})$/, '$1-$2-$3');
+    } else if (input.length > 3) {
+        input = input.replace(/^(\d{3})(\d{3,4})$/, '$1-$2');
+    }
+
+    phoneInput.value = input; // 포맷된 값을 입력 필드에 설정
 }

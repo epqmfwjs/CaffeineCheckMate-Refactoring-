@@ -3,6 +3,8 @@ package com.project.ReCCM.domain.member;
 import com.project.ReCCM.domain.BaseTimeEntity;
 import com.project.ReCCM.domain.custom.LikeCount;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,11 +36,13 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false)
     private String memberEmail;  //멤버메일
 
+    @NotNull(message = "생년월일은 필수 입력 항목입니다.")
+    @Past(message = "생년월일은 과거 날짜여야 합니다.")  // 과거 날짜만 허용
     @Column(nullable = false)
-    private String memberAge;  //멤버생년월일
+    private LocalDate memberAge;
 
-    @Column(nullable = false)
-    private double memberWieght;  // 멤버몸무게(카페인계산때 필요)
+    @NotNull(message = "회원의 체중은 null이 될 수 없습니다.")
+    private Double memberWeight; // 멤버몸무게(카페인계산때 필요)
 
     @Column(nullable = false)
     private String memberPhone;  // 멤버 폰번호
