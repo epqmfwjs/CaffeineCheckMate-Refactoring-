@@ -19,7 +19,7 @@ import java.time.LocalDate;
 @RequestMapping("/member")
 public class MemberController {
 
-    private static final String UPLOAD_DIR_MEMBER = "upload-dir-member/";
+    private static final String UPLOAD_DIR = "upload-dir/";
     @Autowired
     private MemberService memberService;
 
@@ -31,7 +31,7 @@ public class MemberController {
 
     public void MemberService() {
         // 디렉토리가 없으면 생성
-        File dir = new File(UPLOAD_DIR_MEMBER);
+        File dir = new File(UPLOAD_DIR);
         if (!dir.exists()) {
             dir.mkdirs();
         }

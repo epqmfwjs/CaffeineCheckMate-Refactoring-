@@ -37,7 +37,7 @@
                 });
             }
         // 멤버정보 요청
-        fetch(`/api/memberInfo?memberId=${memberId}`)
+        fetch(`/api/getMemberInfo?memberId=${memberId}`)
             .then(response => response.json())
             .then(data => {
                 displayMemberInfoList(data);
@@ -54,8 +54,15 @@
 
                     // 즐겨찾기 항목을 추가
                     memberCard.innerHTML = `
+                        <img src = "/images/${memberInfo.imgReal}" alt="Member Image" style="width: 170px; height: 150px;">
                         <h2>아이디: ${memberInfo.memberId}</h2>
                         <p>회원명: ${memberInfo.memberName}</p>
+                        <p>나이: ${memberInfo.memberAge}세</p>
+                        <p>E-Mail: ${memberInfo.memberEmail}</p>
+                        <p>Tel: ${memberInfo.memberPhone}</p>
+                        <p>성별: ${memberInfo.memberGender}</p>
+                        <p>체중: ${memberInfo.memberWeight}Kg</p>
+
                     `;
                     memberInfoListDiv.appendChild(memberCard);  // 목록에 추가
             }

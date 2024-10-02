@@ -138,9 +138,35 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 150px; /* 원하는 높이로 지정 */
-            width: 150px; /* 원하는 넓이로 지정 */
-            background-color: black;
+            width: 100%; /* 가로 전체를 사용 */
+        }
+
+        .item2-wrapper {
+            width: 100%; /* 가로 전체를 사용 */
+            display: flex; /* Flexbox를 사용하여 자식 요소들을 가로로 배치 */
+            align-items: center; /* 세로 중앙 정렬 */
+
+        }
+
+        .memberInfo-img {
+            margin-left: 30px;
+            width: 150px;
+            height: 150px;
+            display: flex; /* 이미지 중앙 정렬 */
+            justify-content: center; /* 가로 중앙 정렬 */
+
+
+            object-fit: cover; /* 이미지가 설정된 크기에 맞춰 적절하게 크기 조정 */
+            border-radius: 50%; /* 모서리를 둥글게 */
+        }
+
+
+        .memberInfo-text {
+            margin-left: 60px;
+            display: flex; /* 텍스트 중앙 정렬 */
+            justify-content: center; /* 가로 중앙 정렬 */
+            color: black; /* 텍스트 색상 */
+            font-size: 20px; /* 텍스트 크기 */
         }
 
         .item3 {
@@ -257,6 +283,7 @@
         .heart-style {
             font-size: 0.7em; /* 원하는 크기로 조정 */
         }
+
     </style>
 </head>
 <body>
@@ -281,9 +308,8 @@
             <!-- 즐겨찾기 리스트 부분 -->
         </div>
         <div class="grid-item item2">
-            <div class="item2-Box">
-                <a th:if="${memberId}" th:text="'환영합니다, ' + ${memberId} + ' 회원님!'"></a> <!-- 사용자 이름 표시 -->
-                <a th:if="${memberId == null}" href="/member/login">로그인</a> <!-- 로그인 안된 경우 -->
+            <div class="item2-Box" id="item2Box">
+                <!-- JavaScript에서 이곳의 내용을 동적으로 변경 -->
             </div>
         </div>
         <div class="grid-item item3">
