@@ -14,7 +14,7 @@
 React 와 node.js 공부를 병행하고 있어서 속도가 느리게 진행중
 
 ## 최종목표
-- JSP/Servlet => Spring Boot 로 Refactoring **진행중**
+- JSP/Servlet => Spring Boot 로 Refactoring **6~70%진행중**
 
 - React 와 node.js로 Refactoring **예정**
 
