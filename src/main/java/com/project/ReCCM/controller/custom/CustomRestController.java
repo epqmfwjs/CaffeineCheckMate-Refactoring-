@@ -12,6 +12,9 @@ import com.project.ReCCM.service.custom.CommentService;
 import com.project.ReCCM.service.custom.CountService;
 import com.project.ReCCM.service.custom.CustomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -83,6 +86,33 @@ public class CustomRestController {
         }
     }
 
+    // 페이징 처리
+//    @GetMapping("/customList")
+//    public ResponseEntity<Page<CustomResponseDto>> customList(
+//            @PageableDefault(size = 10) Pageable pageable) {
+//        try {
+//            // Custom 객체를 페이지네이션을 통해 가져옴
+//            Page<Custom> customPostsPage = customService.getAllCustomPosts(pageable);
+//
+//            // Custom 객체를 CustomResponseDto로 변환
+//            Page<CustomResponseDto> response = customPostsPage.map(custom -> new CustomResponseDto(
+//                    custom.getId(),
+//                    custom.getCustomTitle(),
+//                    custom.getCustomContent(),
+//                    custom.getImgReal(),
+//                    custom.getMember().getMemberId(),
+//                    custom.getCreatedDate(),
+//                    custom.getLikesCount()
+//            ));
+//
+//            System.out.println("커스텀리스트 조회 결과: " + response);
+//            return ResponseEntity.ok(response);
+//        } catch (Exception e) {
+//            System.err.println("커스텀 리스트를 가져오는 중 오류 발생: " + e.getMessage());
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//        }
+//    }
+
     @GetMapping("/searchCustom")
     public List<Custom> searchCustom(@RequestParam("keyword") String keyword){
         return customService.searchCoffee(keyword);
@@ -150,6 +180,8 @@ public class CustomRestController {
         int currentLikesCount = customRepository.findById(likeRequestDto.getPostId())
                 .orElseThrow(() -> new IllegalArgumentException("게시물이 존재하지 않습니다."))
                 .getLikesCount();
+
+        System.out.println(currentLikesCount);
 
         // 현재 좋아요 수 반환
         return ResponseEntity.ok(currentLikesCount);

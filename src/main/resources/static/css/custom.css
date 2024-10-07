@@ -359,7 +359,7 @@
             background-color: #0c4a60;
         }
 
-                /* 이미지 미리보기 스타일 */
+        /* 이미지 미리보기 스타일 */
         .preview-container {
             display: flex;
             flex-wrap: wrap;

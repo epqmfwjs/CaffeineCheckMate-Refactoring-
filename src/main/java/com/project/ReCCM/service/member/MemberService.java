@@ -108,8 +108,7 @@ public class MemberService {
         }
 
 
-
-        MemberInfoDto memberInfoDto = new MemberInfoDto(
+        return new MemberInfoDto(
 
                 member.get().getMemberId(),
                 member.get().getMemberName(),
@@ -121,7 +120,6 @@ public class MemberService {
                 member.get().getImgReal()
 
         );
-        return memberInfoDto;
 
     }
 
