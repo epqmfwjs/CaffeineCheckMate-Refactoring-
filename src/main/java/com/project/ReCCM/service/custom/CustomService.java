@@ -7,6 +7,8 @@ import com.project.ReCCM.domain.custom.CustomRepository;
 import com.project.ReCCM.domain.member.Member;
 import com.project.ReCCM.domain.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -62,10 +64,18 @@ public class CustomService {
         }
             customRepository.save(custom);
         }
+
+    // 커스틈리스트 가져오기
     public List<Custom> getAllCustomPosts()
     {
         return customRepository.findAllByOrderByCreatedDateDesc();
     }
+
+   // 페이징처리
+//    public Page<Custom> getAllCustomPosts(Pageable pageable) {
+//        return customRepository.findAll(pageable); // JpaRepository의 기본 페이지네이션 메소드 사용
+//    }
+
 
     // 메인페이지 좋아요순 커스텀게시물 조회 반환
     public List<CustomResponseDto> getMainCustomsByLikeCount() {

@@ -16,7 +16,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // 모달 열기
     createCustomModal.addEventListener('click', function() {
-        customModal.style.display = 'flex'; // 모달 창을 보이게 설정
+        // memberId가 null 또는 빈 문자열("")일 때 로그인 화면으로 리다이렉트
+        if (memberId && memberId.trim() !== "") {
+            customModal.style.display = 'flex'; // 모달 창을 보이게 설정
+        } else {
+            window.location.href = '/member/login'; // 로그인 페이지로 이동
+        }
     });
 
     // 모달 닫기

@@ -184,3 +184,38 @@ body {
     width: 100%;  /* 컨테이너의 너비에 맞춤 */
     height: 100%; /* 컨테이너의 높이에 맞춤 */
 }
+.favorite-section,
+.like-section {
+    display: flex;
+    align-items: center; /* 수직 중앙 정렬 */
+    justify-content: space-between; /* 양쪽 끝 정렬 */
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.favorite-list,
+.like-list {
+    display: flex;
+    flex-wrap: wrap; /* 카드들이 가로로 배치되면서 넘치면 줄바꿈 */
+    justify-content: center; /* 카드들 가운데 정렬 */
+    flex-grow: 1; /* 남은 공간을 채우도록 설정 */
+    margin: 0 20px; /* 양쪽 여백 */
+    gap: 50px; /* 카드들 사이의 간격 (기본값은 20px에서 30px로 조정) */
+}
+
+.pagination-button {
+    background-color: rgb(239, 108, 51); /* 버튼 배경색 */
+    color: white; /* 버튼 텍스트 색 */
+    border: none; /* 테두리 제거 */
+    padding: 10px; /* 패딩 */
+    cursor: pointer; /* 커서 모양 변경 */
+    border-radius: 5px; /* 둥근 모서리 */
+    font-size: 16px; /* 글씨 크기 조정 */
+}
+
+.pagination-button:hover {
+    background-color: #0c4a60;
+}
