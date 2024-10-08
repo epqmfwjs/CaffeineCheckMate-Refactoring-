@@ -33,8 +33,6 @@ public class CustomResponseDto {
         this.memberId = custom.getMember().getMemberId();
         this.createdDate = custom.getCreatedDate();
         this.likesCount = custom.getLikesCount();
-        
-        System.out.println("DTO 이미지 주소 매핑값 :" + this.imgReal);
-        System.out.println("DTO 타이틀 매핑값 :" + this.customTitle);
+
     }
 }
