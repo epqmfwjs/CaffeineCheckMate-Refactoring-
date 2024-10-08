@@ -5,6 +5,8 @@
     <title>CCM</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 </head>
 <body>
 <input type="hidden" id="loginMemberPK" th:value="${memberPK}">
@@ -38,8 +40,14 @@
             </div>
         </div>
         <div class="grid-item item3">
-            <div class="item3-calculator">
-                카페인계산기<button id="calculatorBtn">계산</button>
+            <div class="item3-calculator-box">
+                <div class="chart-box">
+                    <canvas id="caffeineChart" width="400" height="400"></canvas> <!-- 그래프를 표시할 캔버스 -->
+                </div>
+                <div class="chart-controls">
+                    <button id="resetChartBtn">리셋</button>
+                    <button id="undoChartBtn">실행 취소</button>
+                </div>
             </div>
             <div class="item3-info">
                 <img src="/img/mainInfo.png" alt="정보">

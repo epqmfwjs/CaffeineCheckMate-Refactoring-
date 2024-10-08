@@ -33,7 +33,6 @@ public class MypageRestController {
     // 특정 멤버의 즐겨찾기 리스트 반환 main 과 mypage 사용
     @GetMapping("/favoriteList")
     public ResponseEntity<List<MyPageFavoriteResponseDto>> getFavoriteList(@RequestParam("memberId") Long memberId) {
-        System.out.println("favoriteList 메소드 들어옴");
         List<MyPageFavoriteResponseDto> favoriteList = myPageService.getFavoriteListByMember(memberId);
         System.out.println("favoriteList 메소드 들어옴 : " + favoriteList.toString());
         return ResponseEntity.ok(favoriteList);

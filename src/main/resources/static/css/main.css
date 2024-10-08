@@ -182,13 +182,52 @@
             gap: 50px;
         }
 
+        .item3-calculator-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: White;
+            border-radius: 10px;
+            width: 100%;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-box {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chart-controls {
+            display: flex;
+            flex-direction: column;
+            margin-left: 20px;
+        }
+
+        .chart-controls button {
+            margin-bottom: 10px;
+            padding: 5px 10px;
+            background-color: rgb(239, 108, 51);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .chart-controls button:hover {
+            background-color: #0c4a60;
+        }
+
         .item3-calculator {
             width: 48%; /* 부모 요소의 전체 너비 사용 */
             height: 80%; /* 부모 요소의 60% 높이 사용 */
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: black;
         }
 
         .item3-info {

@@ -1,13 +1,13 @@
 package com.project.ReCCM.controller.main;
 
 import com.project.ReCCM.Repository.custom.CustomResponseDto;
+import com.project.ReCCM.Repository.main.CaffeineRequest;
 import com.project.ReCCM.Repository.main.CalculatorResponseDto;
 import com.project.ReCCM.service.custom.CustomService;
 import com.project.ReCCM.service.main.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,19 +28,51 @@ public class mainPageRestController {
     // 메인 화면 커스텀 게시물을 반환하는 엔드포인트
     @GetMapping("/mainCustom")
     public List<CustomResponseDto> getMainCustoms() {
-        System.out.println("mainCustom 컨트롤러");
         // 좋아요 순으로 정렬된 커스텀 게시물 반환
         return customService.getMainCustomsByLikeCount();
     }
     
-    // 임시 카페인계산 엔드포인트
-    @GetMapping("/calculator")
-    public CalculatorResponseDto calculator(){
-        int caffeine = 75;
-        Long memberId = 8L;
+    // 카페인계산 엔드포인트
+    @PostMapping("/calculator")
+    public ResponseEntity<CalculatorResponseDto> calculateCaffeine(@RequestBody CaffeineRequest request){
+        int caffeine = request.getCaffeineAmount();
+        Long coffeeId = request.getCoffeeId();
+        Long memberId = request.getMemberId();
 
         CalculatorResponseDto resultCaffeineDto = mainService.calculator(caffeine,memberId);
-        System.out.println("카페인 계산결과값 : "+resultCaffeineDto.getResultCaffeine()+"%");
-        return resultCaffeineDto;
+
+        return ResponseEntity.ok(resultCaffeineDto);
+    }
+
+    // 로그인 후 초기 그래프 데이터 가져오기
+    @GetMapping("getCaffeineData")
+    public CalculatorResponseDto getCaffeineData(@RequestParam Long memberId){
+
+        CalculatorResponseDto calculatorResponseDto = mainService.getCaffeineData(memberId);
+
+        return calculatorResponseDto;
+    }
+
+    // 카페인 계산 실행취소
+    @PostMapping("/undoCaffeine")
+    public ResponseEntity<CalculatorResponseDto> undoCaffeine(@RequestBody CaffeineRequest request){
+
+        int caffeine = request.getCaffeineAmount();
+        Long coffeeId = request.getCoffeeId();
+        Long memberId = request.getMemberId();
+
+        CalculatorResponseDto resultCaffeineDto = mainService.undoCaffeine(caffeine,memberId);
+
+        return ResponseEntity.ok(resultCaffeineDto);
+    }
+
+    // 리셋버튼 엔드포인트
+    @PostMapping("/resetChart")
+    public ResponseEntity<CalculatorResponseDto> resetChart(@RequestBody CaffeineRequest request){
+        Long memberId = request.getMemberId();
+
+        CalculatorResponseDto resultCaffeineDto = mainService.resetChart(memberId);
+
+        return ResponseEntity.ok(resultCaffeineDto);
     }
 }
