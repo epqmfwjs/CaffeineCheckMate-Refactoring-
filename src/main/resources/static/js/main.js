@@ -7,6 +7,18 @@
         let favoriteListData = []; // 전체 즐겨찾기 데이터
 
         const addFavoriteBtnClick = document.getElementById("addFavoriteBtn");
+        const calculatorBtn = document.getElementById("calculatorBtn");
+
+        //계산기 임시 버튼
+        calculatorBtn.addEventListener('click', function() {
+            fetch(`/api/calculator`)
+                .then(response => response.json())
+                .then(data => {
+                    displayCalculator(data);
+                })
+                .catch(error => console.error('Error : ',error));
+        });
+
 
         // 메인페이지 즐겨찾기 목록관련
         addFavoriteBtnClick.addEventListener('click', function() {
