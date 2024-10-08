@@ -1,4 +1,4 @@
-    document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function() {
         const memberId = document.getElementById('loginMemberPK').value;
         const isLoggedIn = memberId && memberId.trim() !== "";
 
@@ -6,98 +6,37 @@
         const favoritesPerPage = 5; // 페이지당 즐겨찾기 수
         let favoriteListData = []; // 전체 즐겨찾기 데이터
 
-        let caffeineDataHistory = []; // 실행취소를 위해 커피데이터 저장 배열
+        const addFavoriteBtnClick = document.getElementById("addFavoriteBtn");
+        const calculatorBtn = document.getElementById("calculatorBtn");
 
         let caffeineChart = null;
 
-    // 계산기 리셋 버튼
-    document.getElementById('resetChartBtn').addEventListener('click', function(){
-        fetch(`/api/resetChart`,{
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    memberId: memberId
-                })
-            })
-            .then(response => {
-                if (response.ok) {
-                    // 서버요청성공시
-                    return response.json();
-                }else{
-                    console.error('실행취소 실패 :', response.status);
-                    throw new Error('서버 요청 실패');
-                }
-            })
-            .then(data => {
-                displayCalculator(data); // 계산기 표시 호출
-            })
-            .catch(error => {
-                console.error('Error in undo request:', error);
-            });
-    });
-
-    // 실행취소 버튼 클릭 시
-    document.getElementById('undoChartBtn').addEventListener('click', function() {
-        if (caffeineDataHistory.length > 0) {
-            const previousData = caffeineDataHistory.pop(); // 마지막 데이터 가져오면서 지우기
-            // 서버에 실행 취소 요청
-            fetch(`/api/undoCaffeine`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    memberId: memberId,
-                    coffeeId: previousData.coffeeId,
-                    caffeineAmount: previousData.caffeine // 취소하려는 카페인 섭취량
-                })
-            })
-            .then(response => {
-                if (response.ok) {
-                    // 서버요청성공시
-                    return response.json();
-                }else{
-                    console.error('실행취소 실패 :', response.status);
-                    throw new Error('서버 요청 실패');
-                }
-            })
-            .then(data => {
-                displayCalculator(data); // 계산기 표시 호출
-            })
-            .catch(error => {
-                console.error('Error in undo request:', error);
-            });
-        }
-    });
-
-    // 기본 차트 표시 함수
-    function displayDefaultChart() {
-        const defaultData = {
-            labels: ['섭취한 카페인', '남은 카페인'],
-            datasets: [{
-                label: '카페인 소비량',
-                data: [0, 100], // 비로그인 상태에서는 카페인 섭취 0%, 남은 카페인 100%
-                backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)'],
-                borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
-                borderWidth: 1
-            }]
-        };
-            const chartOptions = {
-                responsive: true,
-                maintainAspectRatio: false
+        // 기본 차트 표시 함수
+        function displayDefaultChart() {
+            const defaultData = {
+                labels: ['섭취한 카페인', '남은 카페인'],
+                datasets: [{
+                    label: '카페인 소비량',
+                    data: [0, 100], // 비로그인 상태에서는 카페인 섭취 0%, 남은 카페인 100%
+                    backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)'],
+                    borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
+                    borderWidth: 1
+                }]
             };
+                const chartOptions = {
+                    responsive: true,
+                    maintainAspectRatio: false
+                };
 
-            const ctx = document.getElementById('caffeineChart').getContext('2d');
-            caffeineChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: defaultData,
-                options: chartOptions
-            });
-        }
+                const ctx = document.getElementById('caffeineChart').getContext('2d');
+                caffeineChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: defaultData,
+                    options: chartOptions
+                });
+            }
 
-        displayDefaultChart(); // 초기 로드 시 기본 차트 표시
+            displayDefaultChart(); // 초기 로드 시 기본 차트 표시
 
     function displayCalculator(data) {
         const maxCaffeine = data.maxCaffeine;  // 최대 허용량을 400mg으로 설정
@@ -133,7 +72,7 @@
                             if (label) {
                                 label += ': ';
                             }
-                            label += `${context.raw}%`; // 퍼센트로 표시
+                            label += ${context.raw}%; // 퍼센트로 표시
                             return label;
                         }
                     }
@@ -146,10 +85,10 @@
                     },
                     formatter: function(value, context) {
                         if (context.dataIndex === 0) {
-                            return `${percentageConsumed}% 섭취`; // 섭취한 퍼센트만 표시
+                            return ${percentageConsumed}% 섭취; // 섭취한 퍼센트만 표시
                         } else {
                             const sum = 100 - percentageConsumed;
-                            return `${sum}% 섭취가능`; // 남은 퍼센트는 표시하지 않음
+                            return ${sum}% 섭취가능; // 남은 퍼센트는 표시하지 않음
                         }
                     },
                     anchor: 'end',
@@ -172,7 +111,7 @@
     }
 
         // 메인페이지 즐겨찾기 목록관련
-        document.getElementById('addFavoriteBtn').addEventListener('click', function() {
+        addFavoriteBtnClick.addEventListener('click', function() {
             // memberId가 null 또는 빈 문자열("")일 때 로그인 화면으로 리다이렉트
             if (memberId && memberId.trim() !== "") {
                 window.location.href = '/product'; // 제품게시판 이동
@@ -183,12 +122,12 @@
 
         //로그인 여부를 확인해 사용자 정보 요청
         if (isLoggedIn) {
-            fetch(`/api/getMemberInfo?memberId=${memberId}`)
+            fetch(/api/getMemberInfo?memberId=${memberId})
                 .then(response => response.json())
                 .then(memberInfo => {
                     displayMemberInfo(memberInfo); // 사용자 정보 표시
                     // 추가: 사용자 데이터로 카페인 소비량 차트 업데이트
-                    fetch(`/api/getCaffeineData?memberId=${memberId}`)
+                    fetch(/api/getCaffeineData?memberId=${memberId})
                         .then(response => response.json())
                         .then(data => {
                             displayCalculator(data); // 사용자 카페인 데이터를 차트에 표시
@@ -202,8 +141,13 @@
 
         //사용자 정보 화면 표시 함수
         function displayMemberInfo(memberInfo) {
+            console.log('displayMemberInfo() 호출됨');
+            console.log("favoriteListData 길이: ", favoriteListData.length); // 추가된 로그
+            console.log("isLoggedIn: ", isLoggedIn); // 추가된 로그
+
             const item2Box = document.getElementById('item2Box');
             item2Box.innerHTML = '';
+
 
             const wrapper2 = document.createElement('div');
             wrapper2.classList.add('item2-wrapper');
@@ -211,12 +155,15 @@
             const imgElement = document.createElement('img');
             imgElement.classList.add('memberInfo-img');
 
-            imgElement.src = `/images/${memberInfo.imgReal}`;
+            imgElement.src = /images/${memberInfo.imgReal};
             imgElement.alt = memberInfo.memberName;
+
+
+
 
             const nameElement = document.createElement('div');
             nameElement.classList.add('memberInfo-text');
-            nameElement.innerHTML = `${memberInfo.memberName}&nbsp;&nbsp; 님`;
+            nameElement.innerHTML = ${memberInfo.memberName}&nbsp;&nbsp; 님;
 
             wrapper2.appendChild(imgElement);
             wrapper2.appendChild(nameElement);
@@ -239,7 +186,7 @@
 
         // 초기 로드 시 요청
         if (isLoggedIn) {
-            fetch(`/api/favoriteList?memberId=${memberId}`)
+            fetch(/api/favoriteList?memberId=${memberId})
                 .then(response => response.json())
                 .then(data => {
                     favoriteListData = data; // 전체 즐겨찾기 데이터를 저장
@@ -252,6 +199,7 @@
         }
             // 즐겨찾기 리스트를 화면에 표시하는 함수
             function displayFavoriteList(favoriteListData) {
+                console.log("displayFavoriteList(favorites) 호출됨")
                 const item1Container = document.getElementById('favoriteList');  // 즐겨찾기 목록을 표시할 DOM 요소
 
                 item1Container.innerHTML = '';  // 기존 목록 초기화
@@ -276,6 +224,7 @@
                         imgElement.alt = favorite.coffeeName;  // 이미지가 없는 경우 대체 텍스트
                         imgElement.style.width = '150px'; // 이미지를 일정 크기로 설정
                         imgElement.style.height = '120px'; // 이미지를 일정 크기로 설정
+                        console.log("이미지 주소: " + favorite.imgReal);
 
                         // 텍스트 div 생성
                         const textDiv = document.createElement('div');
@@ -285,7 +234,7 @@
                         // 즐겨찾기 항목 클릭 이벤트 추가
                         wrapper1.addEventListener('click', function() {
                             // 서버에 카페인 계산 요청
-                            fetch(`/api/calculator`, {
+                            fetch(/api/calculator, {
                                 method: 'POST', // POST 요청
                                 headers: {
                                     'Content-Type': 'application/json' // JSON 데이터 전송
@@ -298,11 +247,11 @@
                             })
                             .then(response => response.json())
                             .then(data => {
-                                caffeineDataHistory.push(favorite); // 받은 데이터를 배열로저장  실행취소 사용예정
                                 displayCalculator(data); // 카페인 계산 및 그래프 표시
                             })
                             .catch(error => console.error('Error : ', error));
                         });
+
 
 
                         // wrapper에 이미지와 텍스트 추가
@@ -313,7 +262,7 @@
                         item1Container.appendChild(wrapper1);
                     });
 
-                    document.getElementById('favoritePageInfo').innerText = `페이지 ${favoritePage} / ${Math.ceil(favoriteListData.length / favoritesPerPage)}`;
+                    document.getElementById('favoritePageInfo').innerText = 페이지 ${favoritePage} / ${Math.ceil(favoriteListData.length / favoritesPerPage)};
                     document.getElementById('favoritePrev').disabled = favoritePage === 1; // 이전 버튼 비활성화
                     document.getElementById('favoriteNext').disabled = favoritePage >= Math.ceil(favoriteListData.length / favoritesPerPage); // 다음 버튼 비활성화
 
@@ -368,16 +317,16 @@
 
                     const textDiv = document.createElement('div');
                     textDiv.classList.add('item4-text');
-                    textDiv.innerHTML = `${custom.customTitle}&nbsp;&nbsp; <span class="heart-style">❤️ ${custom.likesCount}</span>`;
+                    textDiv.innerHTML = ${custom.customTitle}&nbsp;&nbsp; <span class="heart-style">❤️ ${custom.likesCount}</span>;
 
                     const imgElement = document.createElement('img');
                     imgElement.classList.add('item4-img');
-                    imgElement.src = `/images/${custom.imgReal}`;
+                    imgElement.src = /images/${custom.imgReal};
                     imgElement.alt = custom.customTitle;
 
                     const createMember = document.createElement('div');
                     createMember.classList.add('item4-member');
-                    createMember.textContent = `작성자 : ${custom.memberId}`;
+                    createMember.textContent = 작성자 : ${custom.memberId};
 
                     const createDate = document.createElement('div');
                     createDate.classList.add('item4-date');
