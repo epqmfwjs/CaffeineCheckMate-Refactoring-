@@ -15,6 +15,7 @@ public class MyPageFavoriteResponseDto {
     private String coffeeBrand;
     private String coffeeType;
     private String imgReal;
+    private String coffeeContent;
     private int caffeine; //카페인양
     private int saccharide; //당분양
     private int calorie; //칼로리양
@@ -28,5 +29,6 @@ public class MyPageFavoriteResponseDto {
         this.saccharide = product.getSaccharide();
         this.calorie = product.getCalorie();
         this.id = product.getId();
+        this.coffeeContent = product.getCoffeeContent();
     }
 }

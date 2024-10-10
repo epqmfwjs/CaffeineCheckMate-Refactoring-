@@ -114,8 +114,30 @@ public class CustomRestController {
 //    }
 
     @GetMapping("/searchCustom")
-    public List<Custom> searchCustom(@RequestParam("keyword") String keyword){
-        return customService.searchCoffee(keyword);
+    public ResponseEntity<List<CustomResponseDto>> searchCustom(@RequestParam("keyword") String keyword){
+        //return customService.searchCoffee(keyword);
+        try {
+            List<Custom> customPosts = customService.searchCoffee(keyword);
+
+            // Custom 객체를 CustomResponseDto로 변환
+            List<CustomResponseDto> response = customPosts.stream()
+                    .map(custom -> new CustomResponseDto(
+                            custom.getId(),
+                            custom.getCustomTitle(),
+                            custom.getCustomContent(),
+                            custom.getImgReal(),
+                            custom.getMember().getMemberId(),
+                            custom.getCreatedDate(),
+                            custom.getLikesCount()))
+                    .collect(Collectors.toList());
+            System.out.println("커스텀리스트 조회 결과: " + response);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            System.err.println("커스텀 리스트를 가져오는 중 오류 발생: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+
     }
     
     // 게시글 작성
@@ -176,12 +198,9 @@ public class CustomRestController {
         // 좋아요 토글
         countService.toggleLike(likeRequestDto.getPostId(), likeRequestDto.getMemberId());
 
-        // 현재 게시물의 좋아요 수를 가져옴
-        int currentLikesCount = customRepository.findById(likeRequestDto.getPostId())
-                .orElseThrow(() -> new IllegalArgumentException("게시물이 존재하지 않습니다."))
-                .getLikesCount();
+        int  currentLikesCount = customService.getLikes(likeRequestDto.getPostId());
 
-        System.out.println(currentLikesCount);
+        System.out.println("현재좋아요 수 체크 : " + currentLikesCount);
 
         // 현재 좋아요 수 반환
         return ResponseEntity.ok(currentLikesCount);

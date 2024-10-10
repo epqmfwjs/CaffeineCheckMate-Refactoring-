@@ -14,8 +14,7 @@ public interface CustomRepository extends JpaRepository<Custom, Long> {
     List<Custom> findAllByOrderByCreatedDateDesc();
 
     // 커피 이름 또는 브랜드 또는 종류에 따라 검색
-    @Query("SELECT c FROM Custom c WHERE LOWER(c.imgReal) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
-            "OR LOWER(c.customTitle) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+    @Query("SELECT c FROM Custom c WHERE LOWER(c.customTitle) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
             "OR LOWER(c.customContent) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<Custom> searchCoffee(@Param("keyword") String keyword);
 }

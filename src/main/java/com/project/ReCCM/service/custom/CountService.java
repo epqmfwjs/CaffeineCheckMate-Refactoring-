@@ -52,6 +52,9 @@ public class CountService {
             newLike.setMember(member);
             countRepository.save(newLike);
             System.out.println("좋아요 추가");
+
+            System.out.println("커스텀 업데이트");
+            
         }
     }
     public boolean checkLikeStatus(Long postId, Long memberId) {
