@@ -21,9 +21,21 @@ public class MyPageLikeResponseDto {
 
     private String imgReal;
 
+    private String memberId;
+
+    private String customContent;
+
+    private int likesCount;
+
+    private Long id;
+
     public MyPageLikeResponseDto(Custom custom) {
         this.customTitle = custom.getCustomTitle();
         this.createdDate = custom.getCreatedDate();
         this.imgReal = custom.getImgReal();
+        this.memberId = custom.getMember().getMemberId();
+        this.customContent = custom.getCustomContent();
+        this.likesCount = custom.getLikesCount();
+        this.id = custom.getId();
     }
 }

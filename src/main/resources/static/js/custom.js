@@ -86,8 +86,10 @@ document.addEventListener("DOMContentLoaded", function() {
             console.log('현재 좋아요 수:', currentLikesCount);
 
             // 좋아요 수 업데이트
-            const likesCountElement = detailTitle.querySelector('.heart-style'); // 좋아요 수가 표시된 요소
-            likesCountElement.textContent = `❤️ ${currentLikesCount}`; // 현재 좋아요 수로 업데이트
+            const likesCountElement = detailModal.querySelector('.heart-style'); // detailModal 내에 heart-style을 정확하게 찾기
+            if (likesCountElement) {
+                likesCountElement.textContent = `❤️ ${currentLikesCount}`; // 좋아요 수 업데이트
+            }
 
             // 버튼 텍스트 변경
             if (likeBtn.textContent === '좋아요') {
@@ -183,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function() {
         fetch(`/api/searchCustom?keyword=${encodeURIComponent(searchTerm)}`)
             .then(response => response.json())
             .then(data => {
-                displayCustomListList(data); // 필터링된 결과 표시
+                displayCustomList(data); // 필터링된 결과 표시
             })
             .catch(error => console.error('Error:', error));
     });

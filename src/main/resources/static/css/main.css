@@ -41,6 +41,12 @@
             margin-left: 20px; /* 링크 간의 간격 설정 */
             margin-right: 50px; /* 오른쪽 여백 */
             font-size: 16px;
+            transition: font-size 0.3s ease; /* 글씨 크기가 부드럽게 변경되도록 설정 */
+        }
+
+        .nav a:hover {
+            font-size: 18px; /* 호버될 때 글씨 크기를 살짝 키움 */
+            color: rgb(239, 108, 51);
         }
 
         .logo {
@@ -110,15 +116,21 @@
             margin-right: 10px; /* 묶음 사이의 간격 */
         }
 
+
         .item1-favorite-img {
             width: 150px; /* 이미지 너비 */
             height: 120px; /* 이미지 높이 */
             object-fit: cover; /* 이미지가 설정된 크기에 맞춰 적절하게 크기 조정 */
-
             border-radius: 5px; /* 모서리를 둥글게 */
             box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3); /* 그림자 효과 추가 */
+            transition: all 0.3s ease; /* 모든 속성에 대해 부드럽게 변환 적용 */
         }
 
+        .item1-favorite-img:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+            width: 160px; /* 이미지 너비 */
+            height: 130px; /* 이미지 높이 */
+        }
         .item1-favorite-text {
             text-align: center;
             width: 150px; /* 이미지와 동일한 너비로 설정 */
@@ -368,5 +380,20 @@
         }
 
         #addFavoriteBtn:hover {
+            background-color: #0c4a60;
+        }
+
+        .loginBtn {
+            background-color: rgb(239, 108, 51); /* 버튼 배경색 */
+            color: white; /* 버튼 텍스트 색 */
+            border: none; /* 테두리 제거 */
+            padding: 10px; /* 패딩 */
+            cursor: pointer; /* 커서 모양 변경 */
+            border-radius: 5px; /* 둥근 모서리 */
+            font-size: 16px; /* 글씨 크기 조정 */
+            width: 180px;
+        }
+
+        .loginBtn:hover {
             background-color: #0c4a60;
         }

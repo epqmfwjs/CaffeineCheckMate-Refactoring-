@@ -266,11 +266,14 @@
             const item2Box = document.getElementById('item2Box');
             item2Box.innerHTML = '';
 
-            const loginLink = document.createElement('a');
-            loginLink.href = '/member/login';
-            loginLink.textContent = '로그인';
-
-            item2Box.appendChild(loginLink);
+            const loginButton = document.createElement('button');
+            loginButton.classList.add('loginBtn');
+            loginButton.textContent = '로 그 인';
+            // 버튼 클릭
+            loginButton.onclick = function(){
+                window.location.href = '/member/login';
+            }
+            item2Box.appendChild(loginButton);
         }
 
         // 초기 로드 시 요청
@@ -310,8 +313,7 @@
                         imgElement.classList.add('item1-favorite-img');
                         imgElement.src = favorite.imgReal;
                         imgElement.alt = favorite.coffeeName;  // 이미지가 없는 경우 대체 텍스트
-                        imgElement.style.width = '150px'; // 이미지를 일정 크기로 설정
-                        imgElement.style.height = '120px'; // 이미지를 일정 크기로 설정
+
 
                         // 텍스트 div 생성
                         const textDiv = document.createElement('div');

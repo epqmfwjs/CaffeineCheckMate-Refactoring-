@@ -89,4 +89,12 @@ public class CustomService {
                 .map(custom -> new CustomResponseDto(custom))  // 엔티티를 DTO로 변환
                 .collect(Collectors.toList());
     }
+
+    //게시물 좋아요 갯수 가져오기
+    public int getLikes(Long postId) {
+        int currentLikesCount = customRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("게시물이 존재하지 않습니다."))
+                .getLikesCount();
+        return currentLikesCount;
+    }
 }
