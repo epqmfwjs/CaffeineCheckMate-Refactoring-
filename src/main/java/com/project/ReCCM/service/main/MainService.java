@@ -64,7 +64,7 @@ public class MainService {
         Optional<Calculator> optionalCalculator = getCalculatorForToday(memberId); // 오늘의 카페인 정보 가져오기
 
         int finalCaffeine = optionalCalculator.map(calculator -> {
-            // 카페인 정보가 있을 경우, 기존 카페인 양을 업데이트 (더하거나 빼는 동작)
+            // 카페인 정보가 있을 경우, 기존 카페인 양을 업데이트 (true/false 를 통해 삼항연산자로 더하거나 빼기)
             int updatedCaffeine = calculator.getCaffeine() + (isAdd ? caffeine : -caffeine);
             calculator.setCaffeine(updatedCaffeine);
             calculatorRepository.save(calculator);
