@@ -2,7 +2,6 @@ package com.project.ReCCM.Repository.mypage;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.project.ReCCM.domain.custom.Custom;
-import com.project.ReCCM.domain.product.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
