@@ -2,6 +2,11 @@
         const memberId = document.getElementById('loginMemberPK').value;
         const isLoggedIn = memberId && memberId.trim() !== "";
 
+        // 모달 관련 변수
+        const modal = document.getElementById("infoModal");
+        const img = document.getElementById("infoImage");
+        const closeModal = document.getElementsByClassName("close")[0];
+
         let favoritePage = 1;
         const favoritesPerPage = 5; // 페이지당 즐겨찾기 수
         let favoriteListData = []; // 전체 즐겨찾기 데이터
@@ -9,6 +14,23 @@
         let caffeineDataHistory = []; // 실행취소를 위해 커피데이터 저장 배열
 
         let caffeineChart = null;
+
+        // 이미지형 정보 모달
+        img.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // 닫기 버튼을 클릭하면 모달을 닫음
+        closeModal.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // 모달 바깥을 클릭하면 모달을 닫음
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
 
     // 계산기 리셋 버튼
     document.getElementById('resetChartBtn').addEventListener('click', function(){

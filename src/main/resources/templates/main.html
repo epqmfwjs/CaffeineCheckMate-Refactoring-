@@ -30,31 +30,62 @@
             <button id="favoritePrev" class="pagination-button"><i class="fas fa-chevron-left"></i></button>
             <div class="grid-item item1" id="favoriteList">
                 <button id="addFavoriteBtn">즐겨찾기 추가하러 가기</button>
-                <!-- 즐겨찾기 리스트 부분 -->
+                <!-- 즐겨찾기 -->
         </div>
             <button id="favoriteNext" class="pagination-button"><i class="fas fa-chevron-right"></i></button>
         </div>
+        <div class="grid-item item4">
+            <div id="customList">
+                <!-- 커스텀게시물 -->
+            </div>
+            <a href="/custom" class="more">more&nbsp; →</a>
+        </div>
         <div class="grid-item item2">
             <div class="item2-Box" id="item2Box">
-                <!-- JavaScript에서 이곳의 내용을 동적으로 변경 -->
+                <!-- 회원정보 -->
             </div>
         </div>
         <div class="grid-item item3">
             <div class="item3-calculator-box">
                 <div class="chart-box">
+                    <!-- 카페인계산 차트 -->
                     <canvas id="caffeineChart" width="400" height="400"></canvas> <!-- 그래프를 표시할 캔버스 -->
                 </div>
                 <div class="chart-controls">
+                    <!-- 기록리셋 및 실행취소 -->
                     <button id="resetChartBtn">리셋</button>
                     <button id="undoChartBtn">실행 취소</button>
                 </div>
             </div>
             <div class="item3-info">
-                <img src="/img/mainInfo.png" alt="정보">
+                <!-- 이미지형 정보 -->
+                <img src="/img/mainInfo.png" id="infoImage" alt="정보">
             </div>
         </div>
-        <div class="grid-item item4" id="customList">
-            <!-- 커스텀게시물 -->
+        <div class="modal" id="infoModal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 style="text-align:center;">🔍 카페인 계산기 사용방법</h2>
+                <br/>
+                <div class="step">
+                    <p class="step-number">🖐️ 회원가입 </p>
+                    <p>회원정보 중 몸무게/나이/임신 여부 는  정확하게 입력하기!! </p>
+                    <p class="note">(❗몸무게 및 나이, 임신여부는 카페인 적정량 계산에 사용됩니다.)</p>
+                </div>
+                <hr />
+                <div class="step">
+                    <p class="step-number">🖐️🖐️  Product 페이지로 이동</p>
+                    <p>즐겨마시는 음료종류 검색 후 즐겨찾기 추가하기</p>
+                    <p class="note">(❗즐겨찾기에 추가된 음료들은 계산기 상단목록에 추가되어 보여집니다.)</p>
+                </div>
+                <hr />
+                <div class="step">
+                    <p class="step-number">🖐️🖐️🖐️ Main 페이지에서 추가한 음료 클릭하기</p>
+                    <p>음료를 클릭하면 해당 음료 카페인 양을 반영하여
+                        회원님의 몸무게/나이/임신여부에 맞게 계산하여 차트에 반영됩니다.</p>
+                    <p class="note">(❗계산된 내용은 차트에 간략히 % 방식으로 알려주며, MyPage에서 더 정확히 확인할 수 있습니다.)</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
