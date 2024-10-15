@@ -1,5 +1,6 @@
 package com.project.ReCCM.controller.mypage;
 
+import com.project.ReCCM.Repository.mypage.MyPageCaffeineResponseDto;
 import com.project.ReCCM.Repository.mypage.MyPageFavoriteResponseDto;
 import com.project.ReCCM.Repository.mypage.MyPageLikeResponseDto;
 import com.project.ReCCM.Repository.mypage.MyPageMemberResponseDto;
@@ -53,4 +54,12 @@ public class MypageRestController {
         System.out.println("memberInfo 메소드 들어옴");
         return myPageService.getMemberInfoList(memberId);
     }
+
+    @GetMapping("/calendarEvents")
+    public void getMemberCafffeine(@RequestParam("memberId") Long memberId) {
+
+        System.out.println("memberInfo 메소드 들어옴");
+        System.out.println(memberId);
+    }
+
 }
