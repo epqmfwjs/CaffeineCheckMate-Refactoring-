@@ -7,6 +7,8 @@
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/mypage.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 </head>
 <body>
 <input type="hidden" id="loginMemberPK" th:value="${memberPK}">
@@ -28,13 +30,30 @@
     </div>
 
     <div class="body-container">
-        <div class="info-section" id="memberInfoList">
-            <!-- 멤버정보 -->
+        <div class="info-section">
+            <div class="memberCard" id="memberInfoList">
+                <!-- 멤버정보 -->
+            </div>
+            <div class="caffeine-section">
+                <div class="chart-box">
+                    <!-- 카페인계산 차트 -->
+                    <canvas id="caffeineChart" width="200" height="200"></canvas> <!-- 그래프를 표시할 캔버스 -->
+                </div>
+                <div id="caffeineinInfo" class="caffeineinInfo">
+                    <!-- 섭취 카페인 /  당류 / 칼로리  정보 -->
+                    <p>카페인 양 : 235 / 400 </p>
+                    <p>당분 양 : 124 </p>
+                    <p>칼로리 양 : 400 </p>
+                </div>
+            </div>
         </div>
 
         <div class="calendar-section">
-            <!-- 풀캘린더 삽입 -->
-            <div id="fullCalendar"></div>
+            <div class="calendar-box">
+                <div id="fullCalendar">
+                    <!-- 풀캘린더 삽입 -->
+                </div>
+            </div>
         </div>
     </div>
 
