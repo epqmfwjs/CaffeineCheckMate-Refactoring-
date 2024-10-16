@@ -77,4 +77,9 @@ public class ProductService {
 
         return favoriteRepository.existsByMemberAndProduct(member, product);
     }
+
+    public void allIsFavorited(Long memberId) {
+        List<Favorite> allIsFavorited = favoriteRepository.findByMemberId(memberId);
+
+    }
 }

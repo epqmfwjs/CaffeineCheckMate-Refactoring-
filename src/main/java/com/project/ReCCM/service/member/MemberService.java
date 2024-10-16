@@ -108,14 +108,15 @@ public class MemberService {
         Optional<Member> member = memberRepository.findById(memberId);
         LocalDate today = LocalDate.now();
         Optional<Calculator> todayCaffeine = calculatorRepository.findByMemberIdAndCreatedDate(memberId,today);
+
         LocalDate memberAge =  member.get().getMemberAge();
-
-
 
         int age = calculateAge(memberAge) + 1;  //  나이계산하기 메소드호출 Period를 사용해서 현재날짜와의 차이로 계산
         int maxCaffeine = calculateMaxCaffeine(age,member.get().getMemberWeight());
+        int todayCaffeineNow = todayCaffeine.map(Calculator::getCaffeine).orElse(0);
 
-        String gender = member.get().getMemberGender().name();
+            String gender = member.get().getMemberGender().name();
+
         if(gender.equals("Male")){
             gender = "남성";
         }else{
@@ -132,7 +133,7 @@ public class MemberService {
                 member.get().getMemberPhone(),
                 gender,
                 member.get().getImgReal(),
-                todayCaffeine.get().getCaffeine(),
+                todayCaffeineNow,
                 maxCaffeine
         );
 

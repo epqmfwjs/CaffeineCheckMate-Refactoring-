@@ -364,21 +364,23 @@ function displayInfo(data) {
 
                         if (isFavorited) {
                             favoriteBtn.textContent = '즐겨찾기 취소';
+                            modalCoffeeName.innerHTML = `${favorite.coffeeName} <i class="fas fa-star"></i>`; // 노란 별 아이콘
                         } else {
                             favoriteBtn.textContent = '즐겨찾기';
+                            modalCoffeeName.innerHTML = `${favorite.coffeeName} <i class="far fa-star"></i>`; // 투명 별 아이콘
                         }
                     })
                     .catch(error => console.error('Error fetching favorite status:', error));
 
                 //모달 정보 채우기
+                modalCoffeeName.innerHTML = `${favorite.coffeeName} <i class="far fa-star"></i>`; // 초기 상태 투명 별 아이콘
                 modalImage.src = favorite.imgReal;
-                modalCoffeeName.textContent = favorite.coffeeName;
-                modalCoffeeBrand.textContent = `브랜드: ${favorite.coffeeBrand}`;
-                modlCoffeeType.textContent = `종류: ${favorite.coffeeType}`;
-                modalCoffeeContent.textContent = `설명: ${favorite.coffeeContent}`;
-                modalCoffeeCaffeine.textContent = `카페인: ${favorite.caffeine}ml`;
-                modalCoffeeCalorie.textContent = `칼로리: ${favorite.calorie}cal`;
-                modalCoffeeSaccharide.textContent = `당분: ${favorite.saccharide}g`;
+                modalCoffeeBrand.textContent = favorite.coffeeBrand;
+                modlCoffeeType.textContent = favorite.coffeeType;
+                modalCoffeeContent.textContent = favorite.coffeeContent;
+                modalCoffeeCaffeine.textContent = `${favorite.caffeine}ml`;
+                modalCoffeeCalorie.textContent = `${favorite.calorie}cal`;
+                modalCoffeeSaccharide.textContent = `${favorite.saccharide}g`;
 
                 coffeeModal.style.display = 'flex';
 
