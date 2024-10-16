@@ -2,6 +2,8 @@ package com.project.ReCCM.service.member;
 
 import com.project.ReCCM.Repository.member.MemberInfoDto;
 import com.project.ReCCM.Repository.member.MemberJoinDto;
+import com.project.ReCCM.domain.main.Calculator;
+import com.project.ReCCM.domain.main.CalculatorRepository;
 import com.project.ReCCM.domain.member.Member;
 import com.project.ReCCM.domain.member.MemberGender;
 import com.project.ReCCM.domain.member.MemberRepository;
@@ -27,10 +29,18 @@ public class MemberService {
     private static final String UPLOAD_DIR = "C:/upload/";
 
     @Autowired
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
+
+    @Autowired
+    private final CalculatorRepository calculatorRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    public MemberService(MemberRepository memberRepository, CalculatorRepository calculatorRepository) {
+        this.memberRepository = memberRepository;
+        this.calculatorRepository = calculatorRepository;
+    }
 
     public void saveMember(MemberJoinDto memberJoinDto) throws IOException {
         Member member = new Member();
@@ -96,9 +106,14 @@ public class MemberService {
     // 멤버 정보 요청시 dto 맵핑
     public MemberInfoDto getMemberInfo(Long memberId) {
         Optional<Member> member = memberRepository.findById(memberId);
+        LocalDate today = LocalDate.now();
+        Optional<Calculator> todayCaffeine = calculatorRepository.findByMemberIdAndCreatedDate(memberId,today);
         LocalDate memberAge =  member.get().getMemberAge();
 
+
+
         int age = calculateAge(memberAge) + 1;  //  나이계산하기 메소드호출 Period를 사용해서 현재날짜와의 차이로 계산
+        int maxCaffeine = calculateMaxCaffeine(age,member.get().getMemberWeight());
 
         String gender = member.get().getMemberGender().name();
         if(gender.equals("Male")){
@@ -109,7 +124,6 @@ public class MemberService {
 
 
         return new MemberInfoDto(
-
                 member.get().getMemberId(),
                 member.get().getMemberName(),
                 member.get().getMemberEmail(),
@@ -117,10 +131,21 @@ public class MemberService {
                 member.get().getMemberWeight(),
                 member.get().getMemberPhone(),
                 gender,
-                member.get().getImgReal()
-
+                member.get().getImgReal(),
+                todayCaffeine.get().getCaffeine(),
+                maxCaffeine
         );
 
+    }
+
+    private int calculateMaxCaffeine(int age, double memberWeight) {
+        if (age > 20) {
+            return 400; // 성인일 경우 적정 카페인 양 400mg
+        } else if (age < 20) {
+            return (int) (memberWeight * 2.5); // 청소년일 경우 체중에 따른 카페인 양 계산
+        } else {
+            return 300; // 기타 조건 (임신 등)
+        }
     }
 
     // 나이를 계산하는 메서드

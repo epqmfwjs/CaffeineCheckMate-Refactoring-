@@ -29,7 +29,11 @@ public class MemberInfoDto {
 
     private String imgReal;
 
-    public MemberInfoDto(String memberId, String memberName, String memberEmail, int memberAge, double memberWeight, String memberPhone, String memberGender, String imgReal) {
+    private int todayCaffeine;
+
+    private int maxCaffeine;
+
+    public MemberInfoDto(String memberId, String memberName, String memberEmail, int memberAge, double memberWeight, String memberPhone, String memberGender, String imgReal, int todayCaffeine, int maxCaffeine) {
         this.memberId = memberId;
         this.memberName = memberName;
         this.memberEmail = memberEmail;
@@ -38,5 +42,7 @@ public class MemberInfoDto {
         this.memberPhone = memberPhone;
         this.memberGender = memberGender;
         this.imgReal = imgReal;
+        this.todayCaffeine = todayCaffeine;
+        this.maxCaffeine = maxCaffeine;
     }
 }

@@ -36,10 +36,15 @@ public class mainPageRestController {
     @PostMapping("/calculator")
     public ResponseEntity<CalculatorResponseDto> calculateCaffeine(@RequestBody CaffeineRequest request){
         int caffeine = request.getCaffeineAmount();
+        int calorie = request.getCalorie();
+        int sugar = request.getSugar();
+
+        System.out.println("지금확인중인 데이터 : " + " 칼로리 : " + calorie + "당분 : " + sugar);
+
         Long coffeeId = request.getCoffeeId();
         Long memberId = request.getMemberId();
 
-        CalculatorResponseDto resultCaffeineDto = mainService.calculator(caffeine,memberId);
+        CalculatorResponseDto resultCaffeineDto = mainService.calculator(caffeine,calorie,sugar,memberId);
 
         return ResponseEntity.ok(resultCaffeineDto);
     }
@@ -58,10 +63,13 @@ public class mainPageRestController {
     public ResponseEntity<CalculatorResponseDto> undoCaffeine(@RequestBody CaffeineRequest request){
 
         int caffeine = request.getCaffeineAmount();
+        int calorie = request.getCalorie();
+        int sugar = request.getSugar();
+
         Long coffeeId = request.getCoffeeId();
         Long memberId = request.getMemberId();
 
-        CalculatorResponseDto resultCaffeineDto = mainService.undoCaffeine(caffeine,memberId);
+        CalculatorResponseDto resultCaffeineDto = mainService.undoCaffeine(caffeine,calorie,sugar,memberId);
 
         return ResponseEntity.ok(resultCaffeineDto);
     }

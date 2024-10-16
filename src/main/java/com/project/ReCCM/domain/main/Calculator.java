@@ -21,16 +21,22 @@ public class Calculator {
 
     private int caffeine;
 
+    private int calorie;
+
+    private int sugar;
+
     private LocalDate createdDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
-    private Member member; // 댓글이 속한 게시글과의 관계
+    private Member member;
 
 
 
-    public Calculator(int caffeine, Member member) {
+    public Calculator(int caffeine,int calorie,int sugar, Member member) {
         this.caffeine = caffeine;
+        this.calorie = calorie;
+        this.sugar = sugar;
         this.member = member;
     }
 

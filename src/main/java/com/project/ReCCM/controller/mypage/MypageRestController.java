@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @RequestMapping("/api")
@@ -54,12 +57,11 @@ public class MypageRestController {
         System.out.println("memberInfo 메소드 들어옴");
         return myPageService.getMemberInfoList(memberId);
     }
-
+    
+    // 마이페이지 캘린더 데이터 반환
     @GetMapping("/calendarEvents")
-    public void getMemberCafffeine(@RequestParam("memberId") Long memberId) {
-
-        System.out.println("memberInfo 메소드 들어옴");
-        System.out.println(memberId);
+    public List<MyPageCaffeineResponseDto> getMemberCafffeine(@RequestParam("memberId") Long memberId) {
+        return myPageService.getCafffeineCalendar(memberId);
     }
 
 }

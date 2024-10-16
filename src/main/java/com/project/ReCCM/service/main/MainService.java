@@ -1,6 +1,7 @@
 package com.project.ReCCM.service.main;
 
 import com.project.ReCCM.Repository.main.CalculatorResponseDto;
+import com.project.ReCCM.Repository.mypage.MyPageCaffeineResponseDto;
 import com.project.ReCCM.domain.main.Calculator;
 import com.project.ReCCM.domain.main.CalculatorRepository;
 import com.project.ReCCM.domain.member.Member;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MainService {
@@ -27,8 +30,8 @@ public class MainService {
     }
 
     // 사용자에게 입력된 카페인 양을 저장하거나 기존 값에 더하는 함수
-    public CalculatorResponseDto calculator(int caffeine, Long memberId) {
-        return updateCaffeine(caffeine, memberId, true); // 카페인 추가 로직
+    public CalculatorResponseDto calculator(int caffeine, int calorie, int sugar, Long memberId) {
+        return updateCaffeine(caffeine, calorie, sugar, memberId, true); // 카페인 추가 로직
     }
 
     // 로그인 후 그래프 데이터 가져오기
@@ -37,8 +40,8 @@ public class MainService {
     }
 
     // 계산 실행 취소
-    public CalculatorResponseDto undoCaffeine(int caffeine, Long memberId) {
-        return updateCaffeine(caffeine, memberId, false); // 카페인 감소 로직
+    public CalculatorResponseDto undoCaffeine(int caffeine, int calorie, int sugar, Long memberId) {
+        return updateCaffeine(caffeine, calorie, sugar, memberId, false); // 카페인 감소 로직
     }
 
     // 계산기 차트 리셋
@@ -53,30 +56,57 @@ public class MainService {
         int maxCaffeine = calculateMaxCaffeine(age, member.getMemberWeight()); // 나이와 체중에 따른 적정 카페인 계산
 
         // 결과 Dto 반환
-        return new CalculatorResponseDto(member.getMemberId(), maxCaffeine, 0, age, 0.0);
+        return new CalculatorResponseDto(member.getMemberId(), maxCaffeine,0,0, 0, age, 0.0);
+    }
+
+    // 카페인계산을 재사용하기위해 MyPageService -> MainService 호출 이래도 되는건가 싶지만 재활용이 가능하길래 해봄...
+    public List<MyPageCaffeineResponseDto> getCafffeineCalendar(Long memberId,List<Calculator> calculators){
+        System.out.println("MyPageService -> MainService의 getCafffeineCalendar 메소드 들어옴");
+        Member member = getMemberById(memberId); // 멤버 정보를 가져옴
+
+        int age = calculateAge(member.getMemberAge()) + 1; // 나이 계산
+        int maxCaffeine = calculateMaxCaffeine(age, member.getMemberWeight()); // 나이와 체중에 따른 적정 카페인 계산
+
+        // 이벤트 데이터를 리스트로 구성
+        return calculators.stream()
+                .map(calculator -> {
+                    MyPageCaffeineResponseDto event = new MyPageCaffeineResponseDto();
+                    event.setTitle(calculatePercentage(calculator.getCaffeine(), maxCaffeine) + "%"); // 제목 설정
+                    event.setStart(calculator.getCreatedDate());
+                    event.setPercentage(calculatePercentage(calculator.getCaffeine(), maxCaffeine)); // 카페인 퍼센트 계산
+                    return event;
+                })
+                .collect(Collectors.toList());
+
     }
 
     // ----------------------------- 반복되는 코드 모듈화 -------------------------------
 
     // 카페인 데이터 로드/업데이트 처리
-    private CalculatorResponseDto updateCaffeine(int caffeine, Long memberId, boolean isAdd) {
+    private CalculatorResponseDto updateCaffeine(int caffeine, int calorie, int sugar, Long memberId, boolean isAdd) {
         Member member = getMemberById(memberId); // 멤버 정보 가져오기
         Optional<Calculator> optionalCalculator = getCalculatorForToday(memberId); // 오늘의 카페인 정보 가져오기
 
         int finalCaffeine = optionalCalculator.map(calculator -> {
             // 카페인 정보가 있을 경우, 기존 카페인 양을 업데이트 (true/false 를 통해 삼항연산자로 더하거나 빼기)
             int updatedCaffeine = calculator.getCaffeine() + (isAdd ? caffeine : -caffeine);
+            int updatedCalorie = calculator.getCalorie() + (isAdd ? calorie : -calorie);
+            int updatedSugar = calculator.getSugar() + (isAdd ? sugar : -sugar);
+
             calculator.setCaffeine(updatedCaffeine);
+            calculator.setCalorie(updatedCalorie);
+            calculator.setSugar(updatedSugar);
+
             calculatorRepository.save(calculator);
             return updatedCaffeine;
         }).orElseGet(() -> {
             // 카페인 정보가 없으면 새로 생성 후 저장
-            Calculator newCalculator = new Calculator(caffeine, member);
+            Calculator newCalculator = new Calculator(caffeine,calorie,sugar, member);
             calculatorRepository.save(newCalculator);
             return caffeine;
         });
 
-        return buildCaffeineResponse(member, finalCaffeine); // 결과 Dto 생성 및 반환
+        return buildCaffeineResponse(member, finalCaffeine, calorie,sugar); // 결과 Dto 생성 및 반환
     }
 
     // 카페인 데이터를 로드하는 메소드
@@ -86,7 +116,13 @@ public class MainService {
         int finalCaffeine = getCalculatorForToday(memberId)
                 .map(Calculator::getCaffeine) // 값이 있으면 getCaffeine() 호출
                 .orElse(0); // 값이 없으면 0 반환
-        return buildCaffeineResponse(member, finalCaffeine);
+        int finalCalorie = getCalculatorForToday(memberId)
+                .map(Calculator::getCalorie) // 값이 있으면 getCaffeine() 호출
+                .orElse(0); // 값이 없으면 0 반환
+        int finalSugar = getCalculatorForToday(memberId)
+                .map(Calculator::getSugar) // 값이 있으면 getCaffeine() 호출
+                .orElse(0); // 값이 없으면 0 반환
+        return buildCaffeineResponse(member, finalCaffeine, finalCalorie, finalSugar);
     }
 
     // 멤버 ID로 멤버 객체 가져오기 (DB 조회)
@@ -102,7 +138,7 @@ public class MainService {
     }
 
     // 카페인 계산 결과 Dto 생성
-    private CalculatorResponseDto buildCaffeineResponse(Member member, int finalCaffeine) {
+    private CalculatorResponseDto buildCaffeineResponse(Member member, int finalCaffeine, int finalCalorie, int finalSugar) {
         int age = calculateAge(member.getMemberAge()) + 1; // 나이 계산
         int maxCaffeine = calculateMaxCaffeine(age, member.getMemberWeight()); // 적정 카페인 계산
         double resultCaffeine = calculatePercentage(finalCaffeine, maxCaffeine); // 카페인 퍼센트 계산
@@ -112,6 +148,8 @@ public class MainService {
                 member.getMemberId(),
                 maxCaffeine,
                 finalCaffeine,
+                finalCalorie,
+                finalSugar,
                 age,
                 resultCaffeine
         );
