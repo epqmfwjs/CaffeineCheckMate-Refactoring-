@@ -1,41 +1,53 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const memberId = document.getElementById('loginMemberPK');
+    const memberId = document.getElementById('loginMemberPK').value; // memberId의 값 가져오기
 
     var calendarEl = document.getElementById('fullCalendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth', // 기본 보기 설정
-        locale: 'ko', // 한국어로 설정
+        initialView: 'dayGridMonth',
+        locale: 'ko',
         headerToolbar: {
             left: 'prev,next',
             center: 'title',
             right: 'dayGridMonth'
         },
-        events: ``/api/calendarEvents?memberId=${meberId}`, // 이벤트 데이터를 가져올 경로
+        events: `/api/calendarEvents?memberId=${memberId}`,
         eventContent: function(arg) {
-            // 이모티콘과 색상을 결정하는 함수
-            let caffeineLevel = arg.event.extendedProps.caffeineLevel; // 가져온 데이터에서 카페인 섭취량을 가져옴
-            let emoji = '';
-            let backgroundColor = '';
 
-            if (caffeineLevel === 'high') {
-                emoji = '☕️🔥'; // 높은 카페인 섭취량
-                backgroundColor = 'red';
-            } else if (caffeineLevel === 'medium') {
-                emoji = '☕️'; // 중간 카페인 섭취량
-                backgroundColor = 'orange';
-            } else if (caffeineLevel === 'low') {
-                emoji = '🍵'; // 낮은 카페인 섭취량
+            let percentage = arg.event.extendedProps.percentage;
+            let backgroundColor = '';
+            let emoji = '';
+
+            // 카페인 섭취량에 따른 퍼센트 계산 및 색상, 이모지 설정
+            if (percentage < 40) {
                 backgroundColor = 'green';
+                emoji = '😊';
+            } else if (percentage < 80) {
+                backgroundColor = 'orange';
+                emoji = '😐';
+            } else if (percentage < 100){
+                backgroundColor = 'red';
+                emoji = '😨';
+            } else {
+                backgroundColor = 'black';
+                emoji = '☠️';
             }
 
-            // 이벤트 요소에 커스텀 콘텐츠를 추가
+            // 이벤트 요소에 커스텀 바와 이모지 추가
             let customHtml = {
-                html: `<div class="custom-event" style="background-color:${backgroundColor}; padding: 5px; border-radius: 5px;">
-                         <span>${emoji} ${arg.event.title}</span>
+                html: `<div class="custom-event" style="background-color: white; padding: 5px; border-radius: 0px; width:100%;">
+                         <div style="display: flex; align-items: center; justify-content: flex-start;">
+                           <span style="margin-right: 5px;">${emoji}</span>
+                           <div style="background-color: lightgray; width: 100%; height: 15px; border-radius: 5px; overflow: hidden;">
+                             <div style="background-color:${backgroundColor}; width: ${percentage}%; height: 100%;">
+                               <span style="display: inline-block; width: 100%;">${arg.event.title}</span>
+                             </div>
+                           </div>
+                         </div>
                        </div>`
             };
             return customHtml;
         }
     });
+
     calendar.render();
 });

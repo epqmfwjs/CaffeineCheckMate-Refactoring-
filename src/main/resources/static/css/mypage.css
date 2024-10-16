@@ -103,12 +103,14 @@ body {
 /* 멤버 이미지 스타일 */
 .member-image img {
     border-radius: 50%;
-    width: 150px;
-    height: 150px;
+    width: 130px;
+    height: 130px;
     object-fit: cover;
     margin-right: 20px;
     border: 3px solid #ddd;
     margin-left: 3rem;
+    margin-top: 1rem;
+    padding:10px;
 }
 
 /* 멤버 세부 정보 스타일 */
@@ -117,12 +119,6 @@ body {
     flex-direction: column;
     justify-content: center;
     margin-left: 7rem;
-}
-
-.member-details h2 {
-    margin-bottom: 10px;
-    color: #333;
-    font-size: 1.8em;
 }
 
 .member-details p {
@@ -156,8 +152,7 @@ body {
     font-size: 1.2em;
     color: #333;
     text-align: center;
-    margin-left: 7rem;
-
+    margin-left: 5rem;
 }
 
 /* 즐겨찾기 리스트 */
@@ -548,11 +543,21 @@ body {
     color: rgb(239, 108, 51);
 }
 
+
+/* 캘린더 퍼센트 바 관련 */
 .custom-event {
     color: white;
     font-weight: bold;
     display: inline-block;
     padding: 5px;
     border-radius: 5px;
-    text-align: center;
+    margin-left:1px;
+    /* text-align: center; */
+}
+
+/* 캘린더 퍼센트 바 뒷배경 */
+.fc-h-event {
+    background-color: white;
+    border: 1px solid white;
+    display: block;
 }

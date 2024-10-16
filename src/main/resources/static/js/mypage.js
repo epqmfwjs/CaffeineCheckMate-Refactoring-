@@ -135,6 +135,7 @@ document.addEventListener("DOMContentLoaded", function() {
     //카페인 데이터 요청
     fetchData(`/api/getCaffeineData?memberId=${memberId}`, data => {
         displayCalculator(data);
+        displayInfo(data);
     });
 
     // 좋아요 리스트 요청
@@ -142,6 +143,39 @@ document.addEventListener("DOMContentLoaded", function() {
         likeListData = data;
         displayLikeList();
     });
+
+
+// 멤버정보를 화면에 표시하는 함수
+function displayInfo(data) {
+    const caffeineinInfoDiv = document.getElementById('caffeineinInfo');
+    const today = new Date().toLocaleDateString();
+    caffeineinInfoDiv.innerHTML = ''; // 기존 목록 초기화
+    const percentage = data.resultCaffeine; // 카페인 비율
+
+    // 색상 결정 함수
+    function getColor(percentage) {
+        if (percentage < 40) {
+            return 'green';
+        } else if (percentage < 80) {
+            return 'orange';
+        } else if (percentage < 100) {
+            return 'red';
+        } else {
+            return 'black';
+        }
+    }
+
+    // 텍스트 색상 설정
+    const caffeineColor = getColor(percentage);
+
+    // 멤버 정보를 추가
+    caffeineinInfoDiv.innerHTML = `
+        <h3>${today}</h3>
+        <p style="color: ${caffeineColor};"><span style="font-weight:bold;">카페인 :</span> ${data.drankCaffeine} / ${data.maxCaffeine}mg</p>
+        <p style="color: ${caffeineColor};"><span style="font-weight:bold;">칼로리 :</span> ${data.drankCalorie}cal</p>
+        <p style="color: ${caffeineColor};"><span style="font-weight:bold;">당분 :</span> ${data.drankSugar}g</p>
+    `;
+}
 
 // -------------------------------------카페인 차트 관련 ------------------------------------
 
@@ -180,8 +214,8 @@ document.addEventListener("DOMContentLoaded", function() {
             displayDefaultChart(); // 초기 로드 시 기본 차트 표시
 
             function displayCalculator(data) {
-                const maxCaffeine = data.maxCaffeine;  // 최대 허용량을 400mg으로 설정
-                const consumedCaffeine = data.drankCaffeine;  // 사용자가 섭취한 카페인 양
+                const maxCaffeine = data.maxCaffeine;  // 최대 허용량
+                const consumedCaffeine = data.drankCaffeine;  // 섭취한 카페인 양
 
                 // 섭취한 카페인 퍼센트 계산 (400mg을 기준으로 100%)
                 let percentageConsumed = (consumedCaffeine / maxCaffeine) * 100;
@@ -195,11 +229,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 const chartData = {
                     datasets: [{
                         label: '카페인 소비량',
-                        data: [percentageConsumed], // 100% 초과일 때 남은 카페인 데이터 제거
-                        backgroundColor: [
-                            getCaffeineColor(percentageConsumed), // 색상 함수 호출
-                            'rgba(54, 162, 235, 0.5)'
-                        ],
+                        data: [], // 초기화
+                        backgroundColor: [], // 초기화
                         borderColor: [
                             'rgba(255, 99, 132, 1)',
                             'rgba(54, 162, 235, 1)',
@@ -209,12 +240,14 @@ document.addEventListener("DOMContentLoaded", function() {
                     }]
                 };
 
-                // 100% 초과일 경우 남은 카페인 퍼센트 레이블 추가
-                if (percentageConsumed > 100) {
-                    chartData.labels.push('초과 섭취');
-                    chartData.datasets[0].data.push(percentageConsumed - 100); // 초과량 표시
+                // 100% 이하일 경우 섭취량과 남은 양 추가
+                if (percentageConsumed <= 100) {
+                    chartData.datasets[0].data.push(percentageConsumed, percentageRemaining);
+                    chartData.datasets[0].backgroundColor.push(getCaffeineColor(percentageConsumed), 'rgba(54, 162, 235, 0.5)');
                 } else {
-                    chartData.datasets[0].data.push(percentageRemaining); // 남은 카페인 데이터 추가
+                    // 100%를 초과한 경우
+                    chartData.datasets[0].data.push(100, percentageConsumed - 100); // 100% 및 초과량 추가
+                    chartData.datasets[0].backgroundColor.push(getCaffeineColor(100), 'rgba(255, 99, 132, 0.5)'); // 초과 섭취 색상 추가
                 }
 
                 const chartOptions = {
@@ -245,7 +278,7 @@ document.addEventListener("DOMContentLoaded", function() {
                                 } else if (context.dataIndex === 1 && percentageConsumed > 100) {
                                     return `${value}% 초과 섭취`; // 초과 섭취량 표시
                                 } else {
-                                    return `${percentageRemaining}% 섭취가능`; // 남은 퍼센트는 표시
+                                    return `${percentageRemaining}% 섭취 가능`; // 남은 퍼센트는 표시
                                 }
                             },
                             anchor: 'end',
@@ -272,8 +305,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     return 'rgba(255, 206, 86, 0.7)'; // 0% - 40% 노란색
                 } else if (percentage < 80) {
                     return 'rgba(255, 159, 64, 0.7)'; // 40% - 80% 주황색
-                } else {
+                } else if (percentage < 100) {
                     return 'rgba(255, 99, 132, 0.7)'; // 80% - 100% 빨간색
+                } else {
+                    return 'rgba(0, 0, 0, 0.7)'; // 100% 이상 검정색
                 }
             }
 
@@ -375,9 +410,9 @@ document.addEventListener("DOMContentLoaded", function() {
         memberCard.innerHTML = `
             <div class="member-image">
                 <img src="/images/${memberInfo.imgReal}" alt="Member Image">
+                <h2 style="text-align: center; margin-left: 2rem; color: #333; font-size: 1.8em;">${memberInfo.memberName}</h2>
             </div>
             <div class="member-details">
-                <h2>${memberInfo.memberName}</h2>
                 <p><i class="fas fa-user"></i>${memberInfo.memberId}</p>
                 <p><i class="fas fa-birthday-cake"></i> ${memberInfo.memberAge}세</p>
                 <p><i class="fas fa-envelope"></i>${memberInfo.memberEmail}</p>

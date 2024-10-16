@@ -4,6 +4,9 @@ import com.project.ReCCM.domain.product.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -11,7 +14,10 @@ import lombok.Setter;
 public class MyPageCaffeineResponseDto {
 
     private String title;
-    private String start; // FullCalendar가 요구하는 날짜 형식 (예: "2024-10-15")
-    private String caffeineLevel; // high, medium, low 등의 카페인 섭취량 정보
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate start; // FullCalendar가 요구하는 날짜 형식 (예: "2024-10-15")
+
+    private double percentage; // 결과값
 
 }

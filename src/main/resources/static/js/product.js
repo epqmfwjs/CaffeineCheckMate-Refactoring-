@@ -139,12 +139,12 @@
                     //모달 정보 채우기
                     modalImage.src = coffee.imgReal;
                     modalCoffeeName.textContent = coffee.coffeeName;
-                    modalCoffeeBrand.textContent = `브랜드: ${coffee.coffeeBrand}`;
-                    modlCoffeeType.textContent = `종류: ${coffee.coffeeType}`;
-                    modalCoffeeContent.textContent = `설명: ${coffee.coffeeContent}`;
-                    modalCoffeeCaffeine.textContent = `카페인: ${coffee.caffeine}ml`;
-                    modalCoffeeCalorie.textContent = `칼로리: ${coffee.calorie}cal`;
-                    modalCoffeeSaccharide.textContent = `당분: ${coffee.saccharide}g`;
+                    modalCoffeeBrand.textContent = coffee.coffeeBrand;
+                    modlCoffeeType.textContent = coffee.coffeeType;
+                    modalCoffeeContent.textContent = coffee.coffeeContent;
+                    modalCoffeeCaffeine.textContent = `${coffee.caffeine}ml`;
+                    modalCoffeeCalorie.textContent = `${coffee.calorie}cal`;
+                    modalCoffeeSaccharide.textContent = `${coffee.saccharide}g`;
 
                     coffeeModal.style.display = 'flex';
 

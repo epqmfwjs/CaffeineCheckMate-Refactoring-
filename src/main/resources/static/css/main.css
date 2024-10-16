@@ -180,8 +180,8 @@ body {
 
 
 .memberInfo-text {
-    margin-left: 60px;
-    display: flex; /* 텍스트 중앙 정렬 */
+    margin-left: 50px;
+    display: column;
     justify-content: center; /* 가로 중앙 정렬 */
     color: black; /* 텍스트 색상 */
     font-size: 20px; /* 텍스트 크기 */
