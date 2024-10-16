@@ -63,17 +63,44 @@
         </div>
         <!-- 모달 요소 추가 -->
         <div id="coffeeModal" class="coffeeListModal">
-            <div class="modal-content">
+            <div class="favoriteModal-content">
                 <span class="close">&times;</span>
-                <img id="modalImage" src="" alt="coffee image" style="width: 100%; height: 300px; object-fit: cover;">
-                <h2 id="modalCoffeeName"></h2><!-- 제품명 -->
-                <p id="modalCoffeeBrand"></p><!-- 브랜드명 -->
-                <p id="modlCoffeeType"></p><!-- 종류 -->
-                <p id="modalCoffeeContent"></p><!-- 설명 -->
-                <p id="modalCoffeeCalorie"></p><!-- 칼로리 량-->
-                <p id="modalCoffeeCaffeine"></p><!-- 카페인 량 -->
-                <p id="modalCoffeeSaccharide"></p><!-- 당분 량 -->
-                <button id="favoriteBtn">즐겨찾기</button>
+                <h2 id="modalCoffeeName" class="modal-title"></h2><!-- 제품명 -->
+                <div class="modal-header">
+                    <img id="modalImage" src="" alt="coffee image" class="modal-image">
+                    <div class="modal-text">
+                        <!-- 브랜드 -->
+                        <div class="modal-detail">
+                            <p class="modal-detail-label">브랜드</p>
+                            <p id="modalCoffeeBrand" class="modal-brand"></p>
+                        </div>
+                        <!-- 종류 -->
+                        <div class="modal-detail">
+                            <p class="modal-detail-label">종류</p>
+                            <p id="modlCoffeeType" class="modal-type"></p>
+                        </div>
+                        <!-- 설명 -->
+                        <div class="modal-detail">
+                            <p class="modal-detail-label">설명</p>
+                            <p id="modalCoffeeContent" class="modal-description"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-nutrition">
+                    <table class="nutrition-table">
+                        <tr>
+                            <th>카페인(ml)</th>
+                            <th>칼로리(cal)</th>
+                            <th>당분(g)</th>
+                        </tr>
+                        <tr>
+                            <td id="modalCoffeeCaffeine"></td> <!-- 카페인 량 -->
+                            <td id="modalCoffeeCalorie"></td> <!-- 칼로리 량 -->
+                            <td id="modalCoffeeSaccharide"></td> <!-- 당분 량 -->
+                        </tr>
+                    </table>
+                </div>
+                <button id="favoriteBtn" class="favorite-button">즐겨찾기</button>
             </div>
         </div>
         <button id="favoriteNext" class="pagination-button"><i class="fas fa-chevron-right"></i></button>

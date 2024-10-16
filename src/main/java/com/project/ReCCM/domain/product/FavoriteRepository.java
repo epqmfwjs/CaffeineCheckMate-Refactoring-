@@ -19,4 +19,6 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
 
     // mypage 에서 접근하는 특정 아이디의 즐겨찾기 리스트 조회
     List<Favorite> findAllByMember(Member member);
+
+    List<Favorite> findByMemberId(Long memberId);
 }

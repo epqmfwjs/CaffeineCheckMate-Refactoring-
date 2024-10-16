@@ -25,7 +25,7 @@ public class ProductRestController {
     @GetMapping("/coffeeList")
     public List<Product> coffeeList() {
         System.out.println("커피리스트 조회 들어옴");
-        return productRepository.findAll();
+       return productRepository.findAll();
     }
 
     @GetMapping("/searchCoffee")
@@ -57,6 +57,7 @@ public class ProductRestController {
         return ResponseEntity.ok(response);
     }
 
+    // 즐겨찾기 유무 판단
     @GetMapping("favoriteStatus")
     public ResponseEntity<FavoriteResponseDto> getFavoriteStatus(@RequestParam("postId") Long postId,@RequestParam("memberId") Long memberId) {
         System.out.println("postId  : " + postId + "  memberId : " + memberId);

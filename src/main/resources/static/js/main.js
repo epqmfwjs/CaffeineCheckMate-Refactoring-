@@ -276,8 +276,8 @@
             const nameElement = document.createElement('div');
             nameElement.classList.add('memberInfo-text');
             nameElement.innerHTML = `
-                    <p>&nbsp;&nbsp;&nbsp;${memberInfo.memberName}&nbsp;&nbsp; 님</p>
-                    <p>☕️ : <strong>${memberInfo.todayCaffeine} / ${memberInfo.maxCaffeine}</strong></P>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${memberInfo.memberName}&nbsp;&nbsp; 님</p>
+                    <p>☕️ : <strong>${memberInfo.todayCaffeine} / ${memberInfo.maxCaffeine} ml</strong></P>
                     `;
 
 

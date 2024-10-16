@@ -36,13 +36,11 @@ public class Product {
     private String coffeeType; //종류 예) tea,coffee,Latte 등등
 
     @Column
-    private Long favorite; // 즐겨찾기 유무
+    private boolean favorite; // 즐겨찾기 유무
 
     @Column
     private String imgReal; // 이미지 오리지널네임
 
-    @Column
-    private String imgCopy; // 이미지 카피네임
     // 다른 필드들
 
 }
