@@ -1,9 +1,9 @@
 package com.project.ReCCM.Repository.custom;
 
-import jakarta.persistence.Column;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
+@ToString
 @Getter
 @Setter
 @AllArgsConstructor
@@ -11,11 +11,15 @@ import org.springframework.web.multipart.MultipartFile;
 public class CustomPostRequestDto {
 
     private String customTitle;
-
     private String customContent;
-
     private MultipartFile[] imgReal;
-
-    private String imgCopy; // 이미지 카피네임
+    private Long memberPK;
+    // 이넘 으로 관리
+    private Brand brand;
+    private Syrup syrup;
+    private Whipped whipped;
+    private Shot shot;
+    private Milk milk;
+    private CoffeeType coffeeType;
 
 }

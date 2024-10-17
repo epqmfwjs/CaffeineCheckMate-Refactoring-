@@ -220,7 +220,7 @@
             // 소비 비율에 따라 색상 반환 함수
             function getCaffeineColor(percentage) {
                 if (percentage < 40) {
-                    return 'rgba(255, 206, 86, 0.7)'; // 0% - 40% 노란색
+                    return 'rgba(144, 238, 144, 0.7)'; // 0% - 40% 노란색
                 } else if (percentage < 80) {
                     return 'rgba(255, 159, 64, 0.7)'; // 40% - 80% 주황색
                 } else if (percentage < 100) {

@@ -1,7 +1,5 @@
 package com.project.ReCCM.controller.custom;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.ReCCM.Repository.custom.CommentResponseDto;
 import com.project.ReCCM.Repository.custom.CustomPostRequestDto;
 import com.project.ReCCM.Repository.custom.CustomResponseDto;
@@ -12,17 +10,12 @@ import com.project.ReCCM.service.custom.CommentService;
 import com.project.ReCCM.service.custom.CountService;
 import com.project.ReCCM.service.custom.CustomService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +69,12 @@ public class CustomRestController {
                             custom.getImgReal(),
                             custom.getMember().getMemberId(),
                             custom.getCreatedDate(),
+                            custom.getBrand(),
+                            custom.getSyrup(),
+                            custom.getWhipped(),
+                            custom.getShot(),
+                            custom.getMilk(),
+                            custom.getCoffeeType(),
                             custom.getLikesCount()))
                     .collect(Collectors.toList());
             System.out.println("커스텀리스트 조회 결과: " + response);
@@ -128,6 +127,12 @@ public class CustomRestController {
                             custom.getImgReal(),
                             custom.getMember().getMemberId(),
                             custom.getCreatedDate(),
+                            custom.getBrand(),
+                            custom.getSyrup(),
+                            custom.getWhipped(),
+                            custom.getShot(),
+                            custom.getMilk(),
+                            custom.getCoffeeType(),
                             custom.getLikesCount()))
                     .collect(Collectors.toList());
             System.out.println("커스텀리스트 조회 결과: " + response);
@@ -142,14 +147,13 @@ public class CustomRestController {
     
     // 게시글 작성
     @PostMapping("/createCustom")
-    public ResponseEntity<Map<String, String>> createCustom(@RequestParam("customTitle") String customTitle,
-                                                            @RequestParam("customContent") String customContent,
-                                                            @RequestParam("memberPK") Long memberPK,
-                                                            @RequestParam("customImages") MultipartFile[] imgReal) {
+    public ResponseEntity<Map<String, String>> createCustom(@ModelAttribute CustomPostRequestDto requestDto, @RequestParam("memberPK") Long memberPK){
         try {
-            System.out.println(memberPK + " : " + customTitle + " : " + customContent + " : " + imgReal);
+            System.out.println("memberPK : " + memberPK);
+            System.out.println("option1 : " + requestDto.toString());
+            System.out.println("option1 의 db저장보낼값 : " + requestDto.getBrand());
             // 서비스에서 게시글 생성 로직 호출
-            customService.createCustomPost(memberPK, customTitle, customContent, imgReal);
+             customService.createCustomPost(requestDto);
 
             // 응답을 JSON 형식으로 반환
             Map<String, String> response = new HashMap<>();

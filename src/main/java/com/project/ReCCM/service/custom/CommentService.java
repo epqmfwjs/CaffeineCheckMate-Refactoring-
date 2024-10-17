@@ -53,10 +53,11 @@ public class CommentService {
                 .map(comment -> new CommentResponseDto(
                         comment.getId(),
                         comment.getText(),
-                        comment.getMember().getMemberId()
+                        comment.getMember().getMemberId(),
+                        comment.getCreatedDate(),
+                        comment.getMember().getImgReal()
                         ))
                 .collect(Collectors.toList());
-
         return response;
 
     }

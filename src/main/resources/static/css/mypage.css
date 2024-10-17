@@ -432,6 +432,7 @@ body {
 }
 
 /* 좋아요 모달 영역*/
+/* 모달 창 전체 화면 덮기 */
 .customModal {
     display: none; /* 기본적으로 숨김 */
     position: fixed;
@@ -445,137 +446,269 @@ body {
     align-items: center;
 }
 
-/* 상세내용 모달 콘텐츠 (화면 전체 크기) */
+/* 모달 콘텐츠 */
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+/* 상세내용 모달 콘텐츠 */
 .detailModal-content {
     background-color: white;
     padding: 20px;
     border-radius: 10px;
-    width: 85%;
-    height: 85%;
+    width: 50%;
+    height: 70%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     position: relative;
     max-width: 100vw;
     max-height: 100vh;
     overflow: auto;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 20px;
-    justify-content: center; /* 가로 가운데 정렬 */
-    align-items: center; /* 세로 가운데 정렬 */
+    justify-content: flex-start;
 }
 
-/* 3개의 구역을 가로로 나누는 컨테이너 */
+/* 제목과 좋아요 버튼을 함께 배치하는 컨테이너 */
+.title-like-container {
+    display: flex;
+    justify-content: center; /* 제목과 버튼을 가운데 정렬 */
+    align-items: center;
+    gap: 10px; /* 제목과 좋아요 버튼 사이 간격 */
+    padding: 10px 0;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+/* 맨 위의 제목 스타일 (가운데 정렬) */
+.detailTitle {
+    text-align: center;
+    font-size: 28px;
+    margin: 0;
+}
+
+/* 좋아요 버튼 스타일 (제목 옆에 위치) */
+.like-button {
+    padding: 3px 7px;
+    font-size: 12px;
+    background-color: #ff7675;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    margin-left: 2rem;
+    transition: background-color 0.3s ease;
+}
+
+.like-button:hover {
+    background-color: #d63031;
+}
+
+/* 왼쪽 영역과 오른쪽 영역을 나누는 컨테이너 */
 .detail-container {
     display: flex;
-    justify-content: center; /* 각 구역의 가로 가운데 정렬 */
-    align-items: center; /* 각 구역의 세로 가운데 정렬 */
-    gap: 40px;
+    gap: 40px; /* 왼쪽과 오른쪽 사이의 간격 */
     width: 100%;
-    height: 100%;
+    justify-content: center; /* 가로 중앙 정렬 */
 }
 
-/* 이미지 구역 스타일 */
-.detail-image {
+/* 왼쪽 영역 */
+.detail-left {
     flex: 1;
-    width: 400px;
-    display: flex;
-    justify-content: center;
-    align-items: center; /* 이미지 자체를 가운데로 정렬 */
-}
-
-.detail-image img {
-    width: 300px;
-    height: 300px;
-    object-fit: contain;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
-
-/* 내용 구역 스타일 */
-.detail-content {
-    flex: 2;
-    width: 500px;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* 내용이 중앙에 위치 */
-    align-items: center; /* 가로로도 중앙에 위치 */
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px; /* 이미지와 정보 사이 간격 */
 }
 
-.detailTitle {
-    margin-bottom: 120px;
+.detail-left img {
+    width: 65%;
+    height: 65%;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+
+.tagOption {
+    display: flex;
+    gap: 10px;
+}
+
+/* 오른쪽 영역 */
+.detail-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    /*gap: 10px; *//* 내용 간의 간격 */
+    align-items: flex-start;
 }
 
 .detailContent {
-    margin-top: 10px;
-    max-height: 450px;
-    max-width: 300px;
-    min-height: 450px;
-    min-width: 300px;
-    overflow-y: auto;
-    padding-top: 10px;
+    background-color: #f9f9f9;
+    padding: 15px;
     border-radius: 10px;
-    display: flex;
-    justify-content: center; /* 내부 텍스트를 가로 중앙 정렬 */
-    /*align-items: center; *//* 내부 텍스트를 세로 중앙 정렬 */
-    text-align: center; /* 텍스트 중앙 정렬 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    height:55%;
+    overflow-y: auto;
+}
+
+#memberId, #createdDate {
+    font-size: 14px;
+    color: black;
+}
+
+
+/* 댓글 보기 버튼 스타일 */
+.comment-button {
+    padding: 3px 7px;
+    font-size: 12px;
+    background-color: #74b9ff;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    margin-left: 10px; /* 좋아요 버튼과 댓글 버튼 사이 간격 */
+    transition: background-color 0.3s ease;
+}
+
+.comment-button:hover {
+    background-color: #0984e3;
+}
+
+/* 댓글 영역 슬라이드 스타일 */
+.comment-section {
+    position: fixed;
+    top: 0;
+    right: -500px; /* 화면에서 숨김 */
+    width: 400px;
+    height: 100%;
+    background-color: #fff; /* 흰색 배경 */
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3); /* 그림자 추가 */
+    transition: right 0.3s ease; /* 슬라이드 애니메이션 */
+    overflow-y: auto;
+    z-index: 1001;
+    padding: 20px;
+    border-radius: 5px; /* 모서리 둥글게 */
+}
+
+/* 댓글 영역이 열릴 때 (right 값을 0으로 변경) */
+.comment-section.show {
+    right: 7px;
 }
 
 /* 댓글창 구역 스타일 */
 .detail-comments {
-    flex: 0.5;
-    width: 450px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* 위아래로 공간을 나눔 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fafafa; /* 연한 회색 배경 */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+    max-height: 400px; /* 최대 높이 설정 */
+    overflow-y: auto; /* 내용이 길어질 경우 스크롤 가능 */
 }
 
 /* 댓글 등록창 스타일 */
 .comment-form {
     display: flex;
     flex-direction: column;
+    margin-top: 20px; /* 등록창과 댓글 목록 간의 간격 */
 }
 
+/* 댓글 입력창 스타일 */
 #commentBox {
-    width: 95%;
-    padding: 10px;
+    width: 95%; /* 가로 크기 95% */
+    padding: 12px; /* 패딩을 늘려서 내부 여백을 추가 */
     margin-top: 10px;
-    border-radius: 5px;
-
+    border-radius: 10px; /* 모서리를 좀 더 둥글게 */
+    border: 1px solid #ccc; /* 기본 테두리 */
+    background-color: #f9f9f9; /* 배경색 추가 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 미세한 그림자 추가 */
+    resize: none; /* 크기 조정 비활성화 */
+    font-size: 16px; /* 글자 크기 조정 */
+    color: #333; /* 글자 색상 조정 */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 추가 */
 }
 
+#commentBox:focus {
+    border-color: rgb(239, 108, 51); /* 포커스 시 테두리 색상 변경 */
+    box-shadow: 0 0 5px rgba(239, 108, 51, 0.5); /* 포커스 시 그림자 효과 추가 */
+    outline: none; /* 기본 포커스 아웃라인 제거 */
+}
+
+/* 댓글 제출 버튼 스타일 */
 #submitComment {
-    padding: 10px 20px;
+    padding: 8px 15px; /* 패딩을 줄여서 버튼의 크기를 줄임 */
     background-color: rgb(239, 108, 51);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 20px; /* 버튼 모서리를 둥글게 */
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* 호버 시 변형 효과 추가 */
+    font-weight: bold; /* 글씨 두껍게 */
 }
 
 #submitComment:hover {
-    background-color: #0c4a60;
+    background-color: #0c4a60; /* 호버 시 색상 변경 */
+    transform: scale(1.05); /* 호버 시 크기 살짝 증가 */
 }
 
 /* 댓글 리스트 스타일 */
 .comments-list {
-    margin-top: 10px;
-    max-height: 520px;
-    min-height: 520px;
-    overflow-y: auto;
+    margin-top: 50px;
+    height: 50%;
+    overflow-y: auto; /* 스크롤 가능 */
     padding-top: 10px;
-    background-color: rgb(240, 240, 240);
+    background-color: rgb(240, 240, 240); /* 연한 회색 배경 */
     border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+    margin-bottom: 50px;
+    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column; /* 세로 정렬 */
+    gap: 1px; /* 댓글 항목 사이 간격 */
 }
 
 /* 댓글 리스트 항목 스타일 */
 .comments-list div {
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    padding: 15px;
+    background-color: #ffffff;
+}
+
+/* 댓글 리스트 항목 호버 스타일 */
+/*.comments-list div:hover {
+    transform: scale(1.02); *//* 호버 시 확대 효과 *//*
+}*/
+
+/* 사용자 아바타 스타일 */
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+/* 댓글 텍스트 스타일 */
+.comment-text {
+    flex-grow: 1; /* 댓글 텍스트가 남는 공간을 채우게 함 */
+}
+
+/* 댓글 타임스탬프 스타일 */
+.comment-timestamp {
+    font-size: 0.6em;
+    color: #666; /* 회색 */
+    margin-top: 5px;
 }
 
 /* 모달 닫기 버튼 */
