@@ -1,5 +1,6 @@
 package com.project.ReCCM.domain.custom;
 
+import com.project.ReCCM.domain.BaseTimeEntity;
 import com.project.ReCCM.domain.member.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Comment {
+public class Comment extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,5 +32,4 @@ public class Comment {
     @JoinColumn(name = "custom_id", nullable = false)
     private Custom custom; // 댓글이 속한 게시글과의 관계
 
-    // Getters and Setters
 }

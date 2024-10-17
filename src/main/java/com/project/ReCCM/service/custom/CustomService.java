@@ -1,5 +1,6 @@
 package com.project.ReCCM.service.custom;
 
+import com.project.ReCCM.Repository.custom.CustomPostRequestDto;
 import com.project.ReCCM.Repository.custom.CustomResponseDto;
 import com.project.ReCCM.domain.custom.CountRepository;
 import com.project.ReCCM.domain.custom.Custom;
@@ -37,10 +38,12 @@ public class CustomService {
         return customRepository.searchCoffee(keyword);
     }
 
-    public void createCustomPost(Long memberPK, String customTitle, String customContent, MultipartFile[] imgReal) throws IOException {
-        Custom custom = new Custom(customTitle, customContent);
+    public void createCustomPost(CustomPostRequestDto requestDto) throws IOException {
+        Custom custom = new Custom(requestDto);
 
-        Optional<Member> optionalMember = memberRepository.findById(memberPK);
+        MultipartFile[] imgReal = requestDto.getImgReal();
+
+        Optional<Member> optionalMember = memberRepository.findById(requestDto.getMemberPK());
         Member member = optionalMember.get();
         custom.setMember(member);
 

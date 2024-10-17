@@ -70,7 +70,7 @@ public class MyPageService {
 
         List<LikeCount> likeLists = countRepository.findAllByMember(member);
         return likeLists.stream()
-                .map(Like -> new MyPageLikeResponseDto(Like.getCustom()))  // Product 정보를 DTO로 변환
+                .map(Like -> new MyPageLikeResponseDto(Like.getCustom()))  // custom 정보를 DTO로 변환
                 .collect(Collectors.toList());
     }
 

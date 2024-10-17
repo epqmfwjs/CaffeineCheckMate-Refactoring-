@@ -2,6 +2,33 @@ document.addEventListener("DOMContentLoaded", function() {
     const searchBar = document.getElementById('searchBar');
     const customListDiv = document.getElementById('customList');
 
+    const commentButton = document.getElementById('commentToggle');
+    const commentSection = document.getElementById('commentSection');
+    const closeButton = document.querySelector('.close');
+
+    // 페이지 로드 시 댓글 영역 숨김
+        window.addEventListener('DOMContentLoaded', function() {
+        commentSection.classList.remove('show'); // 초기 상태에서 숨김
+    });
+
+    // 댓글 보기 버튼 클릭 시 슬라이드 효과
+        commentButton.addEventListener('click', function() {
+        commentSection.classList.toggle('show');
+    });
+
+    // 모달 닫기 버튼 클릭 시 댓글 영역도 닫기
+        closeButton.addEventListener('click', function() {
+        commentSection.classList.remove('show');
+    });
+
+    // 댓글 영역 외부 클릭 시 댓글 영역 닫기
+        document.addEventListener('click', function(event) {
+    // 댓글 영역 및 댓글 버튼이 클릭되지 않은 경우
+    if (!commentSection.contains(event.target) && !commentButton.contains(event.target)) {
+        commentSection.classList.remove('show');
+        }
+    });
+
     // 현재 선택된 게시물의 ID를 저장할 변수
     let currentPostId = null;
 
@@ -44,6 +71,12 @@ document.addEventListener("DOMContentLoaded", function() {
     const detailContent = document.getElementById('detailContent'); // 내용 표시 영역
     const detailAuthor = document.getElementById('memberId'); // 작성자 표시 영역
     const detailDate = document.getElementById('createdDate'); // 날짜 표시 영역
+    const tagOption1 = document.getElementById('tagOption1'); // 브랜드
+    const tagOption2 = document.getElementById('tagOption2'); // 시럽
+    const tagOption3 = document.getElementById('tagOption3'); // 휘핑
+    const tagOption4 = document.getElementById('tagOption4'); // 샷
+    const tagOption5 = document.getElementById('tagOption5'); // 우유
+    const tagOption6 = document.getElementById('tagOption6'); // 커피타입
 
     const likeBtn = document.getElementById('like');
 
@@ -92,10 +125,10 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
             // 버튼 텍스트 변경
-            if (likeBtn.textContent === '좋아요') {
-                likeBtn.textContent = '취소';
+            if (likeBtn.textContent === '좋아요 ❤️') {
+                likeBtn.textContent = '취소 🤍';
             } else {
-                likeBtn.textContent = '좋아요';
+                likeBtn.textContent = '좋아요 ❤️';
             }
 
         })
@@ -113,6 +146,23 @@ document.addEventListener("DOMContentLoaded", function() {
             detailModal.style.display = 'none'; // 모달 창을 숨김
         }
     });
+
+
+// 대분류 summary를 세부 항목 선택에 따라 변경하고, 드롭다운을 닫는 함수
+document.querySelectorAll('details').forEach((detail) => {
+    const summary = detail.querySelector('summary');
+    const radios = detail.querySelectorAll('input[type="radio"]');
+
+    radios.forEach((radio) => {
+        radio.addEventListener('change', () => {
+            if (radio.checked) {
+                // 선택된 라디오 버튼의 텍스트 노드(세부 옵션)를 summary에 표시
+                summary.textContent = radio.nextSibling.textContent.trim();
+                detail.removeAttribute('open'); // 선택 후 드롭다운 닫기
+            }
+        });
+    });
+});
 
     // 이미지 미리보기 처리
     document.getElementById('customImages').addEventListener('change', function(event) {
@@ -145,7 +195,39 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         const memberPK = document.getElementById('loginMemberPK').value;
+
         formData.append('memberPK', memberPK);
+
+        // 라디오 버튼의 값 추가
+        const option1 = document.querySelector('input[name="option1"]:checked');
+        if (option1) {
+            formData.append('brand', option1.value);  // 'brand'는 DTO에서의 필드 이름
+        }
+
+        const option2 = document.querySelector('input[name="option2"]:checked');
+        if (option2) {
+            formData.append('syrup', option2.value);
+        }
+
+        const option3 = document.querySelector('input[name="option3"]:checked');
+        if (option3) {
+            formData.append('whipped', option3.value);
+        }
+
+        const option4 = document.querySelector('input[name="option4"]:checked');
+        if (option4) {
+            formData.append('shot', option4.value);
+        }
+
+        const option5 = document.querySelector('input[name="option5"]:checked');
+        if (option5) {
+            formData.append('milk', option5.value);
+        }
+
+        const option6 = document.querySelector('input[name="option6"]:checked');
+        if (option6) {
+            formData.append('coffeeType', option6.value);
+        }
 
         // 서버로 데이터 전송 (POST 요청)
         fetch('/api/createCustom', {
@@ -160,13 +242,8 @@ document.addEventListener("DOMContentLoaded", function() {
         })
         .then(data => {
             console.log('게시글이 등록되었습니다:', data);
-
-            // 게시글 등록이 성공한 후 모달 닫기
             customModal.style.display = 'none'; // 성공 후 모달 닫기
-            console.log("모달이 닫혔다");
-
-            // 게시글이 등록되었으면 입력 필드를 초기화
-            customForm.reset();
+            customForm.reset(); // 입력 필드 초기화
 
             // 게시글 리스트를 다시 불러와서 업데이트
             fetch('/api/customList')
@@ -190,8 +267,8 @@ document.addEventListener("DOMContentLoaded", function() {
             .catch(error => console.error('Error:', error));
     });
 
-    // 댓글 등록 버튼 클릭 이벤트 - 페이지 로드 시 한 번만 등록
-    document.getElementById('submitComment').addEventListener('click', function() {
+    // 댓글 등록 함수
+    function submitComment() {
         const commentText = document.getElementById('commentBox').value;
         if (commentText.trim() === '') return; // 빈 댓글은 등록하지 않음
 
@@ -202,8 +279,6 @@ document.addEventListener("DOMContentLoaded", function() {
         formData.append('postId', currentPostId);
         formData.append('memberPK', memberPK);
 
-        console.log(currentPostId);
-
         // 댓글 저장 요청
         fetch('/api/comments', {
             method: 'POST',
@@ -212,7 +287,26 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.json())
         .then(comment => {
             const commentDiv = document.createElement('div');
-            commentDiv.textContent = `Comment: ${comment.text} - Member ID: ${comment.memberId}`;
+
+            // 사용자 아바타 추가
+            const avatarImg = document.createElement('img');
+            avatarImg.src = `/images/${comment.imgReal}`; // 실제 아바타 이미지 경로로 변경
+            avatarImg.className = 'user-avatar';
+
+            // 댓글 텍스트 추가
+            const commentText = document.createElement('div');
+            commentText.className = 'comment-text';
+            commentText.textContent = comment.text;
+
+            // 댓글 타임스탬프 추가
+            const timestamp = document.createElement('div');
+            timestamp.className = 'comment-timestamp';
+            timestamp.textContent = comment.createdDate; // 현재 시간을 포맷하여 표시
+
+            // 댓글 항목에 아바타, 텍스트, 타임스탬프 추가
+            commentDiv.appendChild(avatarImg);
+            commentDiv.appendChild(commentText);
+            commentDiv.appendChild(timestamp);
 
             // 댓글 리스트에 추가
             document.getElementById('commentsList').appendChild(commentDiv);
@@ -221,6 +315,17 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('commentBox').value = '';
         })
         .catch(error => console.error('Error adding comment:', error));
+    }
+
+    // 댓글 등록 버튼 클릭 이벤트
+    document.getElementById('submitComment').addEventListener('click', submitComment);
+
+    // 엔터키로 댓글 등록
+    document.getElementById('commentBox').addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // 기본 동작(줄바꿈 방지)
+            submitComment(); // 댓글 등록 함수 호출
+        }
     });
 
     // 댓글 섹션 초기화 함수
@@ -235,13 +340,33 @@ document.addEventListener("DOMContentLoaded", function() {
                 commentsList.innerHTML = ''; // 기존 댓글 초기화
                 comments.forEach(comment => {
                     const commentDiv = document.createElement('div');
-                    commentDiv.textContent = `Comment: ${comment.text} - Member ID: ${comment.memberId}`;
+
+                    // 사용자 아바타 추가
+                    const avatarImg = document.createElement('img');
+                    avatarImg.src = `/images/${comment.imgReal}`; // 실제 아바타 이미지 경로로 변경
+                    avatarImg.className = 'user-avatar';
+
+                    // 댓글 텍스트 추가
+                    const commentText = document.createElement('div');
+                    commentText.className = 'comment-text';
+                    commentText.textContent = comment.text;
+
+                    // 댓글 타임스탬프 추가
+                    const timestamp = document.createElement('div');
+                    timestamp.className = 'comment-timestamp';
+                    timestamp.textContent = comment.createdDate;
+
+                    // 댓글 항목에 아바타, 텍스트, 타임스탬프 추가
+                    commentDiv.appendChild(avatarImg);
+                    commentDiv.appendChild(commentText);
+                    commentDiv.appendChild(timestamp);
+
+                    // 댓글 리스트에 추가
                     commentsList.appendChild(commentDiv);
                 });
             })
             .catch(error => console.error('Error loading comments:', error));
     }
-
 
 
     // 커피 리스트를 화면에 표시하는 함수
@@ -259,8 +384,14 @@ document.addEventListener("DOMContentLoaded", function() {
                 detailTitle.innerHTML = `${custom.customTitle}&nbsp;&nbsp; <span class="heart-style">❤️ ${custom.likesCount}</span>`;
                 detailImage.src = `/images/${custom.imgReal}`;
                 detailContent.textContent = custom.customContent;
-                detailAuthor.textContent = `작성자: ${custom.memberId}`;
-                detailDate.textContent = `작성일: ${custom.createdDate}`;
+                detailAuthor.innerHTML = `<span style="font-size:16px; color:black; font-weight:bold;">작성자 : </span> ${custom.memberId}`;
+                detailDate.innerHTML = `<span style="font-size:16px; color:black; font-weight:bold;">작성일 : </span> ${custom.createdDate}`;
+                tagOption1.innerHTML = custom.brand !== null ? `#${custom.brand}` : ``;
+                tagOption2.innerHTML = custom.syrup !== null ? `#${custom.syrup}` : ``;
+                tagOption3.innerHTML = custom.whipped !== null ? `#${custom.whipped}` : ``;
+                tagOption4.innerHTML = custom.shot !== null ? `#${custom.shot}` : ``;
+                tagOption5.innerHTML = custom.milk !== null ? `#${custom.milk}` : ``;
+                tagOption6.innerHTML = custom.coffeeType !== null ? `#${custom.coffeeType}` : ``;
 
                 // 댓글 섹션 초기화 및 댓글 불러오기
                 initializeCommentSection(custom.id);
@@ -271,9 +402,9 @@ document.addEventListener("DOMContentLoaded", function() {
                     .then(data => {
                         // 사용자가 좋아요를 눌렀다면
                         if (data.hasLiked) {
-                            likeBtn.textContent = '취소'; // 버튼 텍스트 변경
+                            likeBtn.textContent = '취소 🤍'; // 버튼 텍스트 변경
                         } else {
-                            likeBtn.textContent = '좋아요'; // 버튼 텍스트 변경
+                            likeBtn.textContent = '좋아요 ❤️'; // 버튼 텍스트 변경
                         }
                     })
                     .catch(error => console.error('Error checking like status:', error));

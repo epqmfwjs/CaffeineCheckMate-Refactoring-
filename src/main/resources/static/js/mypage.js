@@ -24,6 +24,40 @@ document.addEventListener("DOMContentLoaded", function() {
     const detailContent = document.getElementById('detailContent'); // 내용 표시 영역
     const detailAuthor = document.getElementById('memberId'); // 작성자 표시 영역
     const detailDate = document.getElementById('createdDate'); // 날짜 표시 영역
+    const tagOption1 = document.getElementById('tagOption1'); // 브랜드
+    const tagOption2 = document.getElementById('tagOption2'); // 시럽
+    const tagOption3 = document.getElementById('tagOption3'); // 휘핑
+    const tagOption4 = document.getElementById('tagOption4'); // 샷
+    const tagOption5 = document.getElementById('tagOption5'); // 우유
+    const tagOption6 = document.getElementById('tagOption6'); // 커피타입
+
+    const commentButton = document.getElementById('commentToggle');
+    const commentSection = document.getElementById('commentSection');
+    const closeButton = document.querySelector('.close');
+
+    // 페이지 로드 시 댓글 영역 숨김
+        window.addEventListener('DOMContentLoaded', function() {
+        commentSection.classList.remove('show'); // 초기 상태에서 숨김
+    });
+
+    // 댓글 보기 버튼 클릭 시 슬라이드 효과
+        commentButton.addEventListener('click', function() {
+        commentSection.classList.toggle('show');
+    });
+
+    // 모달 닫기 버튼 클릭 시 댓글 영역도 닫기
+        closeButton.addEventListener('click', function() {
+        commentSection.classList.remove('show');
+    });
+
+    // 댓글 영역 외부 클릭 시 댓글 영역 닫기
+        document.addEventListener('click', function(event) {
+    // 댓글 영역 및 댓글 버튼이 클릭되지 않은 경우
+    if (!commentSection.contains(event.target) && !commentButton.contains(event.target)) {
+        commentSection.classList.remove('show');
+        }
+    });
+
 
     // 즐겨찾기 모달 클로즈
     closeModal.addEventListener('click',function(){
@@ -302,7 +336,7 @@ function displayInfo(data) {
             // 소비 비율에 따라 색상 반환 함수
             function getCaffeineColor(percentage) {
                 if (percentage < 40) {
-                    return 'rgba(255, 206, 86, 0.7)'; // 0% - 40% 노란색
+                    return 'rgba(144, 238, 144, 0.7)'; // 0% - 40% 노란색
                 } else if (percentage < 80) {
                     return 'rgba(255, 159, 64, 0.7)'; // 40% - 80% 주황색
                 } else if (percentage < 100) {
@@ -430,38 +464,66 @@ function displayInfo(data) {
 // ----------------------------------------  좋아요 리스트 영역 ------------------------
 
 
-        // 댓글 등록 버튼 클릭 이벤트 - 페이지 로드 시 한 번만 등록
-        document.getElementById('submitComment').addEventListener('click', function() {
-            const commentText = document.getElementById('commentBox').value;
-            if (commentText.trim() === '') return; // 빈 댓글은 등록하지 않음
+    // 댓글 등록 함수
+    function submitComment() {
+        const commentText = document.getElementById('commentBox').value;
+        if (commentText.trim() === '') return; // 빈 댓글은 등록하지 않음
 
-            const memberPK = document.getElementById('loginMemberPK').value;
+        const memberPK = document.getElementById('loginMemberPK').value;
 
-            const formData = new FormData();
-            formData.append('text', commentText);
-            formData.append('postId', currentPostId);
-            formData.append('memberPK', memberPK);
+        const formData = new FormData();
+        formData.append('text', commentText);
+        formData.append('postId', currentPostId);
+        formData.append('memberPK', memberPK);
 
-            console.log(currentPostId);
+        // 댓글 저장 요청
+        fetch('/api/comments', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(comment => {
+            const commentDiv = document.createElement('div');
 
-            // 댓글 저장 요청
-            fetch('/api/comments', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(comment => {
-                const commentDiv = document.createElement('div');
-                commentDiv.textContent = `Comment: ${comment.text} - Member ID: ${comment.memberId}`;
+            // 사용자 아바타 추가
+            const avatarImg = document.createElement('img');
+            avatarImg.src = `/images/${comment.imgReal}`; // 실제 아바타 이미지 경로로 변경
+            avatarImg.className = 'user-avatar';
 
-                // 댓글 리스트에 추가
-                document.getElementById('commentsList').appendChild(commentDiv);
+            // 댓글 텍스트 추가
+            const commentText = document.createElement('div');
+            commentText.className = 'comment-text';
+            commentText.textContent = comment.text;
 
-                // 댓글 입력창 초기화
-                document.getElementById('commentBox').value = '';
-            })
-            .catch(error => console.error('Error adding comment:', error));
-        });
+            // 댓글 타임스탬프 추가
+            const timestamp = document.createElement('div');
+            timestamp.className = 'comment-timestamp';
+            timestamp.textContent = comment.createdDate; // 현재 시간을 포맷하여 표시
+
+            // 댓글 항목에 아바타, 텍스트, 타임스탬프 추가
+            commentDiv.appendChild(avatarImg);
+            commentDiv.appendChild(commentText);
+            commentDiv.appendChild(timestamp);
+
+            // 댓글 리스트에 추가
+            document.getElementById('commentsList').appendChild(commentDiv);
+
+            // 댓글 입력창 초기화
+            document.getElementById('commentBox').value = '';
+        })
+        .catch(error => console.error('Error adding comment:', error));
+    }
+
+    // 댓글 등록 버튼 클릭 이벤트
+    document.getElementById('submitComment').addEventListener('click', submitComment);
+
+    // 엔터키로 댓글 등록
+    document.getElementById('commentBox').addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // 기본 동작(줄바꿈 방지)
+            submitComment(); // 댓글 등록 함수 호출
+        }
+    });
 
     // 댓글 섹션 초기화 함수
     function initializeCommentSection(postId) {
@@ -475,7 +537,28 @@ function displayInfo(data) {
                 commentsList.innerHTML = ''; // 기존 댓글 초기화
                 comments.forEach(comment => {
                     const commentDiv = document.createElement('div');
-                    commentDiv.textContent = `Comment: ${comment.text} - Member ID: ${comment.memberId}`;
+
+                    // 사용자 아바타 추가
+                    const avatarImg = document.createElement('img');
+                    avatarImg.src = `/images/${comment.imgReal}`; // 실제 아바타 이미지 경로로 변경
+                    avatarImg.className = 'user-avatar';
+
+                    // 댓글 텍스트 추가
+                    const commentText = document.createElement('div');
+                    commentText.className = 'comment-text';
+                    commentText.textContent = comment.text;
+
+                    // 댓글 타임스탬프 추가
+                    const timestamp = document.createElement('div');
+                    timestamp.className = 'comment-timestamp';
+                    timestamp.textContent = comment.createdDate;
+
+                    // 댓글 항목에 아바타, 텍스트, 타임스탬프 추가
+                    commentDiv.appendChild(avatarImg);
+                    commentDiv.appendChild(commentText);
+                    commentDiv.appendChild(timestamp);
+
+                    // 댓글 리스트에 추가
                     commentsList.appendChild(commentDiv);
                 });
             })
@@ -528,10 +611,10 @@ function displayInfo(data) {
             }
 
             // 버튼 텍스트 변경
-            if (likeBtn.textContent === '좋아요') {
-                likeBtn.textContent = '취소';
+            if (likeBtn.textContent === '좋아요 ❤️') {
+                likeBtn.textContent = '취소 🤍';
             } else {
-                likeBtn.textContent = '좋아요';
+                likeBtn.textContent = '좋아요 ❤️';
 
                 // 좋아요 취소 시 리스트에서 항목 삭제
                 likeListData = likeListData.filter(likeList => likeList.id !== currentPostId);
@@ -581,9 +664,15 @@ closeDetailModalBtn.addEventListener('click', function() {
                 detailTitle.innerHTML = `${likeList.customTitle}&nbsp;&nbsp; <span class="heart-style">❤️ ${likeList.likesCount}</span>`;
                 detailImage.src = `/images/${likeList.imgReal}`;
                 detailContent.textContent = likeList.customContent;
-                detailAuthor.textContent = `작성자: ${likeList.memberId}`;
-                detailDate.textContent = `작성일: ${likeList.createdDate}`;
+                detailAuthor.innerHTML = `<span style="font-size:16px; color:black; font-weight:bold;">작성자 : </span> ${likeList.memberId}`;
+                detailDate.innerHTML = `<span style="font-size:16px; color:black; font-weight:bold;">작성일 : </span> ${likeList.createdDate}`;
 
+                tagOption1.innerHTML = likeList.brand !== null ? `#${likeList.brand}` : ``;
+                tagOption2.innerHTML = likeList.syrup !== null ? `#${likeList.syrup}` : ``;
+                tagOption3.innerHTML = likeList.whipped !== null ? `#${likeList.whipped}` : ``;
+                tagOption4.innerHTML = likeList.shot !== null ? `#${likeList.shot}` : ``;
+                tagOption5.innerHTML = likeList.milk !== null ? `#${likeList.milk}` : ``;
+                tagOption6.innerHTML = likeList.coffeeType !== null ? `#${likeList.coffeeType}` : ``;
                 // 댓글 섹션 초기화 및 댓글 불러오기
                 initializeCommentSection(likeList.id);
 
@@ -593,9 +682,9 @@ closeDetailModalBtn.addEventListener('click', function() {
                     .then(data => {
                         // 사용자가 좋아요를 눌렀다면
                         if (data.hasLiked) {
-                            likeBtn.textContent = '취소'; // 버튼 텍스트 변경
+                            likeBtn.textContent = '취소 🤍'; // 버튼 텍스트 변경
                         } else {
-                            likeBtn.textContent = '좋아요'; // 버튼 텍스트 변경
+                            likeBtn.textContent = '좋아요 ❤️'; // 버튼 텍스트 변경
                         }
                     })
                     .catch(error => console.error('Error checking like status:', error));

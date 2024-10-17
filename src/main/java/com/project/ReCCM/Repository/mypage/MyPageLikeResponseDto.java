@@ -28,6 +28,13 @@ public class MyPageLikeResponseDto {
 
     private Long id;
 
+    private String brand;
+    private String syrup;
+    private String whipped;
+    private String shot;
+    private String milk;
+    private String coffeeType;
+
     public MyPageLikeResponseDto(Custom custom) {
         this.customTitle = custom.getCustomTitle();
         this.createdDate = custom.getCreatedDate();
@@ -36,5 +43,11 @@ public class MyPageLikeResponseDto {
         this.customContent = custom.getCustomContent();
         this.likesCount = custom.getLikesCount();
         this.id = custom.getId();
+        this.brand = custom.getBrand();
+        this.syrup = custom.getSyrup();
+        this.whipped = custom.getWhipped();
+        this.shot = custom.getShot();
+        this.milk = custom.getMilk();
+        this.coffeeType = custom.getCoffeeType();
     }
 }
