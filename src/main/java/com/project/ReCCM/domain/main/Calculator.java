@@ -1,6 +1,5 @@
 package com.project.ReCCM.domain.main;
 
-import com.project.ReCCM.domain.BaseTimeEntity;
 import com.project.ReCCM.domain.member.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -32,8 +31,7 @@ public class Calculator {
     private Member member;
 
 
-
-    public Calculator(int caffeine,int calorie,int sugar, Member member) {
+    public Calculator(int caffeine, int calorie, int sugar, Member member) {
         this.caffeine = caffeine;
         this.calorie = calorie;
         this.sugar = sugar;

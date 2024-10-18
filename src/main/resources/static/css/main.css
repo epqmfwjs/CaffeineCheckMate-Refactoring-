@@ -130,6 +130,7 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
     width: 160px; /* 이미지 너비 */
     height: 130px; /* 이미지 높이 */
+    cursor:pointer;
 }
 .item1-favorite-text {
     text-align: center;
@@ -264,6 +265,7 @@ body {
 .item3-info img:hover {
     width: 370px; /* 부모 요소의 전체 너비 사용 */
     height: 360px; /* 부모 요소의 40% 높이 사용 */
+    cursor:pointer;
 }
 
 .item4 {

@@ -3,64 +3,283 @@
 <head>
     <meta charset="UTF-8">
     <title>회원가입</title>
+    <!-- Bootstrap CSS 포함 -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
 
+        /* 이미지 선택 버튼 스타일 */
+        .btn-image {
+            background-color: transparent; /* 배경을 투명하게 설정 */
+            color: #666; /* 텍스트 색상 */
+            border: 1px solid #0c4a60; /* 테두리 색상 설정 */
+            outline: none; /* 아웃라인 제거 */
+            padding: 5px 10px; /* 버튼 크기 조절 */
+            border-radius: 5px; /* 둥근 모서리 설정 */
+            transition: background-color 0.3s ease, color 0.3s ease; /* 부드러운 색상 전환 */
+        }
+
+        .btn-image:hover {
+            background-color: #0c4a60; /* 호버 시 배경색 채우기 */
+            color: white; /* 호버 시 텍스트 색상 변경 */
+        }
+
+        /* 가입 버튼 스타일 */
+        .btn-custom {
+            width: 50%;
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        .preview-container {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .preview-card {
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+            background: #fff;
+            transition: box-shadow 0.3s;
+            display: inline-block; /* 가로로 나열되도록 설정 */
+        }
+
+        .preview-card img {
+            width: 200px; /* 원하는 크기로 조정 */
+            height: 200px; /* 원하는 크기로 조정 */
+            border-radius: 50%; /* 원형으로 만들기 */
+            object-fit: cover; /* 비율을 유지하며 컨테이너에 맞추기 */
+            margin-top: 10px;
+            border: 1px solid #ddd;
+        }
+        .default-image {
+            width: 100px; /* 기본 이미지 크기 */
+            height: 100px; /* 기본 이미지 크기 */
+            border-radius: 50%; /* 원형으로 만들기 */
+            object-fit: cover; /* 비율 유지 */
+        }
+
+    </style>
 </head>
 <body>
-<h2>회원가입</h2>
-<form id="joinForm" th:action="@{/member/join}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+<div class="container">
+    <form id="joinForm" th:action="@{/member/join}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+        <div class="form-group">
+            <div class="preview-container" id="previewContainer">
+                <div class="preview-card">
+                    <img src="/img/default-image.png" id="previewImg" class="default-image" alt="기본 이미지">
+                </div>
+            </div>
+            <div style="text-align:center;">
+                <!-- 실제 파일 입력 요소를 숨김 -->
+                <input type="file" class="form-control-file" id="joinImages" name="imgReal" accept="image/*" required style="display:none;" onchange="previewImage()">
 
-    <div class="preview-container" id="previewContainer"></div>
-    <label for="joinImages">프로필 이미지 업로드</label>
-    <input type="file" id="joinImages" name="imgReal" accept="image/*" required>
+                <!-- 커스텀 버튼 -->
+                <label for="joinImages" class="btn btn-image">이미지 선택</label>
+            </div>
+        </div>
 
-    <div>
-        <label for="memberId">ID: </label>
-        <input type="text" id="memberId" name="memberId" required/>
-    </div>
+        <div class="form-group">
+            <label for="memberId">ID: </label>
+            <input type="text" class="form-control" id="memberId" name="memberId" required/>
+        </div>
 
-    <div>
-        <label for="password">비밀번호: </label>
-        <input type="password" id="password" name="password" required/>
-    </div>
+        <div class="form-group">
+            <label for="password">비밀번호: </label>
+            <input type="password" class="form-control" id="password" name="password" required/>
+        </div>
 
-    <div>
-        <label for="memberName">이름: </label>
-        <input type="text" id="memberName" name="memberName" required/>
-    </div>
+        <div class="form-group">
+            <label for="memberName">이름: </label>
+            <input type="text" class="form-control" id="memberName" name="memberName" required/>
+        </div>
 
-    <div>
-        <label for="memberEmail">이메일: </label>
-        <input type="email" id="memberEmail" name="memberEmail" required/>
-    </div>
+<!--        <div class="form-group">
+            <label for="memberEmail">이메일: </label>
+            <input type="email" class="form-control" id="memberEmail" name="memberEmail" required/>
+        -->
+        <div class="form-group">
+            <label for="email" class="col-sm-4 col-form-label required-label">이메일:</label>
+            <input type="text" class="form-control" id="email" name="email" th:value="*{email}" readonly>
+            <input type="hidden" id="emailVerified" value="false"> <!-- 이메일 인증 여부 확인  -->
+            <div class="input-group-append">
+                <button type="button" class="btn btn-outline-info" onclick="openEmailVerificationPopup()">메일 인증</button>
+            </div>
+            <small id="emailVerificationResult" class="text-success" style="display: none;">이메일 인증이 완료되었습니다.</small>
+            <small id="emailError" class="text-danger" th:if="${emailError != null}" th:text="${emailError}"></small>
+        </div>
 
-    <div>
-        <label for="memberAge">생년월일: </label>
-        <input type="date" id="memberAge" name="memberAge"/>
-    </div>
+        <div class="form-group">
+            <label for="memberAge">생년월일: </label>
+            <input type="date" class="form-control" id="memberAge" name="memberAge"/>
+        </div>
 
-    <div>
-        <label for="memberWeight">몸무게 (kg): </label>
-        <input type="number" id="memberWeight" name="memberWeight" step="0.1" required/>
-    </div>
+        <div class="form-group">
+            <label for="memberWeight">몸무게 (kg): </label>
+            <input type="number" class="form-control" id="memberWeight" name="memberWeight" step="0.1" required/>
+        </div>
 
-    <div>
-        <label for="memberPhone">전화번호: </label>
-        <input type="text" id="memberPhone" name="memberPhone" oninput="formatPhoneNumber()" placeholder="전화번호를 입력하세요." required/>
-    </div>
+        <div class="form-group">
+            <label for="memberPhone">전화번호: </label>
+            <input type="text" class="form-control" id="memberPhone" name="memberPhone" oninput="formatPhoneNumber()" placeholder="전화번호를 입력하세요." required/>
+        </div>
 
-    <div>
-        <label for="memberGender">성별: </label>
-        <select id="memberGender" name="memberGender" required>
-            <option value="">성별 선택</option>
-            <option value="Male">남성</option>
-            <option value="Female">여성</option>
-        </select>
-    </div>
+        <div class="form-group">
+            <label for="memberGender">성별: </label>
+            <select class="form-control" id="memberGender" name="memberGender" required>
+                <option value="">성별 선택</option>
+                <option value="Male">남성</option>
+                <option value="Female">여성</option>
+            </select>
+        </div>
 
-    <div>
-        <button type="submit">회원가입</button>
-    </div>
-</form>
-<script src="/js/join.js"></script> <!-- JavaScript 파일을 연결 -->
+        <div class="text-center">
+            <button type="submit" class="btn btn-custom btn-lg btn-block">회원가입</button>
+        </div>
+    </form>
+</div>
+
+<!-- Bootstrap JS 및 jQuery 포함 -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    // DOMContentLoaded 이벤트 사용    // join.js
+    document.addEventListener("DOMContentLoaded", function() {
+        console.log('join.js 파일 미리보기 이벤트 리스너 로드됨.');
+
+        // 이미지 미리보기 함수
+        window.previewImage = function() {
+            const fileInput = document.getElementById('joinImages');
+            const previewImage = document.getElementById('previewImg');
+            console.log('펑션 안쪽');
+            // 선택한 파일이 있는지 확인
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    previewImage.src = e.target.result; // 선택한 파일 미리보기
+                };
+
+                reader.readAsDataURL(fileInput.files[0]); // 파일 읽기
+            } else {
+                // 파일이 선택되지 않은 경우 기본 이미지로 설정
+                previewImage.src = "/img/default-image.png"; // 기본 이미지로 설정
+            }
+        };
+
+        // 폼 검증 함수
+        window.validateForm = function() {
+            const memberId = document.getElementById('memberId').value;
+            const password = document.getElementById('password').value;
+            const memberEmail = document.getElementById('memberEmail').value;
+            const memberPhone = document.getElementById('memberPhone').value;
+            const memberWeight = document.getElementById('memberWeight').value;
+            const memberAge = document.getElementById('memberAge').value;
+            const memberGender = document.getElementById('memberGender').value;
+
+            // ID 검증
+            if (memberId === "") {
+                alert("아이디를 입력하세요.");
+                return false;
+            }
+
+            // 비밀번호 검증
+            if (password.length < 8) {
+                alert("비밀번호는 8자 이상이어야 합니다.");
+                return false;
+            }
+
+            // 이메일 형식 검증
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            if (!emailPattern.test(memberEmail)) {
+                alert("유효한 이메일 주소를 입력해주세요.");
+                return false;
+            }
+
+            // 전화번호 검증
+            const phonePattern = /^\d{3}-\d{3,4}-\d{4}$/;
+            if (!phonePattern.test(memberPhone)) {
+                alert("전화번호 형식은 000-0000-0000입니다.");
+                return false;
+            }
+
+            // 몸무게 검증
+            if (isNaN(memberWeight) || memberWeight <= 0) {
+                alert("유효한 몸무게를 입력하세요.");
+                return false;
+            }
+
+            // 생년월일 검증
+            if (memberAge === "") {
+                alert("생년월일을 입력하세요.");
+                return false;
+            }
+
+            // 성별 검증
+            if (memberGender === "") {
+                alert("성별을 선택하세요.");
+                return false;
+            }
+
+            return true; // 모든 검증을 통과하면 폼 제출
+        };
+
+        // 전화번호 포맷팅 함수
+        window.formatPhoneNumber = function() {
+            const input = document.getElementById("memberPhone");
+            input.value = input.value
+                .replace(/[^0-9]/g, "")
+                .replace(/(\d{3})(\d{3,4})(\d+)/, "$1-$2-$3");
+        };
+    });
+
+    // 이메일 : 인증 팝업 열기
+    function openEmailVerificationPopup() {
+        // 팝업 창 크기
+        var popupWidth = 500;
+        var popupHeight = 550;
+        // 화면 중앙에 위치시키기 위한 위치 계산
+        var screenWidth = window.screen.width;
+        var screenHeight = window.screen.height;
+        var left = (screenWidth - popupWidth) / 2;
+        var top = (screenHeight - popupHeight) / 2;
+        // 팝업 창 열기
+        var popup = window.open('/member/emailVerification', 'emailVerification', 'width=' + popupWidth + ', height=' + popupHeight + ', left=' + left + ', top=' + top);
+        // 팝업 창이 차단되었는지 확인하기 위한 코드
+        if (popup) {
+            popup.focus();
+        } else {
+            alert('팝업 차단이 감지되었습니다. 팝업 창을 허용해주세요.');
+        }
+    }
+
+    // 이메일 인증 결과 업데이트
+    function updateEmailVerificationResult(email) {
+        $('#email').val(email);
+        $('#emailVerified').val('true');
+        $('#emailVerificationResult').text('이메일 인증이 완료되었습니다.').removeClass('text-danger').addClass('text-success').show();
+        $('#emailError').hide();
+    }
+</script>
 </body>
 </html>

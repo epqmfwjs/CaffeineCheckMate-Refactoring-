@@ -6,7 +6,6 @@ import com.project.ReCCM.domain.custom.CustomRepository;
 import com.project.ReCCM.domain.custom.LikeCount;
 import com.project.ReCCM.domain.member.Member;
 import com.project.ReCCM.domain.member.MemberRepository;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

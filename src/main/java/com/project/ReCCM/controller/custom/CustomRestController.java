@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.HashMap;
@@ -25,19 +24,15 @@ import java.util.stream.Collectors;
 @RestController
 public class CustomRestController {
 
+    private static final String UPLOAD_DIR = "upload-dir/";
     @Autowired
     private final CustomRepository customRepository;
-
     @Autowired
     private final CustomService customService;
-
     @Autowired
     private final CommentService commentService;
-
     @Autowired
     private final CountService countService;
-
-    private static final String UPLOAD_DIR = "upload-dir/";
 
     public CustomRestController(CustomRepository customRepository, CustomService customService, CommentService commentService, CountService countService) {
         this.customRepository = customRepository;
@@ -113,7 +108,7 @@ public class CustomRestController {
 //    }
 
     @GetMapping("/searchCustom")
-    public ResponseEntity<List<CustomResponseDto>> searchCustom(@RequestParam("keyword") String keyword){
+    public ResponseEntity<List<CustomResponseDto>> searchCustom(@RequestParam("keyword") String keyword) {
         //return customService.searchCoffee(keyword);
         try {
             List<Custom> customPosts = customService.searchCoffee(keyword);
@@ -141,19 +136,17 @@ public class CustomRestController {
             System.err.println("커스텀 리스트를 가져오는 중 오류 발생: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-
-
     }
-    
+
     // 게시글 작성
     @PostMapping("/createCustom")
-    public ResponseEntity<Map<String, String>> createCustom(@ModelAttribute CustomPostRequestDto requestDto, @RequestParam("memberPK") Long memberPK){
+    public ResponseEntity<Map<String, String>> createCustom(@ModelAttribute CustomPostRequestDto requestDto, @RequestParam("memberPK") Long memberPK) {
         try {
             System.out.println("memberPK : " + memberPK);
             System.out.println("option1 : " + requestDto.toString());
             System.out.println("option1 의 db저장보낼값 : " + requestDto.getBrand());
             // 서비스에서 게시글 생성 로직 호출
-             customService.createCustomPost(requestDto);
+            customService.createCustomPost(requestDto);
 
             // 응답을 JSON 형식으로 반환
             Map<String, String> response = new HashMap<>();
@@ -174,8 +167,8 @@ public class CustomRestController {
     public ResponseEntity<CommentResponseDto> createComment(@RequestParam("postId") Long postId,
                                                             @RequestParam("text") String text,
                                                             @RequestParam("memberPK") Long memberPK) {
-        System.out.println("댓글저장 postId " + " : "+ postId);
-        System.out.println("댓글저장 memberPK " + " : "+ memberPK);
+        System.out.println("댓글저장 postId " + " : " + postId);
+        System.out.println("댓글저장 memberPK " + " : " + memberPK);
 
         CommentResponseDto createdComment = commentService.createComment(memberPK, postId, text);
         return new ResponseEntity<>(createdComment, HttpStatus.CREATED);
@@ -184,7 +177,7 @@ public class CustomRestController {
     // 댓글 조회 (GET)
     @GetMapping("/comments")
     public ResponseEntity<List<CommentResponseDto>> getComments(@RequestParam("postId") Long postId) {
-        System.out.println("댓글조회들어옴 postId " + " : "+ postId);
+        System.out.println("댓글조회들어옴 postId " + " : " + postId);
         List<CommentResponseDto> comments = commentService.getCommentsByPostId(postId);
 
         System.out.println("댓글 조회 서비스 다녀온 후  " + " : " + comments.toString());
@@ -202,7 +195,7 @@ public class CustomRestController {
         // 좋아요 토글
         countService.toggleLike(likeRequestDto.getPostId(), likeRequestDto.getMemberId());
 
-        int  currentLikesCount = customService.getLikes(likeRequestDto.getPostId());
+        int currentLikesCount = customService.getLikes(likeRequestDto.getPostId());
 
         System.out.println("현재좋아요 수 체크 : " + currentLikesCount);
 

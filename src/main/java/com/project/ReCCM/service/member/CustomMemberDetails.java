@@ -1,9 +1,9 @@
 package com.project.ReCCM.service.member;
 
 import com.project.ReCCM.domain.member.Member;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -22,11 +22,12 @@ public class CustomMemberDetails implements UserDetails {
         return Collections.singletonList(new SimpleGrantedAuthority(member.getRole().name())); // 사용자의 권한 반환
     }
 
-    public Long getId(){
+    public Long getId() {
 
         return member.getId();
     }
-    public String getMemberId(){
+
+    public String getMemberId() {
 
         return member.getMemberId();
     }

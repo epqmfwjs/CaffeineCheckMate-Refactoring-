@@ -1,0 +1,96 @@
+/* 기본 폰트와 레이아웃을 설정 */
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #E1DDDB;
+}
+
+/* 로그인 박스 스타일 설정 */
+.login-container {
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+    padding: 60px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    height: 50%;
+    width: 25%;
+    text-align: center;
+}
+
+/* 입력 필드 스타일 */
+.login-container input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #dbdbdb;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+    background-color: #fafafa;
+}
+
+/* 버튼 스타일 */
+.login-container button {
+    width: 100%;
+    background-color: #0c4a60;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* 버튼에 마우스를 올렸을 때 색상 변화 */
+.login-container button:hover {
+    background-color: rgb(239, 108, 51);
+}
+        /* 공통 텍스트 스타일 */
+.login-container p {
+    font-size: 14px;           /* 글자 크기 */
+    color: #333;               /* 검정색 텍스트 */
+}
+
+/* 에러 메시지 스타일 */
+.login-container p.error {
+    color: red;                /* 에러 메시지는 빨간색 */
+}
+
+/* 로그아웃 메시지 스타일 */
+.login-container p.logout {
+    color: green;              /* 로그아웃 메시지는 초록색 */
+}
+
+.logo {
+    height: auto;
+    width: 400px;
+}
+.logo:hover {
+    cursor:pointer;
+}
+
+.iconStyle {
+    display: flex;
+    align-items: center;
+}
+
+.iconStyle img {
+    margin-right: 10px;
+    height: 20px;
+    width: 20px;
+}
+
+.otherFunctions {
+    padding: 20px;
+    text-align: left;
+}
+
+.otherFunctions a {
+    text-decoration: none;
+    color: black;
+}

@@ -22,16 +22,13 @@ import java.util.stream.Collectors;
 
 @Service
 public class CustomService {
+    private static final String UPLOAD_DIR = "C:/upload/";
     @Autowired
     private CustomRepository customRepository;
-
     @Autowired
     private CountRepository countRepository;
-
     @Autowired
     private MemberRepository memberRepository;
-
-    private static final String UPLOAD_DIR = "C:/upload/";
 
     // 키워드를 이용한 커피 검색
     public List<Custom> searchCoffee(String keyword) {
@@ -65,16 +62,15 @@ public class CustomService {
                 custom.setImgReal(fileName);
             }
         }
-            customRepository.save(custom);
-        }
+        customRepository.save(custom);
+    }
 
     // 커스틈리스트 가져오기
-    public List<Custom> getAllCustomPosts()
-    {
+    public List<Custom> getAllCustomPosts() {
         return customRepository.findAllByOrderByCreatedDateDesc();
     }
 
-   // 페이징처리
+    // 페이징처리
 //    public Page<Custom> getAllCustomPosts(Pageable pageable) {
 //        return customRepository.findAll(pageable); // JpaRepository의 기본 페이지네이션 메소드 사용
 //    }
@@ -84,7 +80,7 @@ public class CustomService {
     public List<CustomResponseDto> getMainCustomsByLikeCount() {
 
         List<Custom> customs = customRepository.findAll();
-        System.out.println(customs.toString());
+        System.out.println(customs);
 
         // 좋아요 수에 따라 내림차순으로 정렬
         return customs.stream()

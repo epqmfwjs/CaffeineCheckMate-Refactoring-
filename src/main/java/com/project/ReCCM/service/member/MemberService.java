@@ -76,7 +76,7 @@ public class MemberService {
 
             // 고유한 파일 이름 생성 (예: UUID로 고유 이름 생성)
             String fileExtension = getFileExtension(originalFileName);
-            String fileName = UUID.randomUUID().toString() + "." + fileExtension;
+            String fileName = UUID.randomUUID() + "." + fileExtension;
 
             // 파일 저장 경로 설정
             Path filePath = Paths.get(UPLOAD_DIR + fileName);
@@ -107,19 +107,19 @@ public class MemberService {
     public MemberInfoDto getMemberInfo(Long memberId) {
         Optional<Member> member = memberRepository.findById(memberId);
         LocalDate today = LocalDate.now();
-        Optional<Calculator> todayCaffeine = calculatorRepository.findByMemberIdAndCreatedDate(memberId,today);
+        Optional<Calculator> todayCaffeine = calculatorRepository.findByMemberIdAndCreatedDate(memberId, today);
 
-        LocalDate memberAge =  member.get().getMemberAge();
+        LocalDate memberAge = member.get().getMemberAge();
 
         int age = calculateAge(memberAge) + 1;  //  나이계산하기 메소드호출 Period를 사용해서 현재날짜와의 차이로 계산
-        int maxCaffeine = calculateMaxCaffeine(age,member.get().getMemberWeight());
+        int maxCaffeine = calculateMaxCaffeine(age, member.get().getMemberWeight());
         int todayCaffeineNow = todayCaffeine.map(Calculator::getCaffeine).orElse(0);
 
-            String gender = member.get().getMemberGender().name();
+        String gender = member.get().getMemberGender().name();
 
-        if(gender.equals("Male")){
+        if (gender.equals("Male")) {
             gender = "남성";
-        }else{
+        } else {
             gender = "여성";
         }
 

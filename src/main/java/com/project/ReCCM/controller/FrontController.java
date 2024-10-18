@@ -4,7 +4,6 @@ import com.project.ReCCM.domain.member.Member;
 import com.project.ReCCM.domain.member.MemberRepository;
 import com.project.ReCCM.service.member.CustomMemberDetails;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +20,7 @@ public class FrontController {
     }
 
     @GetMapping("/")
-    public String home(Authentication authentication, Model model){
+    public String home(Authentication authentication, Model model) {
         String memberName = null; //  이름
         String memberId = null; // 아이디
         Optional<Member> member; // 멤버 객체로받기
@@ -47,7 +46,7 @@ public class FrontController {
     }
 
     @GetMapping("/product")
-    public String coffeeList(Authentication authentication, Model model){
+    public String coffeeList(Authentication authentication, Model model) {
         String memberName = null; //  이름
         String memberId = null; // 아이디
         Optional<Member> member; // 멤버 객체로받기
@@ -72,7 +71,7 @@ public class FrontController {
     }
 
     @GetMapping("/custom")
-    public String custom(Authentication authentication, Model model){
+    public String custom(Authentication authentication, Model model) {
         String memberName = null; //  이름
         String memberId = null; // 아이디
         Optional<Member> member; // 멤버 객체로받기
@@ -97,7 +96,7 @@ public class FrontController {
     }
 
     @GetMapping("/mypage")
-    public String mypage(Authentication authentication, Model model){
+    public String mypage(Authentication authentication, Model model) {
         String memberName = null; //  이름
         String memberId = null; // 아이디
         Optional<Member> member; // 멤버 객체로받기
