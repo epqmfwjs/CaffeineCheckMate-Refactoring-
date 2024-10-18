@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>CCM</title>
-    <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    <link href="/css/custom.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<input type="hidden" id="loginMemberPK" th:value="${memberPK}">
+<input id="loginMemberPK" th:value="${memberPK}" type="hidden">
 <div class="main-container">
     <!-- 헤더와 네비게이션을 포함하는 컨테이너 -->
     <div class="header-container">
         <span class="logo">
             <a href="/">
-                <img src="/img/logo.png" alt="logo">
+                <img alt="logo" src="/img/logo.png">
             </a>
         </span>
         <div class="nav">
             <a href="/product"><h4>product</h4></a>
             <a href="/custom"><h4>Custom</h4></a>
             <a href="/mypage"><h4>MyPage</h4></a>
-            <a th:if="${memberId != null}" href="/logout"><h4>Logout</h4></a> <!-- 로그인 된 경우 -->
-            <a th:if="${memberId == null}" href="/member/login"><h4>Login</h4></a> <!-- 로그인 안된 경우 -->
+            <a href="/logout" th:if="${memberId != null}"><h4>Logout</h4></a> <!-- 로그인 된 경우 -->
+            <a href="/member/login" th:if="${memberId == null}"><h4>Login</h4></a> <!-- 로그인 안된 경우 -->
         </div>
     </div>
     <div class="body-container">
@@ -28,67 +28,78 @@
         <div class="header">
             <div class="title">
                 <h1>Custom Coffees</h1>
-                <input type="text" id="searchBar" placeholder="검색어를 입력하세요...">
-                    <button id="createCustomModal" class="createCustomModal">게시글등록</button>
+                <input id="searchBar" placeholder="검색어를 입력하세요..." type="text">
+                <button class="createCustomModal" id="createCustomModal">게시글등록</button>
                 <!-- 게시글 등록 모달구조 -->
-                <div id="customModal" class="customModal">
+                <div class="customModal" id="customModal">
                     <div class="modal-content">
                         <span class="close">&times;</span>
                         <!--<h2 style="text-align: center; color: rgb(239, 108, 51);">게시글 등록</h2>-->
-                        <form id="customForm" enctype="multipart/form-data">
+                        <form enctype="multipart/form-data" id="customForm">
                             <label for="customImages" style="font-size:1.5rem;">이미지 업로드</label>
                             <div class="preview-container" id="previewContainer"></div>
-                            <input type="file" id="customImages" name="customImages" multiple accept="image/*">
-                                <p style="font-size:1.5rem; color: #333; font-weight: bold; margin-bottom: 35px; margin-top: 35px;">옵션정보 선택</p>
+                            <input accept="image/*" id="customImages" multiple name="customImages" type="file">
+                            <p style="font-size:1.5rem; color: #333; font-weight: bold; margin-bottom: 35px; margin-top: 35px;">
+                                옵션정보 선택</p>
                             <!-- 대분류 컨테이너 -->
                             <div class="category-container">
                                 <!-- 대분류 1: Brand -->
                                 <details>
                                     <summary>Brand</summary>
-                                    <th:block th:each="brand : ${T(com.project.ReCCM.Repository.custom.Brand).values()}">
-                                        <input type="radio" name="option1" th:value="${brand.name()}" th:text="${brand.displayName}"><br>
+                                    <th:block
+                                            th:each="brand : ${T(com.project.ReCCM.Repository.custom.Brand).values()}">
+                                        <input name="option1" th:text="${brand.displayName}" th:value="${brand.name()}"
+                                               type="radio"><br>
                                     </th:block>
                                 </details>
                                 <!-- 대분류 2: Syrup -->
                                 <details>
                                     <summary>Syrup</summary>
-                                    <th:block th:each="syrup : ${T(com.project.ReCCM.Repository.custom.Syrup).values()}">
-                                        <input type="radio" name="option2" th:value="${syrup.name()}" th:text="${syrup.displayName}"><br>
+                                    <th:block
+                                            th:each="syrup : ${T(com.project.ReCCM.Repository.custom.Syrup).values()}">
+                                        <input name="option2" th:text="${syrup.displayName}" th:value="${syrup.name()}"
+                                               type="radio"><br>
                                     </th:block>
                                 </details>
                                 <!-- 대분류 3: Whipped -->
                                 <details>
                                     <summary>Whipped</summary>
-                                    <th:block th:each="whipped : ${T(com.project.ReCCM.Repository.custom.Whipped).values()}">
-                                        <input type="radio" name="option3" th:value="${whipped.name()}" th:text="${whipped.displayName}"><br>
+                                    <th:block
+                                            th:each="whipped : ${T(com.project.ReCCM.Repository.custom.Whipped).values()}">
+                                        <input name="option3" th:text="${whipped.displayName}" th:value="${whipped.name()}"
+                                               type="radio"><br>
                                     </th:block>
                                 </details>
                                 <!-- 대분류 4: Shot -->
                                 <details>
                                     <summary>Shot</summary>
                                     <th:block th:each="shot : ${T(com.project.ReCCM.Repository.custom.Shot).values()}">
-                                        <input type="radio" name="option4" th:value="${shot.name()}" th:text="${shot.displayName}"><br>
+                                        <input name="option4" th:text="${shot.displayName}" th:value="${shot.name()}"
+                                               type="radio"><br>
                                     </th:block>
                                 </details>
                                 <!-- 대분류 5: Milk -->
                                 <details>
                                     <summary>Milk</summary>
                                     <th:block th:each="milk : ${T(com.project.ReCCM.Repository.custom.Milk).values()}">
-                                        <input type="radio" name="option5" th:value="${milk.name()}" th:text="${milk.displayName}"><br>
+                                        <input name="option5" th:text="${milk.displayName}" th:value="${milk.name()}"
+                                               type="radio"><br>
                                     </th:block>
                                 </details>
                                 <!-- 대분류 6: Type -->
                                 <details>
                                     <summary>Type</summary>
-                                    <th:block th:each="type : ${T(com.project.ReCCM.Repository.custom.CoffeeType).values()}">
-                                        <input type="radio" name="option6" th:value="${type.name()}" th:text="${type.displayName}"><br>
+                                    <th:block
+                                            th:each="type : ${T(com.project.ReCCM.Repository.custom.CoffeeType).values()}">
+                                        <input name="option6" th:text="${type.displayName}" th:value="${type.name()}"
+                                               type="radio"><br>
                                     </th:block>
                                 </details>
                             </div>
                             <label for="customTitle" style="font-size:1.5rem;">제목</label>
-                            <input type="text" id="customTitle" name="customTitle" required>
+                            <input id="customTitle" name="customTitle" required type="text">
                             <label for="customContent" style="font-size:1.5rem;">내용</label>
-                            <textarea id="customContent" name="customContent" rows="10" required></textarea>
+                            <textarea id="customContent" name="customContent" required rows="10"></textarea>
                             <button type="submit">등록</button>
                         </form>
                     </div>
@@ -100,22 +111,22 @@
             <!-- 이곳에 커피 제품 리스트 표시 -->
         </div>
         <!-- 게시물 디테일 모달 구조 -->
-        <div id="detailModal" class="customModal">
+        <div class="customModal" id="detailModal">
             <div class="detailModal-content">
                 <span class="close">&times;</span>
                 <!-- 맨 위에 제목과 좋아요 버튼, 댓글 버튼 -->
                 <div class="title-like-container">
-                    <h1 id="detailTitle" class="detailTitle">스타벅스</h1>
-                    <button id="like" class="like-button">좋아요 ❤️</button>
-                    <button id="commentToggle" class="comment-button">댓글 💬</button> <!-- 댓글 버튼 추가 -->
+                    <h1 class="detailTitle" id="detailTitle">스타벅스</h1>
+                    <button class="like-button" id="like">좋아요 ❤️</button>
+                    <button class="comment-button" id="commentToggle">댓글 💬</button> <!-- 댓글 버튼 추가 -->
                 </div>
 
                 <!-- 왼쪽 이미지 및 추가 정보, 오른쪽 상세 내용 -->
                 <div class="detail-container">
                     <!-- 왼쪽 영역 -->
                     <div class="detail-left">
-                        <img id="detailImage" src="" alt="상세 이미지" class="detailImage">
-                        <div id="tagOption" class="tagOption">
+                        <img alt="상세 이미지" class="detailImage" id="detailImage" src="">
+                        <div class="tagOption" id="tagOption">
                             <p id="tagOption1">#브랜드</p>
                             <p id="tagOption2">#시럽</p>
                             <p id="tagOption3">#휘핑</p>
@@ -127,7 +138,7 @@
 
                     <!-- 오른쪽 영역 -->
                     <div class="detail-right">
-                        <p id="detailContent" class="detailContent">내용</p>
+                        <p class="detailContent" id="detailContent">내용</p>
                         <p id="memberId">작성자</p>
                         <p id="createdDate">작성일</p>
                     </div>
@@ -135,15 +146,15 @@
             </div>
 
             <!-- 댓글 영역 (기본 숨김 상태) -->
-            <div id="commentSection" class="comment-section">
+            <div class="comment-section" id="commentSection">
                 <h2 style="text-align: center;">Comment 📝</h2>
                 <div class="comments-list" id="commentsList">
                     <!-- 등록된 댓글 리스트 표시 구역 -->
                 </div>
                 <!-- 댓글 등록창 영역 -->
                 <div class="comment-form">
-                    <textarea id="commentBox" rows="4" placeholder="댓글을 입력하세요..."></textarea>
-                    <button type="button" id="submitComment">댓글 등록</button>
+                    <textarea id="commentBox" placeholder="댓글을 입력하세요..." rows="4"></textarea>
+                    <button id="submitComment" type="button">댓글 등록</button>
                 </div>
             </div>
         </div>

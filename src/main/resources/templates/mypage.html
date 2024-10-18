@@ -3,29 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>CCM</title>
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/css/mypage.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="/css/mypage.css" rel="stylesheet" type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 </head>
 <body>
-<input type="hidden" id="loginMemberPK" th:value="${memberPK}">
+<input id="loginMemberPK" th:value="${memberPK}" type="hidden">
 <div class="main-container">
     <!-- 헤더와 네비게이션을 포함하는 컨테이너 -->
     <div class="header-container">
         <span class="logo">
             <a href="/">
-                <img src="/img/logo.png" alt="logo">
+                <img alt="logo" src="/img/logo.png">
             </a>
         </span>
         <div class="nav">
             <a href="/product"><h4>product</h4></a>
             <a href="/custom"><h4>Custom</h4></a>
             <a href="/mypage"><h4>MyPage</h4></a>
-            <a th:if="${memberId != null }" href="/logout"><h4>Logout</h4></a> <!-- 로그인 된 경우 -->
-            <a th:if="${memberId == null}" href="/member/login"><h4>Login</h4></a> <!-- 로그인 안된 경우 -->
+            <a href="/logout" th:if="${memberId != null }"><h4>Logout</h4></a> <!-- 로그인 된 경우 -->
+            <a href="/member/login" th:if="${memberId == null}"><h4>Login</h4></a> <!-- 로그인 안된 경우 -->
         </div>
     </div>
 
@@ -37,9 +37,9 @@
             <div class="caffeine-section">
                 <div class="chart-box">
                     <!-- 카페인계산 차트 -->
-                    <canvas id="caffeineChart" width="200" height="200"></canvas> <!-- 그래프를 표시할 캔버스 -->
+                    <canvas height="200" id="caffeineChart" width="200"></canvas> <!-- 그래프를 표시할 캔버스 -->
                 </div>
-                <div id="caffeineinInfo" class="caffeineinInfo">
+                <div class="caffeineinInfo" id="caffeineinInfo">
                     <!-- 섭취 카페인 /  당류 / 칼로리  정보 -->
                 </div>
             </div>
@@ -55,34 +55,34 @@
     </div>
 
     <!-- 즐겨찾기 리스트 -->
-    <h2>즐겨찾기 목록 ⭐ &nbsp;&nbsp;<a class= "listA" href="/product">추가하러가기 ↷ </a></h2>
+    <h2>즐겨찾기 목록 ⭐ &nbsp;&nbsp;<a class="listA" href="/product">추가하러가기 ↷ </a></h2>
     <div class="favorite-section">
-        <button id="favoritePrev" class="pagination-button"><i class="fas fa-chevron-left"></i></button>
-        <div id="favoriteList" class="favorite-list">
+        <button class="pagination-button" id="favoritePrev"><i class="fas fa-chevron-left"></i></button>
+        <div class="favorite-list" id="favoriteList">
             <!-- 즐겨찾기 목록 카드들 -->
         </div>
         <!-- 모달 요소 추가 -->
-        <div id="coffeeModal" class="coffeeListModal">
+        <div class="coffeeListModal" id="coffeeModal">
             <div class="favoriteModal-content">
                 <span class="close">&times;</span>
-                <h2 id="modalCoffeeName" class="modal-title"></h2><!-- 제품명 -->
+                <h2 class="modal-title" id="modalCoffeeName"></h2><!-- 제품명 -->
                 <div class="modal-header">
-                    <img id="modalImage" src="" alt="coffee image" class="modal-image">
+                    <img alt="coffee image" class="modal-image" id="modalImage" src="">
                     <div class="modal-text">
                         <!-- 브랜드 -->
                         <div class="modal-detail">
                             <p class="modal-detail-label">브랜드</p>
-                            <p id="modalCoffeeBrand" class="modal-brand"></p>
+                            <p class="modal-brand" id="modalCoffeeBrand"></p>
                         </div>
                         <!-- 종류 -->
                         <div class="modal-detail">
                             <p class="modal-detail-label">종류</p>
-                            <p id="modlCoffeeType" class="modal-type"></p>
+                            <p class="modal-type" id="modlCoffeeType"></p>
                         </div>
                         <!-- 설명 -->
                         <div class="modal-detail">
                             <p class="modal-detail-label">설명</p>
-                            <p id="modalCoffeeContent" class="modal-description"></p>
+                            <p class="modal-description" id="modalCoffeeContent"></p>
                         </div>
                     </div>
                 </div>
@@ -100,36 +100,36 @@
                         </tr>
                     </table>
                 </div>
-                <button id="favoriteBtn" class="favorite-button">즐겨찾기</button>
+                <button class="favorite-button" id="favoriteBtn">즐겨찾기</button>
             </div>
         </div>
-        <button id="favoriteNext" class="pagination-button"><i class="fas fa-chevron-right"></i></button>
+        <button class="pagination-button" id="favoriteNext"><i class="fas fa-chevron-right"></i></button>
     </div>
     </br>
     <!-- 좋아요 리스트 -->
-    <h2>좋아요 목록 ❤️   &nbsp;&nbsp;<a class= "listA" href="/custom">추가하러가기 ↷ </a></h2>
+    <h2>좋아요 목록 ❤️ &nbsp;&nbsp;<a class="listA" href="/custom">추가하러가기 ↷ </a></h2>
     <div class="like-section">
-        <button id="likePrev" class="pagination-button"><i class="fas fa-chevron-left"></i></button>
-        <div id="likeList" class="like-list">
+        <button class="pagination-button" id="likePrev"><i class="fas fa-chevron-left"></i></button>
+        <div class="like-list" id="likeList">
             <!-- 좋아요 목록 카드들 -->
         </div>
         <!-- 게시물 디테일 모달 구조 -->
-        <div id="detailModal" class="customModal">
+        <div class="customModal" id="detailModal">
             <div class="detailModal-content">
                 <span class="close">&times;</span>
                 <!-- 맨 위에 제목과 좋아요 버튼, 댓글 버튼 -->
                 <div class="title-like-container">
-                    <h1 id="detailTitle" class="detailTitle">스타벅스</h1>
-                    <button id="like" class="like-button">좋아요 ❤️</button>
-                    <button id="commentToggle" class="comment-button">댓글 💬</button> <!-- 댓글 버튼 추가 -->
+                    <h1 class="detailTitle" id="detailTitle">스타벅스</h1>
+                    <button class="like-button" id="like">좋아요 ❤️</button>
+                    <button class="comment-button" id="commentToggle">댓글 💬</button> <!-- 댓글 버튼 추가 -->
                 </div>
 
                 <!-- 왼쪽 이미지 및 추가 정보, 오른쪽 상세 내용 -->
                 <div class="detail-container">
                     <!-- 왼쪽 영역 -->
                     <div class="detail-left">
-                        <img id="detailImage" src="" alt="상세 이미지" class="detailImage">
-                        <div id="tagOption" class="tagOption">
+                        <img alt="상세 이미지" class="detailImage" id="detailImage" src="">
+                        <div class="tagOption" id="tagOption">
                             <p id="tagOption1">#브랜드</p>
                             <p id="tagOption2">#시럽</p>
                             <p id="tagOption3">#휘핑</p>
@@ -141,7 +141,7 @@
 
                     <!-- 오른쪽 영역 -->
                     <div class="detail-right">
-                        <p id="detailContent" class="detailContent">내용</p>
+                        <p class="detailContent" id="detailContent">내용</p>
                         <p id="memberId">작성자</p>
                         <p id="createdDate">작성일</p>
                     </div>
@@ -149,19 +149,19 @@
             </div>
 
             <!-- 댓글 영역 (기본 숨김 상태) -->
-            <div id="commentSection" class="comment-section">
+            <div class="comment-section" id="commentSection">
                 <h2 style="text-align: center;">Comment 📝</h2>
                 <div class="comments-list" id="commentsList">
                     <!-- 등록된 댓글 리스트 표시 구역 -->
                 </div>
                 <!-- 댓글 등록창 영역 -->
                 <div class="comment-form">
-                    <textarea id="commentBox" rows="4" placeholder="댓글을 입력하세요..."></textarea>
-                    <button type="button" id="submitComment">댓글 등록</button>
+                    <textarea id="commentBox" placeholder="댓글을 입력하세요..." rows="4"></textarea>
+                    <button id="submitComment" type="button">댓글 등록</button>
                 </div>
             </div>
         </div>
-        <button id="likeNext" class="pagination-button"><i class="fas fa-chevron-right"></i></button>
+        <button class="pagination-button" id="likeNext"><i class="fas fa-chevron-right"></i></button>
     </div>
 </div>
 <script src="/js/mypageCalendar.js"></script>

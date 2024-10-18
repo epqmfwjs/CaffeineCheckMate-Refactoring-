@@ -2,7 +2,6 @@ package com.project.ReCCM.controller.member;
 
 
 import com.project.ReCCM.Repository.member.MemberJoinDto;
-import com.project.ReCCM.domain.member.Member;
 import com.project.ReCCM.service.member.MemberService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +56,7 @@ public class MemberController {
     public String registerMember(@Valid @ModelAttribute("memberDto") MemberJoinDto memberJoinDto,
                                  BindingResult bindingResult,
                                  RedirectAttributes redirectAttributes) throws IOException {
-        
+
         System.out.println("join 컨트롤러들어옴");
 
         // 서버에서 유효성 검사 후 에러가 있을 경우 다시 폼으로 리다이렉트
@@ -78,6 +77,12 @@ public class MemberController {
         // 성공 처리 로직
 
         return "redirect:/member/success";
+    }
+
+    // 이메일 인증 팝업
+    @GetMapping("/emailVerification")
+    public String emailVerification() {
+        return "emailVerification";
     }
 
 }

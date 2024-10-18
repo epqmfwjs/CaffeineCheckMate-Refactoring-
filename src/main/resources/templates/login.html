@@ -1,28 +1,36 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>CCM</title>
+    <link href="/css/login.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<h2>로그인</h2>
-<form th:action="@{/member/login}" method="post">
-    <div>
-        <label>ID: </label>
-        <input type="text" name="username" />
-    </div>
-    <div>
-        <label>Password: </label>
-        <input type="password" name="password" />
-    </div>
-    <div>
-        <button type="submit">Login</button>
-    </div>
-    <div th:if="${param.error}">
-        <p style="color:red;">로그인 실패: 아이디 또는 비밀번호를 확인하세요.</p>
-    </div>
-    <div th:if="${param.logout}">
-        <p style="color:green;">로그아웃 되었습니다.</p>
-    </div>
-</form>
+<!-- 로그인 폼을 감싸는 컨테이너 -->
+<div class="login-container">
+    <img alt="Logo" class="logo" onclick="window.location.href='/'" src="/img/logo.png"/>
+
+    <!-- 로그인 폼 -->
+    <form method="post" th:action="@{/member/login}">
+        <div class="iconStyle">
+            <img alt="id" src="/img/id.png"/>
+            <input id="loginId" name="username" placeholder="아이디" type="text"/>
+        </div>
+        <div class="iconStyle">
+            <img alt="id" src="/img/password.png"/>
+            <input id="password" name="password" placeholder="비밀번호" type="password"/>
+        </div>
+        <div class="otherFunctions">
+            <input id="idSaveCheck" name="remember" type="checkbox" style="width:10%; margin-left: 20px;"/> 아이디 저장 ┃
+            <a href="#">&nbsp;아이디 찾기&nbsp;</a> ┃
+            <a href="#">&nbsp;비밀번호 찾기&nbsp;</a>
+        </div>
+        <!-- 로그인 버튼 -->
+        <button type="submit">로그인</button>
+        <button onclick="window.location.href='/member/join'" type="button">회원가입</button>
+    </form>
+</div>
+<script src="/js/login.js"></script>
 </body>
 </html>

@@ -31,10 +31,10 @@ public class mainPageRestController {
         // 좋아요 순으로 정렬된 커스텀 게시물 반환
         return customService.getMainCustomsByLikeCount();
     }
-    
+
     // 카페인계산 엔드포인트
     @PostMapping("/calculator")
-    public ResponseEntity<CalculatorResponseDto> calculateCaffeine(@RequestBody CaffeineRequest request){
+    public ResponseEntity<CalculatorResponseDto> calculateCaffeine(@RequestBody CaffeineRequest request) {
         int caffeine = request.getCaffeineAmount();
         int calorie = request.getCalorie();
         int sugar = request.getSugar();
@@ -44,14 +44,14 @@ public class mainPageRestController {
         Long coffeeId = request.getCoffeeId();
         Long memberId = request.getMemberId();
 
-        CalculatorResponseDto resultCaffeineDto = mainService.calculator(caffeine,calorie,sugar,memberId);
+        CalculatorResponseDto resultCaffeineDto = mainService.calculator(caffeine, calorie, sugar, memberId);
 
         return ResponseEntity.ok(resultCaffeineDto);
     }
 
     // 로그인 후 초기 그래프 데이터 가져오기
     @GetMapping("getCaffeineData")
-    public CalculatorResponseDto getCaffeineData(@RequestParam Long memberId){
+    public CalculatorResponseDto getCaffeineData(@RequestParam Long memberId) {
 
         CalculatorResponseDto calculatorResponseDto = mainService.getCaffeineData(memberId);
 
@@ -60,7 +60,7 @@ public class mainPageRestController {
 
     // 카페인 계산 실행취소
     @PostMapping("/undoCaffeine")
-    public ResponseEntity<CalculatorResponseDto> undoCaffeine(@RequestBody CaffeineRequest request){
+    public ResponseEntity<CalculatorResponseDto> undoCaffeine(@RequestBody CaffeineRequest request) {
 
         int caffeine = request.getCaffeineAmount();
         int calorie = request.getCalorie();
@@ -69,14 +69,14 @@ public class mainPageRestController {
         Long coffeeId = request.getCoffeeId();
         Long memberId = request.getMemberId();
 
-        CalculatorResponseDto resultCaffeineDto = mainService.undoCaffeine(caffeine,calorie,sugar,memberId);
+        CalculatorResponseDto resultCaffeineDto = mainService.undoCaffeine(caffeine, calorie, sugar, memberId);
 
         return ResponseEntity.ok(resultCaffeineDto);
     }
 
     // 리셋버튼 엔드포인트
     @PostMapping("/resetChart")
-    public ResponseEntity<CalculatorResponseDto> resetChart(@RequestBody CaffeineRequest request){
+    public ResponseEntity<CalculatorResponseDto> resetChart(@RequestBody CaffeineRequest request) {
         Long memberId = request.getMemberId();
 
         CalculatorResponseDto resultCaffeineDto = mainService.resetChart(memberId);

@@ -17,9 +17,7 @@ import com.project.ReCCM.service.main.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -48,7 +46,6 @@ public class MyPageService {
         this.calculatorRepository = calculatorRepository;
         this.mainService = mainService;
     }
-
 
 
     // 마이페이지에서 즐겨찾기 목록요청서비스
@@ -90,6 +87,6 @@ public class MyPageService {
         List<Calculator> calculators = calculatorRepository.findByMemberId(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("카페인 기록이 존재하지 않습니다."));
 
-        return mainService.getCafffeineCalendar(memberId,calculators);
+        return mainService.getCafffeineCalendar(memberId, calculators);
     }
 }

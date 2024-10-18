@@ -1,7 +1,6 @@
 package com.project.ReCCM.controller.member;
 
 import com.project.ReCCM.Repository.member.MemberInfoDto;
-import com.project.ReCCM.domain.member.Member;
 import com.project.ReCCM.service.member.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

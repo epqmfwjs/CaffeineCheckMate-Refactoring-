@@ -40,7 +40,4 @@ public class Product {
 
     @Column
     private String imgReal; // 이미지 오리지널네임
-
-    // 다른 필드들
-
 }

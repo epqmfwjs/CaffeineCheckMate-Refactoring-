@@ -85,6 +85,7 @@ body {
 
 .coffeeCard:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+    cursor:pointer;
 }
 
 .coffeeCard img {
@@ -94,11 +95,6 @@ body {
     border-radius: 5px;
     margin-bottom: 10px;
     transition: all 0.3s ease; /* 모든 속성에 대해 부드럽게 변환 적용 */
-}
-.coffeeCard img:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
-    width: 101%;
-    height: 202px;
 }
 
 .coffeeCard h3 {

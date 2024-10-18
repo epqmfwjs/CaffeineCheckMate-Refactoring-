@@ -56,11 +56,11 @@ public class MainService {
         int maxCaffeine = calculateMaxCaffeine(age, member.getMemberWeight()); // 나이와 체중에 따른 적정 카페인 계산
 
         // 결과 Dto 반환
-        return new CalculatorResponseDto(member.getMemberId(), maxCaffeine,0,0, 0, age, 0.0);
+        return new CalculatorResponseDto(member.getMemberId(), maxCaffeine, 0, 0, 0, age, 0.0);
     }
 
     // 카페인계산을 재사용하기위해 MyPageService -> MainService 호출 이래도 되는건가 싶지만 재활용이 가능하길래 해봄...
-    public List<MyPageCaffeineResponseDto> getCafffeineCalendar(Long memberId,List<Calculator> calculators){
+    public List<MyPageCaffeineResponseDto> getCafffeineCalendar(Long memberId, List<Calculator> calculators) {
         System.out.println("MyPageService -> MainService의 getCafffeineCalendar 메소드 들어옴");
         Member member = getMemberById(memberId); // 멤버 정보를 가져옴
 
@@ -101,12 +101,12 @@ public class MainService {
             return updatedCaffeine;
         }).orElseGet(() -> {
             // 카페인 정보가 없으면 새로 생성 후 저장
-            Calculator newCalculator = new Calculator(caffeine,calorie,sugar, member);
+            Calculator newCalculator = new Calculator(caffeine, calorie, sugar, member);
             calculatorRepository.save(newCalculator);
             return caffeine;
         });
 
-        return buildCaffeineResponse(member, finalCaffeine, calorie,sugar); // 결과 Dto 생성 및 반환
+        return buildCaffeineResponse(member, finalCaffeine, calorie, sugar); // 결과 Dto 생성 및 반환
     }
 
     // 카페인 데이터를 로드하는 메소드

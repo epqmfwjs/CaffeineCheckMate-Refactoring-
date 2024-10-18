@@ -70,3 +70,4 @@ function formatPhoneNumber() {
 
     phoneInput.value = input; // 포맷된 값을 입력 필드에 설정
 }
+

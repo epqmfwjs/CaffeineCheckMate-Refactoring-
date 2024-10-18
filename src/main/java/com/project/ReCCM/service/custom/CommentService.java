@@ -1,14 +1,12 @@
 package com.project.ReCCM.service.custom;
 
 import com.project.ReCCM.Repository.custom.CommentResponseDto;
-import com.project.ReCCM.Repository.custom.CustomResponseDto;
 import com.project.ReCCM.domain.custom.Comment;
 import com.project.ReCCM.domain.custom.CommentRepository;
 import com.project.ReCCM.domain.custom.Custom;
 import com.project.ReCCM.domain.custom.CustomRepository;
 import com.project.ReCCM.domain.member.Member;
 import com.project.ReCCM.domain.member.MemberRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +30,7 @@ public class CommentService {
     public CommentResponseDto createComment(Long memberPK, Long postId, String text) {
         Custom custom = customRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
-        
+
         Member member = memberRepository.findById(memberPK)
                 .orElseThrow(() -> new IllegalArgumentException("해당 멤버가 존재하지 않습니다."));
 
@@ -56,7 +54,7 @@ public class CommentService {
                         comment.getMember().getMemberId(),
                         comment.getCreatedDate(),
                         comment.getMember().getImgReal()
-                        ))
+                ))
                 .collect(Collectors.toList());
         return response;
 
