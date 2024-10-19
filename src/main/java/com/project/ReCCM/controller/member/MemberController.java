@@ -6,7 +6,9 @@ import com.project.ReCCM.service.member.MemberService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -37,8 +39,9 @@ public class MemberController {
     }
 
     @GetMapping("/join")
-    public String showRegistrationForm() {
+    public String showRegistrationForm(Model model) {
         System.out.println("가입페이지 들어옴");
+        model.addAttribute("memberJoinDto", new MemberJoinDto());
         return "join";
     }
 
@@ -53,30 +56,35 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public String registerMember(@Valid @ModelAttribute("memberDto") MemberJoinDto memberJoinDto,
+    public String registerMember(@Valid @ModelAttribute("memberJoinDto") MemberJoinDto memberJoinDto,
                                  BindingResult bindingResult,
-                                 RedirectAttributes redirectAttributes) throws IOException {
+                                 Model model) throws IOException {
 
-        System.out.println("join 컨트롤러들어옴");
 
-        // 서버에서 유효성 검사 후 에러가 있을 경우 다시 폼으로 리다이렉트
+        // 유효성 검사 진행 후 에러 메세지 전달
         if (bindingResult.hasErrors()) {
-            System.out.println("join : bindingResult.hasErrors()");
-            // 에러 메시지와 함께 클라이언트로 다시 리다이렉트
-            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
-            return "redirect:/member/join";
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                model.addAttribute(error.getField() + "Error", error.getDefaultMessage());
+            }
+            model.addAttribute("memberJoinDto", memberJoinDto);
+            return "join";
         }
-        // 날짜 유효성 확인
-        if (memberJoinDto.getMemberAge() == null || memberJoinDto.getMemberAge().isAfter(LocalDate.now())) {
-            System.out.println("join : 날짜 유효성 확인");
-            bindingResult.rejectValue("memberAge", "error.memberAge", "유효한 생년월일을 입력해주세요.");
-            return "redirect:/member/join";
+        // Password / ConfirmPassword 일치 여부 확인
+        if (!memberJoinDto.getPassword().equals(memberJoinDto.getConfirmPassword())) {
+            model.addAttribute("passwordError", "비밀번호가 일치하지 않습니다.");
+            return "join";
         }
-        System.out.println("검증성공 저장하러 가기전 ");
-        memberService.saveMember(memberJoinDto);
-        // 성공 처리 로직
 
-        return "redirect:/member/success";
+        memberService.saveMember(memberJoinDto);
+
+        return "redirect:/member/joinSuccess";
+    }
+
+    // 회원 가입 성공 페이지
+    @GetMapping("/joinSuccess")
+    public String joinSuccess() {
+        System.out.println("가입성공화면 띄우기");
+        return "joinSuccess";
     }
 
     // 이메일 인증 팝업

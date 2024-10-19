@@ -27,6 +27,7 @@ import java.util.UUID;
 public class MemberService {
 
     private static final String UPLOAD_DIR = "C:/upload/";
+    private static final String DEFAULT_IMAGE_PATH = "/img/default-image.png"; // 기본 이미지 경로
 
     @Autowired
     private final MemberRepository memberRepository;
@@ -45,6 +46,44 @@ public class MemberService {
     public void saveMember(MemberJoinDto memberJoinDto) throws IOException {
         Member member = new Member();
 
+        // ID 중복 체크 (세이브하기전 한번더 검증)
+        if (memberRepository.findByMemberId(memberJoinDto.getMemberId()).isPresent()) {
+            throw new IllegalArgumentException("이미 존재하는 ID입니다.");
+        }
+        // 비밀번호 확인 (세이브하기전 한번더 검증)
+        if (!memberJoinDto.getPassword().equals(memberJoinDto.getConfirmPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        // 이미지 저장 후 경로 저장
+        MultipartFile imgReal = memberJoinDto.getImgReal();
+        String imagePath = DEFAULT_IMAGE_PATH; // 기본 이미지 경로
+
+        if (imgReal != null && !imgReal.isEmpty()) {
+            // 업로드된 이미지가 있을 경우 처리
+            String originalFileName = StringUtils.cleanPath(imgReal.getOriginalFilename());
+            String fileExtension = getFileExtension(originalFileName);
+            String fileName = UUID.randomUUID() + "." + fileExtension;
+
+            // 파일 저장 경로 설정
+            Path filePath = Paths.get(UPLOAD_DIR + fileName);
+
+            // 디렉토리 생성 (없을 경우)
+            File dir = new File(UPLOAD_DIR);
+            if (!dir.exists()) {
+                dir.mkdirs();  // 경로가 존재하지 않으면 생성
+            }
+
+            // 이미지 파일 저장
+            Files.copy(imgReal.getInputStream(), filePath);
+
+            // 파일명 저장 (이미지가 있으면 업로드한 이미지 경로를 사용)
+            imagePath = fileName;
+        }
+
+        // 이미지 경로 설정 (기본 이미지 또는 업로드된 이미지 경로)
+        member.setImgReal(imagePath);
+
         // 생년월일이 비어있으면 기본값 설정
         if (memberJoinDto.getMemberAge() != null) {
             member.setMemberAge(memberJoinDto.getMemberAge());
@@ -55,38 +94,12 @@ public class MemberService {
         // DTO에서 멤버 필드들 설정
         member.setMemberId(memberJoinDto.getMemberId());
         member.setMemberName(memberJoinDto.getMemberName());
-        member.setMemberEmail(memberJoinDto.getMemberEmail());
+        member.setMemberEmail(memberJoinDto.getEmail());
         member.setMemberAge(memberJoinDto.getMemberAge());
         member.setMemberWeight(memberJoinDto.getMemberWeight());
         member.setMemberPhone(memberJoinDto.getMemberPhone());
         member.setMemberGender(MemberGender.valueOf(memberJoinDto.getMemberGender()));
 
-        MultipartFile imgReal = memberJoinDto.getImgReal(); // 단일 파일 처리
-
-        // 디렉토리 생성
-        File dir = new File(UPLOAD_DIR);
-        if (!dir.exists()) {
-            dir.mkdirs();  // 경로가 존재하지 않으면 생성
-        }
-
-        // 이미지 파일 처리
-        if (imgReal != null && !imgReal.isEmpty()) {
-            // 파일 이름을 안전하게 처리 (경로 제거)
-            String originalFileName = StringUtils.cleanPath(imgReal.getOriginalFilename());
-
-            // 고유한 파일 이름 생성 (예: UUID로 고유 이름 생성)
-            String fileExtension = getFileExtension(originalFileName);
-            String fileName = UUID.randomUUID() + "." + fileExtension;
-
-            // 파일 저장 경로 설정
-            Path filePath = Paths.get(UPLOAD_DIR + fileName);
-
-            // 이미지 파일 저장
-            Files.copy(imgReal.getInputStream(), filePath);
-
-            // 이미지 파일 이름을 엔티티에 설정 (파일명 저장)
-            member.setImgReal(fileName);
-        }
 
         // 비밀번호 암호화
         member.setPassword(passwordEncoder.encode(memberJoinDto.getPassword()));
@@ -156,5 +169,9 @@ public class MemberService {
         }
         LocalDate currentDate = LocalDate.now();
         return Period.between(memberAge, currentDate).getYears();
+    }
+
+    public boolean isMemberIdTaken(String memberId) {
+        return memberRepository.findByMemberId(memberId).isPresent();
     }
 }

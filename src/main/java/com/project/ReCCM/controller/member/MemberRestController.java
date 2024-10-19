@@ -26,4 +26,19 @@ public class MemberRestController {
         MemberInfoDto memberInfoDto = memberService.getMemberInfo(memberId);
         return ResponseEntity.ok(memberInfoDto);
     }
+
+
+    // ID 중복 체크
+    @GetMapping("/member/check-id")
+    public ResponseEntity<String> checkId(@RequestParam("memberId") String memberId) {
+        if (memberId.length() < 6 || memberId.length() > 20) {
+            return ResponseEntity.badRequest().body("아이디는 6자 이상, 20자 이하로 입력해주세요.");
+        }
+
+        if (memberService.isMemberIdTaken(memberId)) {
+            return ResponseEntity.ok("이미 사용 중인 ID입니다.");
+        }
+
+        return ResponseEntity.ok("사용 가능한 ID입니다.");
+    }
 }

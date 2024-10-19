@@ -16,8 +16,9 @@ body {
     padding: 60px;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    height: 50%;
-    width: 25%;
+    height: auto;
+    width: 100%;
+    max-width: 400px; /* 데스크톱에서는 최대 400px */
     text-align: center;
 }
 
@@ -50,25 +51,27 @@ body {
 .login-container button:hover {
     background-color: rgb(239, 108, 51);
 }
-        /* 공통 텍스트 스타일 */
+
+/* 공통 텍스트 스타일 */
 .login-container p {
-    font-size: 14px;           /* 글자 크기 */
-    color: #333;               /* 검정색 텍스트 */
+    font-size: 14px;
+    color: #333;
 }
 
 /* 에러 메시지 스타일 */
 .login-container p.error {
-    color: red;                /* 에러 메시지는 빨간색 */
+    color: red;
 }
 
 /* 로그아웃 메시지 스타일 */
 .login-container p.logout {
-    color: green;              /* 로그아웃 메시지는 초록색 */
+    color: green;
 }
 
 .logo {
     height: auto;
-    width: 400px;
+    width: 100%;
+    max-width: 400px;
 }
 .logo:hover {
     cursor:pointer;
@@ -93,4 +96,39 @@ body {
 .otherFunctions a {
     text-decoration: none;
     color: black;
+}
+
+/* 반응형 설정 */
+/* 태블릿 (768px 이하) */
+@media (max-width: 768px) {
+    .login-container {
+        width: 80%; /* 화면의 80%로 설정 */
+        padding: 40px; /* 패딩을 줄임 */
+    }
+
+    .logo {
+        width: 70%; /* 로고 크기를 줄임 */
+    }
+
+    .login-container button {
+        font-size: 14px;
+        padding: 8px;
+    }
+}
+
+/* 모바일 (480px 이하) */
+@media (max-width: 480px) {
+    .login-container {
+        width: 90%; /* 화면의 90%로 설정 */
+        padding: 30px; /* 패딩을 줄임 */
+    }
+
+    .logo {
+        width: 60%; /* 로고 크기를 더 줄임 */
+    }
+
+    .login-container button {
+        font-size: 12px;
+        padding: 6px;
+    }
 }
