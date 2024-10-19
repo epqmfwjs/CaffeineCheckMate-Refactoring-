@@ -163,23 +163,25 @@ document.querySelectorAll('details').forEach((detail) => {
         });
     });
 });
-
-    // 이미지 미리보기 처리
-    document.getElementById('customImages').addEventListener('change', function(event) {
-        const files = event.target.files;
-        const previewContainer = document.getElementById('previewContainer');
-        previewContainer.innerHTML = ''; // 기존 미리보기 이미지 제거
-
-        Array.from(files).forEach(file => {
+    // 이미지 미리보기 함수
+    window.previewImage = function() {
+        const fileInput = document.getElementById('customImages');
+        const previewImage = document.getElementById('previewImg');
+        console.log('펑션 안쪽');
+        // 선택한 파일이 있는지 확인
+        if (fileInput.files && fileInput.files[0]) {
             const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                previewContainer.appendChild(img);
+
+            reader.onload = function (e) {
+                previewImage.src = e.target.result; // 선택한 파일 미리보기
             };
-            reader.readAsDataURL(file); // 파일을 Data URL로 읽어오기
-        });
-    });
+
+            reader.readAsDataURL(fileInput.files[0]); // 파일 읽기
+        } else {
+            // 파일이 선택되지 않은 경우 기본 이미지로 설정
+            previewImage.src = "/img/custom-default.jpg"; // 기본 이미지로 설정
+        }
+    };
 
     // 폼 제출 시 처리
     const customForm = document.getElementById('customForm');
@@ -386,12 +388,12 @@ document.querySelectorAll('details').forEach((detail) => {
                 detailContent.textContent = custom.customContent;
                 detailAuthor.innerHTML = `<span style="font-size:16px; color:black; font-weight:bold;">작성자 : </span> ${custom.memberId}`;
                 detailDate.innerHTML = `<span style="font-size:16px; color:black; font-weight:bold;">작성일 : </span> ${custom.createdDate}`;
-                tagOption1.innerHTML = custom.brand !== null ? `#${custom.brand}` : ``;
-                tagOption2.innerHTML = custom.syrup !== null ? `#${custom.syrup}` : ``;
-                tagOption3.innerHTML = custom.whipped !== null ? `#${custom.whipped}` : ``;
-                tagOption4.innerHTML = custom.shot !== null ? `#${custom.shot}` : ``;
-                tagOption5.innerHTML = custom.milk !== null ? `#${custom.milk}` : ``;
-                tagOption6.innerHTML = custom.coffeeType !== null ? `#${custom.coffeeType}` : ``;
+                tagOption1.innerHTML = custom.brand !== null  && custom.brand !== "null" ? `#${custom.brand}` : ``;
+                tagOption2.innerHTML = custom.syrup !== null && custom.syrup !== "null" ? `#${custom.syrup}` : ``;
+                tagOption3.innerHTML = custom.whipped !== null && custom.whipped !== "null" ? `#${custom.whipped}` : ``;
+                tagOption4.innerHTML = custom.shot !== null && custom.shot !== "null" ? `#${custom.shot}` : ``;
+                tagOption5.innerHTML = custom.milk !== null && custom.milk !== "null" ? `#${custom.milk}` : ``;
+                tagOption6.innerHTML = custom.coffeeType !== null && custom.coffeeType !== "null" ? `#${custom.coffeeType}` : ``;
 
                 // 댓글 섹션 초기화 및 댓글 불러오기
                 initializeCommentSection(custom.id);

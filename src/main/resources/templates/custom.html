@@ -38,7 +38,13 @@
                         <form enctype="multipart/form-data" id="customForm">
                             <label for="customImages" style="font-size:1.5rem;">이미지 업로드</label>
                             <div class="preview-container" id="previewContainer"></div>
-                            <input accept="image/*" id="customImages" multiple name="customImages" type="file">
+                            <div class="preview-card">
+                                <img alt="기본 이미지" class="custom-default" id="previewImg" src="/img/custom-default.jpg">
+                            </div>
+                            <div class="btn-image-container">
+                                <input accept="image/*" id="customImages"  name="customImages" style="display:none;" type="file" onchange="previewImage()" required multiple >
+                                <label class="btn btn-image" for="customImages">이미지 선택</label>
+                            </div>
                             <p style="font-size:1.5rem; color: #333; font-weight: bold; margin-bottom: 35px; margin-top: 35px;">
                                 옵션정보 선택</p>
                             <!-- 대분류 컨테이너 -->

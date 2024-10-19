@@ -565,3 +565,47 @@ details input {
 .heart-style {
     font-size: 0.7em; /* 원하는 크기로 조정 */
 }
+
+.preview-card {
+    margin-top: 10px;
+    display: inline-block; /* 가로로 나열되도록 설정 */
+}
+
+.preview-card img {
+    width: 350px; /* 원하는 크기로 조정 */
+    height: 350px; /* 원하는 크기로 조정 */
+    border-radius: 5px; /* 원형으로 만들기 */
+    object-fit: cover; /* 비율을 유지하며 컨테이너에 맞추기 */
+    margin-top: 10px;
+    border: 1px solid #ddd;
+}
+
+.custom-default {
+    width: 350px; /* 기본 이미지 크기 */
+    height: 350px; /* 기본 이미지 크기 */
+    border-radius: 5px; /* 원형으로 만들기 */
+    object-fit: cover; /* 비율 유지 */
+}
+
+
+.btn-image-container {
+    display: flex; /* 플렉스 박스 사용 */
+    justify-content: center; /* 수평 가운데 정렬 */
+    width: 100%; /* 전체 너비 사용 */
+}
+
+/* 이미지 선택 버튼 스타일 */
+.btn-image {
+    background-color: transparent; /* 배경을 투명하게 설정 */
+    color: #666; /* 텍스트 색상 */
+    border: 1px solid #0c4a60; /* 테두리 색상 설정 */
+    outline: none; /* 아웃라인 제거 */
+    padding: 5px 10px; /* 버튼 크기 조절 */
+    border-radius: 5px; /* 둥근 모서리 설정 */
+    transition: background-color 0.3s ease, color 0.3s ease; /* 부드러운 색상 전환 */
+}
+
+.btn-image:hover {
+    background-color: #0c4a60; /* 호버 시 배경색 채우기 */
+    color: white; /* 호버 시 텍스트 색상 변경 */
+}

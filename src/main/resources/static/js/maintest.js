@@ -97,7 +97,7 @@
         }
     });
 
-    // 기본 차트 표시 함수
+        // 기본 차트 표시 함수
         function displayDefaultChart() {
             const defaultData = {
                 datasets: [{
@@ -116,18 +116,19 @@
                     borderWidth: 1
                 }]
             };
-                const chartOptions = {
-                    responsive: true,
-                    maintainAspectRatio: false
-                };
 
-                const ctx = document.getElementById('caffeineChart').getContext('2d');
-                caffeineChart = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: defaultData,
-                    options: chartOptions
-                });
-            }
+            const chartOptions = {
+                responsive: true,
+                maintainAspectRatio: false // 비율 유지 하지 않음
+            };
+
+            const ctx = document.getElementById('caffeineChart').getContext('2d');
+            caffeineChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: defaultData,
+                options: chartOptions
+            });
+        }
 
             displayDefaultChart(); // 초기 로드 시 기본 차트 표시
 
@@ -270,12 +271,7 @@
             const imgElement = document.createElement('img');
             imgElement.classList.add('memberInfo-img');
 
-            if(memberInfo.imgReal === "/img/default-image.png"){
-                imgElement.src = memberInfo.imgReal;
-            }else {
-                imgElement.src = `/images/${memberInfo.imgReal}`;
-            }
-
+            imgElement.src = `/images/${memberInfo.imgReal}`;
             imgElement.alt = memberInfo.memberName;
 
             const nameElement = document.createElement('div');

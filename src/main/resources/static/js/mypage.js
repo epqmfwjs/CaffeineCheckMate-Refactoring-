@@ -442,10 +442,17 @@ function displayInfo(data) {
         const memberCard = document.createElement('div');
         memberCard.classList.add('memberCard');
 
+        let imgSrc = '';
+        if (memberInfo.imgReal === "/img/default-image.png") {
+            imgSrc = memberInfo.imgReal;  // 기본 이미지 경로 사용
+        } else {
+            imgSrc = `/images/${memberInfo.imgReal}`;  // 업로드된 이미지 경로 사용
+        }
+
         // 멤버 정보를 추가
         memberCard.innerHTML = `
             <div class="member-image">
-                <img src="/images/${memberInfo.imgReal}" alt="Member Image">
+                <img src="${imgSrc}" alt="Member Image">
                 <h2 style="text-align: center; margin-left: 2rem; color: #333; font-size: 1.8em;">${memberInfo.memberName}</h2>
             </div>
             <div class="member-details">
@@ -667,12 +674,12 @@ closeDetailModalBtn.addEventListener('click', function() {
                 detailAuthor.innerHTML = `<span style="font-size:16px; color:black; font-weight:bold;">작성자 : </span> ${likeList.memberId}`;
                 detailDate.innerHTML = `<span style="font-size:16px; color:black; font-weight:bold;">작성일 : </span> ${likeList.createdDate}`;
 
-                tagOption1.innerHTML = likeList.brand !== null ? `#${likeList.brand}` : ``;
-                tagOption2.innerHTML = likeList.syrup !== null ? `#${likeList.syrup}` : ``;
-                tagOption3.innerHTML = likeList.whipped !== null ? `#${likeList.whipped}` : ``;
-                tagOption4.innerHTML = likeList.shot !== null ? `#${likeList.shot}` : ``;
-                tagOption5.innerHTML = likeList.milk !== null ? `#${likeList.milk}` : ``;
-                tagOption6.innerHTML = likeList.coffeeType !== null ? `#${likeList.coffeeType}` : ``;
+                tagOption1.innerHTML = likeList.brand !== null && likeList.brand !== "null" ? `#${likeList.brand}` : ``;
+                tagOption2.innerHTML = likeList.syrup !== null && likeList.syrup !== "null" ? `#${likeList.syrup}` : ``;
+                tagOption3.innerHTML = likeList.whipped !== null && likeList.whipped !== "null" ? `#${likeList.whipped}` : ``;
+                tagOption4.innerHTML = likeList.shot !== null && likeList.shot !== "null" ? `#${likeList.shot}` : ``;
+                tagOption5.innerHTML = likeList.milk !== null && likeList.milk !== "null" ? `#${likeList.milk}` : ``;
+                tagOption6.innerHTML = likeList.coffeeType !== null && likeList.coffeeType !== "null" ? `#${likeList.coffeeType}` : ``;
                 // 댓글 섹션 초기화 및 댓글 불러오기
                 initializeCommentSection(likeList.id);
 
