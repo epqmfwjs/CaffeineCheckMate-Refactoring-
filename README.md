@@ -14,8 +14,9 @@
 React 와 node.js 공부를 병행하고 있어서 속도가 느리게 진행중
 
 ## 최종목표
-- JSP/Servlet => Spring Boot 로 Refactoring **8~90% 진행중**
-- AWS(EC2,S3,RDS)로 GitHub Actions을 사용하여 배포 **예정**
+- JSP/Servlet => Spring Boot 로 Refactoring **90% 진행중 2024.10.21 완료목표**
+- 2024.10.22 ~ 2024.10.25 test 기간 **TEST 예정**
+- AWS(EC2,S3,RDS)로 GitHub Actions을 사용하여 배포  **예정**
 - 완료 후 React 와 node.js 나 Flutter 사용하여 새프로젝트 해볼까 생각중 **예정**
 
 ## 개발 기간
