@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ID 찾기 - LearnWay</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="login-container">
+        <form id="id-find-form">
+            <h2 class="mb-4">ID 찾기</h2>
+
+                <label for="name" class="inputSt">이름</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="이름을 입력하세요." required>
+
+
+                <label for="email" class="inputSt">E-mail</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="이메일을 입력하세요." required>
+
+                <div class=" BtnSt">
+                    <button type="submit" class="btn btn-outline-primary btn-block">ID 찾기</button>
+                </div>
+            <small id="errorMessage" class="form-text text-danger" style="display: none;">이름과 이메일을 확인해 주세요.</small>
+            <p class="additional-links">
+                <a th:href="@{/member/login}">로그인 페이지</a> |
+                <a th:href="@{/password/find}">비밀번호 찾기</a>
+            </p>
+        </form>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#id-find-form').submit(function(event) {
+            // 폼 제출 이벤트가 발생하면 실행
+            event.preventDefault(); // 기본 제출 키(엔터) 막음
+
+            var name = $('#name').val();
+            var email = $('#email').val();
+
+            $.post('/password/id/find', { name: name, email: email }, function(data) {
+                // 성공 시, 배열 여부와 1 이상 요소 확인
+                if (Array.isArray(data) && data.length > 0) {
+                    var ids = data.join(','); // ,로 연결한 문자열로 반환
+                    window.location.href = '/member/login?idFindSuccess=' + ids; // URL에 idFindSuccess 파라미터로 변환한 문자열을 추가하여 리다이렉트
+                } else {
+                    $('#errorMessage').show();
+                }
+            }).fail(function() {
+                $('#errorMessage').show();
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -154,4 +154,37 @@ document.addEventListener("DOMContentLoaded", function() {
     window.resetUsernameCheck = function() {
         $('#isUsernameChecked').val('false');
     };
+
+    $(function() {
+        // Datepicker 한글 설정
+        $.datepicker.setDefaults({
+            closeText: '닫기',
+            prevText: '이전',
+            nextText: '다음',
+            currentText: '오늘',
+            monthNames: ['1월','2월','3월','4월','5월','6월',
+                '7월','8월','9월','10월','11월','12월'],
+            monthNamesShort: ['1월','2월','3월','4월','5월','6월',
+                '7월','8월','9월','10월','11월','12월'],
+            dayNames: ['일','월','화','수','목','금','토'],
+            dayNamesShort: ['일','월','화','수','목','금','토'],
+            dayNamesMin: ['일','월','화','수','목','금','토'],
+            weekHeader: '주',
+            dateFormat: 'yy-mm-dd',
+            firstDay: 0,
+            isRTL: false,
+            showMonthAfterYear: true,
+            yearSuffix: '년'
+        });
+
+        // Datepicker 적용
+        $("#memberAge").datepicker({
+            changeMonth: true,       // 월 선택 가능
+            changeYear: true,        // 연도 선택 가능
+            yearRange: "1900:2024",  // 연도 범위
+            showButtonPanel: true,   // 하단에 "오늘", "닫기" 버튼 패널 표시
+            showAnim: "slideDown"    // 달력 애니메이션
+        });
+    });
 });
+

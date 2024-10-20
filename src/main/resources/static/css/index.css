@@ -1,0 +1,59 @@
+body {
+    font-family: 'Arial', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #E1DDDB;
+}
+
+.login-container {
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+    padding: 60px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px; /* 데스크톱에서는 최대 400px */
+    height: 530px; /* 데스크톱에서는 최대 400px */
+    text-align: center;
+}
+
+/* 입력 필드 스타일 */
+.login-container input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #dbdbdb;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+    background-color: #fafafa;
+}
+
+.BtnSt {
+    margin-top: 50px;
+}
+
+.inputSt {
+    text-align: left;  /* 텍스트를 왼쪽으로 정렬 */
+    display: block;    /* block 요소로 변환하여 전체 너비 사용 */
+    margin: 0;
+    margin-top: 40px;
+    font-weight:bold;
+}
+
+.additional-links {
+    margin-top: 50px;
+}
+
+
+.additional-links a {
+    color: #6c757d; /* 회색으로 설정 */
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+.additional-links a:hover {
+    color: #5a6268; /* hover 시 조금 더 진한 회색 */
+}

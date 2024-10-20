@@ -2,12 +2,15 @@ package com.project.ReCCM.service.member;
 
 import com.project.ReCCM.Repository.member.MemberInfoDto;
 import com.project.ReCCM.Repository.member.MemberJoinDto;
+import com.project.ReCCM.Repository.member.MemberUpdateDTO;
 import com.project.ReCCM.domain.main.Calculator;
 import com.project.ReCCM.domain.main.CalculatorRepository;
 import com.project.ReCCM.domain.member.Member;
 import com.project.ReCCM.domain.member.MemberGender;
 import com.project.ReCCM.domain.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -43,6 +46,8 @@ public class MemberService {
         this.calculatorRepository = calculatorRepository;
     }
 
+
+    // 회원가입 로직
     public void saveMember(MemberJoinDto memberJoinDto) throws IOException {
         Member member = new Member();
 
@@ -99,6 +104,8 @@ public class MemberService {
         member.setMemberWeight(memberJoinDto.getMemberWeight());
         member.setMemberPhone(memberJoinDto.getMemberPhone());
         member.setMemberGender(MemberGender.valueOf(memberJoinDto.getMemberGender()));
+        member.setAddress(memberJoinDto.getAddress());
+        member.setDetailAddress(memberJoinDto.getDetailAddress());
 
 
         // 비밀번호 암호화
@@ -149,7 +156,6 @@ public class MemberService {
                 todayCaffeineNow,
                 maxCaffeine
         );
-
     }
 
     private int calculateMaxCaffeine(int age, double memberWeight) {
@@ -174,4 +180,95 @@ public class MemberService {
     public boolean isMemberIdTaken(String memberId) {
         return memberRepository.findByMemberId(memberId).isPresent();
     }
+
+    // 수정폼 : 멤버 정보 불러오기
+    public MemberUpdateDTO getUpdateMemberInfo(String username) {
+        Member member = memberRepository.findByMemberId(username)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+
+        return MemberUpdateDTO.builder()
+                .memberId(member.getMemberId())
+                .memberName(member.getMemberName())
+                .memberAge(member.getMemberAge())
+                .memberWeight(member.getMemberWeight())
+                .memberPhone(member.getMemberPhone())
+                .email(member.getMemberEmail())
+                .memberGender(member.getMemberGender().name())
+                .address(member.getAddress())
+                .detailAddress(member.getDetailAddress())
+                .imgReal(member.getImgReal()) // 기존 이미지 URL을 설정
+                .build();
+    }
+
+    // 멤버 정보 수정
+    public void updateMemberInfo(String username, MemberUpdateDTO memberUpdateDTO) throws IOException {
+        Member member = memberRepository.findByMemberId(username)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+        // 비밀번호 경우 입력 시에만 일치 여부 확인
+        if (memberUpdateDTO.getPassword() != null && !memberUpdateDTO.getPassword().isEmpty()) {
+            if (!memberUpdateDTO.getPassword().equals(memberUpdateDTO.getConfirmPassword())) {
+                throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            }
+            member = member.toBuilder()
+                    .password(passwordEncoder.encode(memberUpdateDTO.getPassword()))
+                    .build();
+        }
+
+        MultipartFile imgReal = memberUpdateDTO.getNewImgReal(); // 신규 이미지
+        String imagePath = member.getImgReal(); // 기존 이미지 경로
+
+        // 신규 이미지가 있는 경우 처리
+        if (imgReal != null && !imgReal.isEmpty()) {
+            // 기존 이미지 삭제 (기본 이미지가 아닌 경우만 삭제)
+            if (imagePath != null && !imagePath.equals(DEFAULT_IMAGE_PATH)) {
+                Path oldFilePath = Paths.get(UPLOAD_DIR + imagePath);
+                try {
+                    Files.deleteIfExists(oldFilePath);  // 기존 이미지 파일 삭제
+                } catch (IOException e) {
+                    // 삭제 실패 시 처리 (로그 출력 또는 예외 처리)
+                    System.out.println("삭제실패");
+                    e.printStackTrace();
+                }
+            }
+
+            // 업로드된 이미지가 있을 경우 처리
+            String originalFileName = StringUtils.cleanPath(imgReal.getOriginalFilename());
+            String fileExtension = getFileExtension(originalFileName);
+            String fileName = UUID.randomUUID() + "." + fileExtension;
+
+            // 파일 저장 경로 설정
+            Path filePath = Paths.get(UPLOAD_DIR + fileName);
+
+            // 디렉토리 생성 (없을 경우)
+            File dir = new File(UPLOAD_DIR);
+            if (!dir.exists()) {
+                dir.mkdirs();  // 경로가 존재하지 않으면 생성
+            }
+
+            // 이미지 파일 저장
+            Files.copy(imgReal.getInputStream(), filePath);
+
+            // 신규 이미지 파일 경로로 설정
+            imagePath = fileName;
+        }
+        member = member.toBuilder()
+                .memberName(memberUpdateDTO.getMemberName())
+                .memberAge(memberUpdateDTO.getMemberAge())
+                .memberPhone(memberUpdateDTO.getMemberPhone())
+                .memberEmail(memberUpdateDTO.getEmail())
+                .memberGender(MemberGender.valueOf(memberUpdateDTO.getMemberGender()))
+                .memberWeight(member.getMemberWeight())
+                .address(memberUpdateDTO.getAddress())
+                .detailAddress(memberUpdateDTO.getDetailAddress())
+                .imgReal(imagePath)
+                .build();
+        memberRepository.save(member);
+
+        // 현재 세션의 사용자 정보를 업데이트
+        CustomMemberDetails updatedUserDetails = new CustomMemberDetails(member);
+        UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken(updatedUserDetails, null, updatedUserDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
 }
