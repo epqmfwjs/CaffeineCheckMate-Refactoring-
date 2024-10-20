@@ -32,7 +32,8 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // CSRF 보호 비활성화
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/", "/css/**", "/js/**", "/img/**", "/product", "/custom", "/api/**", "/images/**", "/member/join", "/member/emailVerification", "/member/joinSuccess", "member/login").permitAll() // 비회원 허용 범위
+                        .requestMatchers("/", "/css/**", "/js/**", "/img/**", "/product", "/custom", "/api/**", "/images/**",
+                                "/member/join", "/member/emailVerification", "/member/joinSuccess", "member/login", "/password/**").permitAll() // 비회원 허용 범위
                         .anyRequest().authenticated() // 그 외의 요청은 인증 필요
                 )
                 .formLogin(form -> form
@@ -57,6 +58,7 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();  // 비밀번호 암호화
     }
+
 
     // AuthenticationManager 설정
     @Bean
@@ -86,4 +88,6 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
+
 }

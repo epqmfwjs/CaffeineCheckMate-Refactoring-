@@ -453,7 +453,14 @@ function displayInfo(data) {
         memberCard.innerHTML = `
             <div class="member-image">
                 <img src="${imgSrc}" alt="Member Image">
-                <h2 style="text-align: center; margin-left: 2rem; color: #333; font-size: 1.8em;">${memberInfo.memberName}</h2>
+                <div style="display: flex; align-items: center; margin-left: 3rem;">
+                    <h2 style="text-align: center; margin-left: 2rem; color: #333; font-size: 1.8em;">
+                        ${memberInfo.memberName}
+                    </h2>
+                    <button class="edit-button" style="background: none; border: none; cursor: pointer; margin-left: 10px; font-size: 1.5em;" title="정보 수정">
+                        ⚙️
+                    </button>
+                </div>
             </div>
             <div class="member-details">
                 <p><i class="fas fa-user"></i>${memberInfo.memberId}</p>
@@ -464,6 +471,12 @@ function displayInfo(data) {
                 <p><i class="fas fa-weight"></i>${memberInfo.memberWeight}Kg</p>
             </div>
         `;
+
+        // 정보 수정 버튼 클릭 이벤트 추가
+        const editButton = memberCard.querySelector('.edit-button');
+        editButton.onclick = function() {
+            window.location.href = '/member/update';  // 정보 수정 페이지로 이동
+        };
 
         memberInfoListDiv.appendChild(memberCard);  // 목록에 추가
     }

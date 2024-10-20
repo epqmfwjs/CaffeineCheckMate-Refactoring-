@@ -2,9 +2,12 @@ package com.project.ReCCM.controller.member;
 
 
 import com.project.ReCCM.Repository.member.MemberJoinDto;
+import com.project.ReCCM.Repository.member.MemberUpdateDTO;
+import com.project.ReCCM.service.member.CustomMemberDetails;
 import com.project.ReCCM.service.member.MemberService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -55,11 +58,13 @@ public class MemberController {
         return "redirect:/"; // 로그인 성공 시 리다이렉트할 URL
     }
 
+    // 회원가입
     @PostMapping("/join")
     public String registerMember(@Valid @ModelAttribute("memberJoinDto") MemberJoinDto memberJoinDto,
                                  BindingResult bindingResult,
                                  Model model) throws IOException {
 
+        System.out.println("joinDto 데이터 확인 : " + memberJoinDto.toString());
 
         // 유효성 검사 진행 후 에러 메세지 전달
         if (bindingResult.hasErrors()) {
@@ -93,4 +98,40 @@ public class MemberController {
         return "emailVerification";
     }
 
+    // 수정 폼 조회
+    @GetMapping("/update")
+    public String updateForm(@AuthenticationPrincipal CustomMemberDetails userDetails, Model model) {
+        MemberUpdateDTO memberUpdateDTO = memberService.getUpdateMemberInfo(userDetails.getMemberId());
+
+        model.addAttribute("memberUpdateDTO", memberUpdateDTO);
+        return "update";
+    }
+
+    // 회원 정보 수정 처리
+    @PostMapping("/update")
+    public String update(@AuthenticationPrincipal CustomMemberDetails userDetails,
+                         @Valid @ModelAttribute MemberUpdateDTO memberUpdateDTO,
+                         BindingResult bindingResult,
+                         Model model) {
+        
+        System.out.println("업데이트 드러옴");
+        
+        if (bindingResult.hasErrors()) {
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                System.out.println("업데이트 컨트롤러단 에러 1");
+                model.addAttribute(error.getField() + "Error", error.getDefaultMessage());
+            }
+            return "update";
+        }
+        try {
+            memberService.updateMemberInfo(userDetails.getUsername(), memberUpdateDTO);
+        } catch (IllegalArgumentException e) {
+            System.out.println("업데이트 컨트롤러단 에러 2");
+            model.addAttribute("error", e.getMessage());
+            return "update";
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return "redirect:/"; // 수정 성공 시 loginOk 페이지로 리다이렉트
+    }
 }

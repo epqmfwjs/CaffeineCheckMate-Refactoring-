@@ -18,7 +18,7 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     height: auto;
     width: 100%;
-    max-width: 400px; /* 데스크톱에서는 최대 400px */
+    max-width: 450px; /* 데스크톱에서는 최대 400px */
     text-align: center;
 }
 
@@ -97,6 +97,102 @@ body {
     text-decoration: none;
     color: black;
 }
+
+/* 모달 기본 스타일 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1050;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* 배경을 더 어둡게 */
+    transition: opacity 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+/* 모달 콘텐츠 박스 */
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); /* 부드러운 그림자 */
+    width: 450px; /* 더 넓은 너비 */
+    max-width: 90%; /* 화면 크기에 따른 최대 너비 */
+    padding: 20px;
+    animation: slide-down 0.3s ease-out; /* 모달이 자연스럽게 나타나도록 */
+}
+
+/* 모달 슬라이드 다운 애니메이션 */
+@keyframes slide-down {
+    0% {
+        transform: translate(-50%, -60%);
+        opacity: 0;
+    }
+    100% {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+}
+
+/* 모달 헤더 스타일 */
+.modal-header {
+    padding: 15px;
+    border-bottom: none;
+    border-radius: 12px 12px 0 0; /* 상단 모서리만 둥글게 */
+    text-align: center;
+}
+
+/* 모달 제목 */
+.modal-title {
+    font-size: 20px;
+    color: #721c24;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* 닫기 버튼 스타일 */
+.close {
+    color: #721c24;
+    font-size: 1.8rem;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.close:hover {
+    color: #f44336;
+}
+
+/* 모달 바디 스타일 */
+.modal-body {
+    padding: 30px;
+    font-size: 16px;
+    color: #495057;
+    line-height: 1.5;
+    text-align: center;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 480px) {
+    .modal-content {
+        width: 95%; /* 모바일 화면에 맞게 넓이 조정 */
+        padding: 15px;
+    }
+
+    .modal-body {
+        padding: 20px;
+        font-size: 14px; /* 글자 크기 조정 */
+    }
+}
+
 
 /* 반응형 설정 */
 /* 태블릿 (768px 이하) */

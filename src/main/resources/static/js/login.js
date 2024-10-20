@@ -51,3 +51,47 @@ function getCookie(cookieName) {
     }
     return "";
 }
+
+$(document).ready(function() {
+console.log(window.location.search);
+        // 로그인 실패 시 모달 표시
+        const urlParamsErr = new URLSearchParams(window.location.search);
+        if (urlParamsErr.get('error') === 'true') {
+            $('#errorModal').css('display', 'block');
+
+            // 모달이 표시된 후 URL에서 쿼리 파라미터 제거
+            const newUrl = window.location.origin + window.location.pathname;
+            window.history.pushState({}, document.title, newUrl);
+        }
+
+    $('.close').click(function() {
+        $('#errorModal').css('display', 'none');
+    });
+
+    // 모달 외부를 클릭했을 때 닫히게 하기
+    $(document).on('click', function(event) {
+        // 모달의 콘텐츠 영역과 그 내부 클릭을 제외
+        if ($(event.target).is('#errorModal') && !$(event.target).closest('.modal-content').length) {
+            $('#errorModal').css('display', 'none');
+        }
+    });
+
+    // 비밀번호 찾기 후 로그인 창
+    if (window.location.search.includes('passwordResetSuccess=true')) {
+        $('#successModal').modal('show');
+    }
+    // 아이디 찾기 모달
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('idFindSuccess')) {
+        const ids = urlParams.get('idFindSuccess').split(',');
+        const $foundIds = $('#foundIds');
+        $foundIds.empty();
+        ids.forEach(id => {
+            $foundIds.append(`<li>${id}</li>`);
+        });
+        $('#idFindModal').modal('show');
+        // 모달이 표시된 후 URL에서 쿼리 파라미터 제거
+        const newUrl = window.location.origin + window.location.pathname;
+        window.history.pushState({}, document.title, newUrl);
+    }
+});

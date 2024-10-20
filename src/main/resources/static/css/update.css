@@ -1,0 +1,107 @@
+body {
+    background-color: #f8f9fa;
+}
+.container {
+    width: 100%;
+    max-width: 800px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    background: white;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+/* 이미지 선택 버튼 스타일 */
+.btn-image {
+    background-color: transparent; /* 배경을 투명하게 설정 */
+    color: #666; /* 텍스트 색상 */
+    border: 1px solid #0c4a60; /* 테두리 색상 설정 */
+    outline: none; /* 아웃라인 제거 */
+    padding: 5px 10px; /* 버튼 크기 조절 */
+    border-radius: 5px; /* 둥근 모서리 설정 */
+    transition: background-color 0.3s ease, color 0.3s ease; /* 부드러운 색상 전환 */
+}
+
+.btn-image:hover {
+    background-color: #0c4a60; /* 호버 시 배경색 채우기 */
+    color: white; /* 호버 시 텍스트 색상 변경 */
+}
+
+.preview-container {
+    margin-bottom: 15px;
+    text-align: center;
+}
+.preview-card {
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+    background: #fff;
+    transition: box-shadow 0.3s;
+    display: inline-block; /* 가로로 나열되도록 설정 */
+}
+
+.preview-card img {
+    width: 200px; /* 원하는 크기로 조정 */
+    height: 200px; /* 원하는 크기로 조정 */
+    border-radius: 50%; /* 원형으로 만들기 */
+    object-fit: cover; /* 비율을 유지하며 컨테이너에 맞추기 */
+    margin-top: 10px;
+    border: 1px solid #ddd;
+}
+.default-image {
+    width: 100px; /* 기본 이미지 크기 */
+    height: 100px; /* 기본 이미지 크기 */
+    border-radius: 50%; /* 원형으로 만들기 */
+    object-fit: cover; /* 비율 유지 */
+}
+
+
+.logo {
+    height: auto;
+    width: 100%;
+    max-width: 150px;
+}
+.logo:hover {
+    cursor:pointer;
+}
+
+/* 데이트피커 커스텀 */
+.ui-datepicker {
+    background: #f8f9fa; /* 배경색 */
+    border: 1px solid #ced4da; /* 테두리 */
+    border-radius: 8px; /* 둥근 모서리 */
+    padding: 10px; /* 여백 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 */
+}
+.ui-datepicker .ui-datepicker-header {
+    background-color: #007bff; /* 헤더 배경색 */
+    color: white; /* 헤더 글자색 */
+    border-bottom: 1px solid #0056b3;
+    border-radius: 8px 8px 0 0; /* 상단 모서리 둥글게 */
+    padding: 10px;
+}
+.ui-datepicker .ui-datepicker-title {
+    font-weight: bold; /* 타이틀 굵게 */
+}
+.ui-datepicker table {
+    width: 100%; /* 테이블 너비 전체 */
+    margin-top: 10px;
+}
+.ui-datepicker .ui-state-default {
+    background-color: #f8f9fa; /* 날짜 기본 배경 */
+    border: none; /* 기본 테두리 제거 */
+}
+.ui-datepicker .ui-state-hover {
+    background-color: #007bff; /* 날짜 호버 배경 */
+    color: white; /* 호버 글자 색상 */
+}
+.ui-datepicker .ui-state-active {
+    background-color: #0056b3; /* 선택된 날짜 배경 */
+    color: white; /* 선택된 날짜 글자 색상 */
+}
+.ui-datepicker .ui-datepicker-buttonpane {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-top: 1px solid #ced4da;
+    border-radius: 0 0 8px 8px; /* 하단 모서리 둥글게 */
+}

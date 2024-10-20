@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -40,6 +42,12 @@ public class Member extends BaseTimeEntity {
     @Past(message = "생년월일은 과거 날짜여야 합니다.")  // 과거 날짜만 허용
     @Column(nullable = false)
     private LocalDate memberAge;
+
+    @Column(nullable = false)
+    private String address; // 카카오맵 주소
+
+    @Column(nullable = false)
+    private String detailAddress; // 상세주소
 
     @NotNull(message = "회원의 체중은 null이 될 수 없습니다.")
     private Double memberWeight; // 멤버몸무게(카페인계산때 필요)

@@ -9,22 +9,16 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@ToString
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class MemberJoinDto {
+public class MemberUpdateDTO {
 
     @NotEmpty(message = "아이디는 필수 항목입니다.")
     private String memberId;
 
-    @NotEmpty(message = "비밀번호는 필수 입력 항목입니다.")
-    @Size(min = 8, message = "비밀번호는 최소 8자 이상이어야 합니다.")
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[~!@#$%^&*()_+\\-=\\[\\]{};':\",./<>?])(?=.*[A-Za-z\\d~!@#$%^&*()_+\\-=\\[\\]{};':\",./<>?]).{8,}$",
-            message = "비밀번호는 영문 대소문자, 숫자, 특수문자를 모두 포함해야 합니다.")
-    private String password;        // 유저 PW : memberPW
 
-    @NotEmpty(message = "비밀번호 확인은 필수 입력 항목입니다.")
+    private String password;        // 유저 PW : memberPW
     private String confirmPassword; // 유저 비밀번호 확인 : memberPW
 
 
@@ -46,13 +40,13 @@ public class MemberJoinDto {
     @NotEmpty(message = "전화번호는 필수 항목입니다.")
     @Pattern(regexp = "^\\d{3}-\\d{3,4}-\\d{4}$", message = "전화번호는 000-0000-0000 형식이어야 합니다.")
     private String memberPhone;
-    
+
     private String address; // 카카오맵 주소
-    
+
     private String detailAddress; // 상세주소
 
     private String memberGender;
 
-    private MultipartFile imgReal;
-
+    private String imgReal;
+    private MultipartFile newImgReal;
 }
