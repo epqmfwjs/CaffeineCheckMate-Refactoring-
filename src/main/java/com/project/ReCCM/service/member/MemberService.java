@@ -259,7 +259,7 @@ public class MemberService {
                 .memberPhone(memberUpdateDTO.getMemberPhone())
                 .memberEmail(memberUpdateDTO.getEmail())
                 .memberGender(MemberGender.valueOf(memberUpdateDTO.getMemberGender()))
-                .memberWeight(member.getMemberWeight())
+                .memberWeight(memberUpdateDTO.getMemberWeight())
                 .address(memberUpdateDTO.getAddress())
                 .detailAddress(memberUpdateDTO.getDetailAddress())
                 .imgReal(imagePath)
