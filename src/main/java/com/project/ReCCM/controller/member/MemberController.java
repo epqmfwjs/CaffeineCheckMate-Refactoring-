@@ -124,8 +124,9 @@ public class MemberController {
             return "update";
         }
         try {
-            memberService.updateMemberInfo(userDetails.getUsername(), memberUpdateDTO);
+            memberService.updateMemberInfo(userDetails.getMemberId(), memberUpdateDTO);
         } catch (IllegalArgumentException e) {
+            System.out.println("memberUpdateDTO : " + memberUpdateDTO.toString());
             System.out.println("업데이트 컨트롤러단 에러 2");
             model.addAttribute("error", e.getMessage());
             return "update";
