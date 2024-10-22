@@ -202,6 +202,8 @@ public class MemberService {
 
     // 멤버 정보 수정
     public void updateMemberInfo(String username, MemberUpdateDTO memberUpdateDTO) throws IOException {
+        System.out.println("username : "+username);
+
         Member member = memberRepository.findByMemberId(username)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
         // 비밀번호 경우 입력 시에만 일치 여부 확인
