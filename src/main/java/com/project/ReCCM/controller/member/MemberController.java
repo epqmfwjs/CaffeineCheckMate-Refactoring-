@@ -115,7 +115,7 @@ public class MemberController {
                          Model model) {
         
         System.out.println("업데이트 드러옴");
-        
+        System.out.println("memberUpdateDTO : " + memberUpdateDTO.toString());
         if (bindingResult.hasErrors()) {
             for (FieldError error : bindingResult.getFieldErrors()) {
                 System.out.println("업데이트 컨트롤러단 에러 1");
