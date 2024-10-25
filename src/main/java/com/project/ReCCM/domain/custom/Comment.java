@@ -25,7 +25,7 @@ public class Comment extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
-    private Member member; // 댓글이 속한 게시글과의 관계
+    private Member member; // 댓글이 속한 멤버와의 관계
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "custom_id", nullable = false)
