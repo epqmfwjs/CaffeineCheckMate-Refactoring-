@@ -286,7 +286,6 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    /*gap: 10px; *//* 내용 간의 간격 */
     align-items: flex-start;
 }
 
@@ -424,11 +423,6 @@ body {
     padding: 15px;
     background-color: #ffffff;
 }
-
-/* 댓글 리스트 항목 호버 스타일 */
-/*.comments-list div:hover {
-    transform: scale(1.02); *//* 호버 시 확대 효과 *//*
-}*/
 
 /* 사용자 아바타 스타일 */
 .user-avatar {

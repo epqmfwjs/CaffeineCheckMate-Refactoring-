@@ -106,7 +106,7 @@ function kakaoMap() {
                 extraRoadAddr = ' (' + extraRoadAddr + ')';
             }
             var fullAddress = '(' + data.zonecode + ') ' + roadAddr + extraRoadAddr;
-            document.getElementById("memberAddress").value = fullAddress;
+            document.getElementById("address").value = fullAddress;
         }
     }).open();
 }
