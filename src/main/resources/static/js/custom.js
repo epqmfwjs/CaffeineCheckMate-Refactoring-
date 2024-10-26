@@ -251,7 +251,7 @@ document.querySelectorAll('details').forEach((detail) => {
             fetch('/api/customList')
                 .then(response => response.json())
                 .then(data => {
-                    displayCustomListList(data); // 최신 게시글 리스트 업데이트
+                    displayCustomList(data); // 최신 게시글 리스트 업데이트
                 })
                 .catch(error => console.error('Error fetching updated list:', error));
         })
