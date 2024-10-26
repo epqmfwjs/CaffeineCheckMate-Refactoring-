@@ -10,18 +10,18 @@
 
 ## 설명
 
-학원에서 진행하였던 1차 팀 프로젝트 MVC2기반 JSP/Servlet 작업물을  SpringBoot 로  Refactoring 중 
-React 와 node.js 공부를 병행하고 있어서 속도가 느리게 진행중
+학원에서 진행하였던 1차 팀 프로젝트 MVC2기반 JSP/Servlet 작업물을  SpringBoot 로  Refactoring 
+노트북에 가상머신(Oracle VirtualBox리눅스OS) 으로 개인서버 구축 배포
 
 ## 최종목표
 - JSP/Servlet => Spring Boot 로 Refactoring **완료 2024.10.22**
-- 2024.10.22 ~ 2024.10.25 test 기간 **TEST 시작**
-- (AWS(EC2,S3,RDS)로 GitHub Actions을 사용하여 배포)  Or  (홈서버 구축 후 배포)  아직 고민중   **예정**
+- 2024.10.22 ~ 2024.10.25 test 기간 **TEST 완료**
+- 홈서버 구축 후 배포 **진행 중**
 
 ## 개발 기간
 
 - **개발완료 (2024.09.01 ~ 2024.10.22)**
-- **배포 준비중**
+- **배포 진행중**
 
 ## 팀원 및 주요 기능
 
@@ -47,7 +47,7 @@ React 와 node.js 공부를 병행하고 있어서 속도가 느리게 진행중
 
 - **MySQL** 8.0.36
 - **Tomcat** 9.0
-- 
+- **노트북 개인서버 Oracle VirtualBox리눅스OS**
 </details>
 
 <details>
@@ -62,7 +62,7 @@ React 와 node.js 공부를 병행하고 있어서 속도가 느리게 진행중
 <details>
 <summary><strong>프로토콜 및 통신</strong></summary>
 
-- **WebSocket**
+- **TCP/IP**
 
 </details>
 
@@ -70,5 +70,6 @@ React 와 node.js 공부를 병행하고 있어서 속도가 느리게 진행중
 <summary><strong>운영 체제</strong></summary>
 
 - **Windows** 11
+- **Linux** 24.0
 
 </details>
