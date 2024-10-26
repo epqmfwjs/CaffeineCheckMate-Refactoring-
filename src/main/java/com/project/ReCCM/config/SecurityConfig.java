@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -32,8 +33,9 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // CSRF 보호 비활성화
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/", "/css/**", "/js/**", "/img/**", "/product", "/custom", "/api/**", "/images/**",
-                                "/member/join", "/member/emailVerification", "/member/joinSuccess", "member/login", "/password/**").permitAll() // 비회원 허용 범위
+                        .requestMatchers("/", "/css/**", "/js/**", "/img/**", "/product", "/custom", "/api/**",
+                                "/images/**", "/member/join", "/member/emailVerification", "/member/joinSuccess",
+                                "/member/login", "/password/**").permitAll() // 비회원 허용 범위
                         .anyRequest().authenticated() // 그 외의 요청은 인증 필요
                 )
                 .formLogin(form -> form
@@ -48,6 +50,10 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/member/login?logout=true") // 로그아웃 성공 시 이동할 페이지
                         .permitAll()
                 )
+                .sessionManagement(session -> session
+                        .maximumSessions(1) // 최대 세션 수를 1로 설정
+                        .expiredUrl("/member/login?expired") // 세션 만료 시 리다이렉트할 URL
+                )
                 .authenticationProvider(authenticationProvider()); // 커스텀 AuthenticationProvider 추가
 
         return http.build();
@@ -59,7 +65,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();  // 비밀번호 암호화
     }
 
-
     // AuthenticationManager 설정
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
@@ -70,10 +75,8 @@ public class SecurityConfig {
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
         authProvider.setUserDetailsService(memberDetailsService); // memberDetailsService 설정
         authProvider.setPasswordEncoder(passwordEncoder()); // PasswordEncoder 설정
-
         return authProvider;
     }
 
@@ -88,6 +91,4 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
-
 }

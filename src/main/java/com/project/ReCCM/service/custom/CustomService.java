@@ -22,7 +22,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class CustomService {
-    private static final String UPLOAD_DIR = "C:/upload/";
+    
+    //윈도우 경로
+    //private static final String UPLOAD_DIR = "C:/upload/";
+
+    // 리눅스 경로
+    private static final String UPLOAD_DIR = "/upload/";
     @Autowired
     private CustomRepository customRepository;
     @Autowired

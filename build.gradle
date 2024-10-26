@@ -56,6 +56,10 @@ dependencies {
 	implementation 'org.hibernate.validator:hibernate-validator:7.0.1.Final'
 }
 
+bootJar {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }

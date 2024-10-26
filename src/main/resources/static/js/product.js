@@ -101,8 +101,6 @@ document.addEventListener("DOMContentLoaded", function () {
             const coffeeCard = document.createElement('div');
             coffeeCard.classList.add('coffeeCard');
 
-            // 즐겨찾기 상태에 따라 별 아이콘을 결정
-            //const starIcon = coffee.favorite ?  '⭐' : '';
 
             // 여기에 이미지와 텍스트를 추가
             coffeeCard.innerHTML = `
@@ -141,6 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // 모달 정보 채우기
                 modalCoffeeName.innerHTML = `${coffee.coffeeName} <i class="far fa-star"></i>`; // 초기 상태 투명 별 아이콘
                 modalImage.src = coffee.imgReal;
+                //modalImage.src = `/img/${coffee.imgReal}`;
                 modalCoffeeBrand.textContent = coffee.coffeeBrand;
                 modlCoffeeType.textContent = coffee.coffeeType;
                 modalCoffeeContent.textContent = coffee.coffeeContent;

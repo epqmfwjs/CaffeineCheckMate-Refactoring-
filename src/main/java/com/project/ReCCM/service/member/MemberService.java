@@ -29,7 +29,13 @@ import java.util.UUID;
 @Service
 public class MemberService {
 
-    private static final String UPLOAD_DIR = "C:/upload/";
+
+    //윈도우 경로
+    //private static final String UPLOAD_DIR = "C:/upload/";
+
+    // 리눅스 경로
+    private static final String UPLOAD_DIR = "/upload/";
+
     private static final String DEFAULT_IMAGE_PATH = "/img/default-image.png"; // 기본 이미지 경로
 
     @Autowired
