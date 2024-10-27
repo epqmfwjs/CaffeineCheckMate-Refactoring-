@@ -26,6 +26,11 @@
         </div>
     </div>
     <div class="grid-container">
+        <div class="grid-item item2">
+            <div class="item2-Box" id="item2Box">
+                <!-- 회원정보 -->
+            </div>
+        </div>
         <div class="favorite-section">
             <button class="pagination-button" id="favoritePrev"><i class="fas fa-chevron-left"></i></button>
             <div class="grid-item item1" id="favoriteList">
@@ -34,33 +39,28 @@
             </div>
             <button class="pagination-button" id="favoriteNext"><i class="fas fa-chevron-right"></i></button>
         </div>
-        <div class="grid-item item4">
-            <div id="customList">
-                <!-- 커스텀게시물 -->
-            </div>
-            <a class="more" href="/custom">more&nbsp; →</a>
-        </div>
-        <div class="grid-item item2">
-            <div class="item2-Box" id="item2Box">
-                <!-- 회원정보 -->
-            </div>
-        </div>
         <div class="grid-item item3">
             <div class="item3-calculator-box">
                 <div class="chart-box">
                     <!-- 카페인계산 차트 -->
-                    <canvas height="400" id="caffeineChart" width="400"></canvas> <!-- 그래프를 표시할 캔버스 -->
+                    <canvas  id="caffeineChart" ></canvas> <!-- 그래프를 표시할 캔버스 -->
                 </div>
                 <div class="chart-controls">
                     <!-- 기록리셋 및 실행취소 -->
                     <button id="resetChartBtn">리셋</button>
-                    <button id="undoChartBtn">실행 취소</button>
+                    <button id="undoChartBtn">뒤로</button>
                 </div>
             </div>
             <div class="item3-info">
                 <!-- 이미지형 정보 -->
                 <img alt="정보" id="infoImage" src="/img/mainInfo.png">
             </div>
+        </div>
+        <div class="grid-item item4">
+            <div id="customList">
+                <!-- 커스텀게시물 -->
+            </div>
+            <a class="more" href="/custom">more&nbsp; →</a>
         </div>
         <div class="modal" id="infoModal">
             <div class="modal-content">
